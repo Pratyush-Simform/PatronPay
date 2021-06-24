@@ -22,7 +22,6 @@ import "jspdf-autotable";
 import { CSVLink } from "react-csv";
 import CashlessTrans from "../modals/CashlessTrans";
 import DatePicker from "../date/DatePicker";
-import { setDate } from "date-fns";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -56,7 +55,6 @@ const styles = (theme) => ({
     overflowX: "auto",
   },
 });
-let searchedData = [];
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super();
@@ -339,11 +337,7 @@ class EnhancedTable extends React.Component {
   };
 
   setEndDate = (date) => {
-    let createdDate = this.props.data.map((i) => {
-      return new Date(i.date_created);
-    });
-    let dates = createdDate.map((i) => new Date(i));
-    let days = dates.map((d) => d.getDate());
+    console.log(date);
     // console.log(days);
   };
 
@@ -359,6 +353,7 @@ class EnhancedTable extends React.Component {
           setEndDate={(date) => this.setEndDate(date)}
           setStartDate={(date) => this.setStartDate(date)}
         />
+        
         <EnhancedTableToolbar
           title="Transaction"
           numSelected={selected.length}

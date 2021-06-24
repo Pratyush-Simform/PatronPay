@@ -1,13 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-import Sidebar from "./components/sidebar/Sidebar"
 import Login from "./components/login/Login" 
 import Transaction from "./components/Transaction/transaction"
 
 import {
 	BrowserRouter as Router,
 	Route,
-	Link,
 	Switch
 } from 'react-router-dom';
 

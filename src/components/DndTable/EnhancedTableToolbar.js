@@ -17,7 +17,6 @@ let EnhancedTableToolbar = (props) => {
   console.log(items);
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [open, setOpen] = useState(false)
 
   const handleSearch = (e) => {
     setSearchInput(e.target.value);
@@ -28,7 +27,7 @@ let EnhancedTableToolbar = (props) => {
     if (input) {
       input.onkeydown = function (event) {
         var key = event.keyCode || event.charCode;
-        if (!(key == 8 || key == 46)) {
+        if (!(key === 8 || key === 46)) {
           let itemwa = itemCopy.filter((i) => i.trs_type.includes(searchInput));
           console.log(itemwa);
           searchedData(itemwa);
@@ -38,7 +37,7 @@ let EnhancedTableToolbar = (props) => {
         }
       };
     }
-  }, [searchInput]);
+  });
 
   return (
     <Toolbar

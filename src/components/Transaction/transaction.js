@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import EnhancedTable from "../DndTable/Table";
 import "../../App.css";
 import { useHistory } from "react-router-dom";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 const Transaction = () => {
@@ -25,10 +26,10 @@ const Transaction = () => {
   return (
     <div>
       <div className="Trans">
-        <h1>Patron Pay</h1>
-        <button className="butt" onClick={() => history.push("/")}>
-          back
-        </button>
+        <span style={{marginLeft:"29%", marginTop: "3%"}}>
+        <ArrowBackIcon onClick={() => history.push("/")} classes="icon" fontSize="large" />
+        </span>
+        <h1>Patron Pay</h1> 
       </div>
       <EnhancedTable data={data}/>
     </div>

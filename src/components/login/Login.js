@@ -35,7 +35,8 @@ function Login() {
       setSubmitted(true)
   }
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function fetchMyApi() {
     const api = `https://tenant3.mypatronpay.us/api/token/`
     const response = await Axios.post(api, {
         email: email,
@@ -45,7 +46,9 @@ function Login() {
       const token = response.data.data.access
       localStorage.setItem("token", token)
       history.push('/transaction')
-  }, [submitted])
+  }
+  fetchMyApi()
+  }, [submitted, email, password, history])
 
   const onInputChnage = (value) =>{
       setEmail(value);

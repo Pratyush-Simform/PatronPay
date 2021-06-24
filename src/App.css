@@ -154,7 +154,7 @@
 .Trans {
   display: flex;
   justify-content: space-between;
-  width: 87%;
+  width: 51%;
 }
 
 .butt {
@@ -210,4 +210,8 @@
     display: grid;
     justify-content: center;
   }
+}
+
+.icon {
+  margin-left: 23%;
 }

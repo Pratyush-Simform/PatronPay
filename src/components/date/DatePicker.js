@@ -24,10 +24,11 @@ function DatePicker({setEndDate, setStartDate}) {
 
   useEffect(() => {
     setEndDate(selectedEndDate)
-  }, [selectedEndDate])
+  }, [selectedEndDate, setEndDate])
 
   useEffect(() => {
     setStartDate(selectedStartDate)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStartDate])
 
   return (
