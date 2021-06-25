@@ -215,3 +215,13 @@
 .icon {
   margin-left: 23%;
 }
+
+.MuiSvgIcon-colorAction {
+  color: #fff !important;
+}
+
+.MuiPaper-rounded {
+  border-radius: 4px;
+  max-height: 79vh !important;
+  overflow-x: scroll !important;
+}
