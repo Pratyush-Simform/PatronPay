@@ -45,14 +45,18 @@ function CashlessTrans(props) {
   const handleClose = () => {
     setOpen(false);
   };
+let tub = []
+let ijk = []
+let abc = []
+  if(props){
 
-  const abc = props.data.map(ct => ct.cash_payment)
-  const ijk = Object.keys(abc).map(obj => {
+   abc = props.data?.map(ct => ct.cash_payment)
+   ijk = Object.keys(abc).map(obj => {
       return abc[obj]
   })
-  const tub = ijk.filter(i => Object.keys(i).length !== 0)
   // console.log(tub);
-
+  }
+  tub = ijk.filter(i => Object.keys(i).length !== 0)
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">List of cashless transactions.</h2>

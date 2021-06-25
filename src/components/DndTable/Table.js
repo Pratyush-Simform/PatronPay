@@ -346,7 +346,7 @@ class EnhancedTable extends React.Component {
     const { order, orderBy, selected, rowsPerPage, page, renderer } =
       this.state;
     const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+      rowsPerPage - Math.min(rowsPerPage, data?.length - page * rowsPerPage);
     return (
       <Paper className="searchBox">
         <DatePicker
@@ -388,7 +388,7 @@ class EnhancedTable extends React.Component {
               </CSVLink>
             </span>
             <span style={{ marginRight: "2%" }}>
-              <CashlessTrans name="Cashless Transaction" data={data} />
+              <CashlessTrans name="Cashless Transaction" data={data ? data : ""} />
             </span>
           </div>
           <Table
@@ -400,7 +400,7 @@ class EnhancedTable extends React.Component {
               <TableRow>
                 <TablePagination
                   component="div"
-                  count={this.props.data.length}
+                  count={this.props?.data?.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   backIconButtonProps={{
@@ -425,7 +425,7 @@ class EnhancedTable extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
+              rowCount={data?.length}
             />
             <TableBody>
               {renderer.length
@@ -506,8 +506,8 @@ class EnhancedTable extends React.Component {
                       );
                     })
                 : data
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((n) => {
+                    ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    ?.map((n) => {
                       const isSelected = this.isSelected(n.id);
                       return (
                         <TableRow
