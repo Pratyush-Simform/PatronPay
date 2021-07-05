@@ -24,12 +24,12 @@ const Transaction = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{backgroundColor:"blueviolet"}}>
       <div className="Trans">
-        <span style={{marginLeft:"29%", marginTop: "3%"}}>
+        <span className="back">
         <ArrowBackIcon onClick={() => history.push("/")} classes="icon" fontSize="large" />
         </span>
-        <h1>Patron Pay</h1> 
+        <h1 className="heading" >PatronPay</h1> 
       </div>
       <EnhancedTable data={data}/>
     </div>

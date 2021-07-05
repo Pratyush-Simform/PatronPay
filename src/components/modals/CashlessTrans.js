@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import CtTable from "./CtTable"
+import { Button } from '@material-ui/core';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -73,9 +74,9 @@ function CashlessTrans(props) {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+      <Button variant="contained" onClick={handleOpen}>
         {props.name}
-      </button>
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
