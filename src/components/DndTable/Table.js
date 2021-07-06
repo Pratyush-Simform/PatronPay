@@ -62,6 +62,7 @@ class EnhancedTable extends React.Component {
       selected: [],
       renderer: [],
       datacopy: [],
+      updatedCol: [],
       columnDataCopy: [],
       // id must be lowercase
       // width must be integer (for pixels)
@@ -72,13 +73,6 @@ class EnhancedTable extends React.Component {
         { label: "Payment Url", key: "payment_url" },
       ],
       columnData: [
-        {
-          id: "id",
-          numeric: true,
-          disablePadding: true,
-          label: "ID",
-          width: 500,
-        },
         {
           id: "payment_url",
           numeric: false,
@@ -92,6 +86,20 @@ class EnhancedTable extends React.Component {
           disablePadding: false,
           label: "Transaction type",
           width: 200,
+        },
+        {
+          id: "settled",
+          numeric: true,
+          disablePadding: true,
+          label: "Settled",
+          width: 200,
+        },
+        {
+          id: "createdAt",
+          numeric: true,
+          disablePadding: true,
+          label: "Created At",
+          width: 300,
         },
       ],
       page: 0,
@@ -217,9 +225,8 @@ class EnhancedTable extends React.Component {
   componentDidMount() {
     this.setState({
       dataCopy: this.props.data,
-    });
-    this.setState({
       renderer: this.props.data,
+      columnData: JSON.parse(localStorage.getItem("Cols"))
     });
   }
 
@@ -307,14 +314,23 @@ class EnhancedTable extends React.Component {
     }
   };
 
+// componentDidUpdate(prevProps, prevState, snapshot) {
+//   console.log(prevState.columnData = JSON.parse(localStorage.getItem("Cols")), "456");
+//   let updatedColumns = JSON.parse(localStorage.getItem("Cols"))
+
+//   this.setState({
+//     columnData: updatedColumns
+//   })
+//   console.log(updatedColumns, "320");
+// }  
+
   columnRender = () => {
-    if (this.state.columnDataCopy.length > 0) {
+   if (this.state.columnDataCopy.length > 0) {
       return this.state.columnDataCopy;
     } else return this.state.columnData;
   };
 
   render() {
-    console.log(this.columnRender());
     const { classes, data } = this.props;
     const { order, orderBy, selected, rowsPerPage, page, renderer } =
       this.state;
