@@ -212,10 +212,11 @@ class EnhancedTable extends React.Component {
   isSelected = (id) => this.state.selected.indexOf(id) !== -1;
 
   componentDidMount() {
+    const columnData = localStorage.getItem("Cols")
     this.setState({
       dataCopy: this.props.data,
       renderer: this.props.data,
-      columnData: JSON.parse(localStorage.getItem("Cols"))
+      ...(columnData && {columnData: JSON.parse(columnData)})
     });
   }
 
