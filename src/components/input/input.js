@@ -1,15 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '95%',
-    },
-  },
-}));
+import { useStyles } from "./styles"
 
 function Input({label, placeholder, onChange, value, type}) {
   const classes = useStyles();

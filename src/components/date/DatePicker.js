@@ -4,9 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import Button from "@material-ui/core/Button"
 
 function DatePicker({setEndDate, setStartDate}) {
   // The first commit of Material-UI
@@ -58,16 +58,7 @@ function DatePicker({setEndDate, setStartDate}) {
             'aria-label': 'change date',
           }}
         />
-        <KeyboardTimePicker
-          margin="normal"
-          id="time-picker"
-          label="Time picker"
-          value={selectedStartDate}
-          onChange={handleStartDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change time',
-          }}
-        />
+       <Button variant="contained">Select Date filter</Button>
       </Grid>
     </MuiPickersUtilsProvider>
   );

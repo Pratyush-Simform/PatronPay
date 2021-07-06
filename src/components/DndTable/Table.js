@@ -22,12 +22,14 @@ import "jspdf-autotable";
 import { CSVLink } from "react-csv";
 import CashlessTrans from "../modals/CashlessTrans";
 import DatePicker from "../date/DatePicker";
+import Dropdown from "../input/Dropdown";
+import Button from '@material-ui/core/Button';
+import { styles } from "./styles"
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-let counter = 0;
 // a little function to help us with reordering the result
 // From react-sortable-hoc sample code
 const reorder = (list, startIndex, endIndex) => {
@@ -38,23 +40,6 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein };
-}
-
-const styles = (theme) => ({
-  root: {
-    // width: "100%",
-    marginTop: theme.spacing.unit * 3,
-  },
-  table: {
-    minWidth: 1020,
-  },
-  tableWrapper: {
-    overflowX: "auto",
-  },
-});
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super();
@@ -65,55 +50,9 @@ class EnhancedTable extends React.Component {
       orderBy: "calories",
       selected: [],
       renderer: [],
-      data: [
-        createData("Cupcake", 305, 3.7, 67, 4.3),
-        createData("Donut", 452, 25.0, 51, 4.9),
-        createData("Eclair", 262, 16.0, 24, 6.0),
-        createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-        createData("Gingerbread", 356, 16.0, 49, 3.9),
-        createData("Honeycomb", 408, 3.2, 87, 6.5),
-        createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-        createData("Jelly Bean", 375, 0.0, 94, 0.0),
-        createData("KitKat", 518, 26.0, 65, 7.0),
-        createData("Lollipop", 151, 0.2, 98, 0.0),
-        createData("Marshmallow", 318, 0, 81, 2.0),
-        createData("Nougat", 360, 19.0, 9, 37.0),
-        createData("Oreo", 437, 18.0, 63, 4.0),
-        createData("Bagel", 305, 3.7, 67, 4.3),
-        createData("Egg", 452, 25.0, 51, 4.9),
-        createData("Cronut", 262, 16.0, 24, 6.0),
-        createData("Ice cream", 159, 6.0, 24, 4.0),
-        createData("Creme de Cassis", 356, 16.0, 49, 3.9),
-        createData("Creme Brulee", 408, 3.2, 87, 6.5),
-        createData("Monkfruit", 237, 9.0, 37, 4.3),
-        createData("Jelly", 375, 0.0, 94, 0.0),
-        createData("Green Tea KitKat", 518, 26.0, 65, 7.0),
-        createData("Popsicle", 151, 0.2, 98, 0.0),
-        createData("Marshmallow", 318, 0, 81, 2.0),
-        createData("Nougat", 360, 19.0, 9, 37.0),
-        createData("Oreo", 437, 18.0, 63, 4.0),
-        createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-        createData("Jelly Bean", 375, 0.0, 94, 0.0),
-        createData("KitKat", 518, 26.0, 65, 7.0),
-        createData("Lollipop", 151, 0.2, 98, 0.0),
-        createData("Marshmallow", 318, 0, 81, 2.0),
-        createData("Nougat", 360, 19.0, 9, 37.0),
-        createData("Oreo", 437, 18.0, 63, 4.0),
-        createData("Bagel", 305, 3.7, 67, 4.3),
-        createData("Egg", 452, 25.0, 51, 4.9),
-        createData("Cronut", 262, 16.0, 24, 6.0),
-        createData("Ice cream", 159, 6.0, 24, 4.0),
-        createData("Creme de Cassis", 356, 16.0, 49, 3.9),
-        createData("Creme Brulee", 408, 3.2, 87, 6.5),
-        createData("Monkfruit", 237, 9.0, 37, 4.3),
-        createData("Jelly", 375, 0.0, 94, 0.0),
-        createData("Green Tea KitKat", 518, 26.0, 65, 7.0),
-        createData("Popsicle", 151, 0.2, 98, 0.0),
-        createData("Marshmallow", 318, 0, 81, 2.0),
-        createData("Nougat", 360, 19.0, 9, 37.0),
-        createData("Oreo", 437, 18.0, 63, 4.0),
-      ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
       datacopy: [],
+      updatedCol: [],
+      columnDataCopy: [],
       // id must be lowercase
       // width must be integer (for pixels)
       // TODO: rename width -> widthInPixels?
@@ -123,13 +62,6 @@ class EnhancedTable extends React.Component {
         { label: "Payment Url", key: "payment_url" },
       ],
       columnData: [
-        {
-          id: "id",
-          numeric: true,
-          disablePadding: true,
-          label: "ID",
-          width: 500,
-        },
         {
           id: "payment_url",
           numeric: false,
@@ -143,6 +75,20 @@ class EnhancedTable extends React.Component {
           disablePadding: false,
           label: "Transaction type",
           width: 200,
+        },
+        {
+          id: "settled",
+          numeric: true,
+          disablePadding: true,
+          label: "Settled",
+          width: 200,
+        },
+        {
+          id: "createdAt",
+          numeric: true,
+          disablePadding: true,
+          label: "Created At",
+          width: 300,
         },
       ],
       page: 0,
@@ -268,9 +214,8 @@ class EnhancedTable extends React.Component {
   componentDidMount() {
     this.setState({
       dataCopy: this.props.data,
-    });
-    this.setState({
       renderer: this.props.data,
+      columnData: JSON.parse(localStorage.getItem("Cols"))
     });
   }
 
@@ -341,6 +286,39 @@ class EnhancedTable extends React.Component {
     // console.log(days);
   };
 
+ 
+
+  selectedData = (data) => {
+    console.log(data);
+    const filLogs = [];
+    data?.forEach((element) => {
+      const a = this.state.columnData.filter((j) => j.id.includes(element));
+      filLogs.push(...a);
+    });
+    console.log(filLogs);
+    if (filLogs.length > 0) {
+      this.setState({
+        columnDataCopy: filLogs,
+      });
+    }
+  };
+
+// componentDidUpdate(prevProps, prevState, snapshot) {
+//   console.log(prevState.columnData = JSON.parse(localStorage.getItem("Cols")), "456");
+//   let updatedColumns = JSON.parse(localStorage.getItem("Cols"))
+
+//   this.setState({
+//     columnData: updatedColumns
+//   })
+//   console.log(updatedColumns, "320");
+// }  
+
+  columnRender = () => {
+   if (this.state.columnDataCopy.length > 0) {
+      return this.state.columnDataCopy;
+    } else return this.state.columnData;
+  };
+
   render() {
     const { classes, data } = this.props;
     const { order, orderBy, selected, rowsPerPage, page, renderer } =
@@ -353,7 +331,7 @@ class EnhancedTable extends React.Component {
           setEndDate={(date) => this.setEndDate(date)}
           setStartDate={(date) => this.setStartDate(date)}
         />
-        
+
         <EnhancedTableToolbar
           title="Transaction"
           numSelected={selected.length}
@@ -367,27 +345,34 @@ class EnhancedTable extends React.Component {
           disablePadding: true,
           label: "Dessert (100g serving)",
           width: 500,} */}
+          <span className="drpDwn">
+            <Dropdown
+              data={data}
+              selectedData={(data) => this.selectedData(data)}
+            />
+          </span>
           <div className="buttonGrp">
-            <span style={{ marginRight: "1%" }}>
-              <ExcelFile>
+            <span className="btnMargin">
+              <ExcelFile element={<Button variant="contained">Download Execl</Button>}>
                 <ExcelSheet data={this.props.data} name="Nutrition">
                   <ExcelColumn label="Id" value="id" />
                   <ExcelColumn label="Label" value="name" />
                 </ExcelSheet>
               </ExcelFile>
             </span>
-            <button
-              style={{ marginRight: "1%" }}
+            <Button
+              className="btnMargin"
               onClick={() => this.exportPDF()}
+              variant="contained"
             >
-              Generate pdf Report
-            </button>
-            <span style={{ marginRight: "1%" }}>
+              Generate pdf
+            </Button>
+            <span className="btnMargin">
               <CSVLink data={this.props.data} headers={this.state.header}>
-                <button>Download csv</button>
+                <Button variant="contained">Download csv</Button>
               </CSVLink>
             </span>
-            <span style={{ marginRight: "2%" }}>
+            <span className="cashless">
               <CashlessTrans name="Cashless Transaction" data={data} />
             </span>
           </div>
@@ -419,7 +404,7 @@ class EnhancedTable extends React.Component {
             <EnhancedTableHead
               handleReorderColumnData={this.onDragEnd}
               handleResizeColumn={this.handleWidthChange}
-              columnData={this.state.columnData}
+              columnData={this.columnRender()}
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -443,16 +428,16 @@ class EnhancedTable extends React.Component {
                           key={n.id}
                           selected={isSelected}
                         >
-                          <td style={{ width: "50em" }}>
+                          <td className="tableDir">
                             {/* We need to nest the contenst of this row to parallel the
                              * use of Droppable in the header and ensure that headers and body line up.*/}
-                            <Table style={{ display: "block" }}>
+                            <Table className="table">
                               <TableBody>
                                 <TableRow>
                                   <TableCell padding="checkbox">
                                     <Checkbox checked={isSelected} />
                                   </TableCell>
-                                  {this.state.columnData.map((column) => {
+                                  {this.columnRender().map((column) => {
                                     return column.numeric ? (
                                       <TableCell
                                         key={column.id}
@@ -462,12 +447,7 @@ class EnhancedTable extends React.Component {
                                       >
                                         <div
                                           width={`${column.width}px` || "100px"}
-                                          style={{
-                                            // paddingRight: "40px",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                          }}
+                                          className="tableWidth"
                                         >
                                           {n[column.id]}
                                         </div>
@@ -494,9 +474,9 @@ class EnhancedTable extends React.Component {
                                       </TableCell>
                                     );
                                   })}
-                                  <div style={{ display: "flex" }}>
+                                  <div className="toolHead">
                                     {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
-                                    <EditModal row={n}/>
+                                    <EditModal row={n} />
                                   </div>
                                 </TableRow>
                               </TableBody>
@@ -519,16 +499,16 @@ class EnhancedTable extends React.Component {
                           key={n.id}
                           selected={isSelected}
                         >
-                          <td style={{ width: "50em" }}>
+                          <td className="tableDir">
                             {/* We need to nest the contenst of this row to parallel the
                              * use of Droppable in the header and ensure that headers and body line up.*/}
-                            <Table style={{ display: "block" }}>
+                            <Table className="table">
                               <TableBody>
                                 <TableRow>
                                   <TableCell padding="checkbox">
                                     <Checkbox checked={isSelected} />
                                   </TableCell>
-                                  {this.state.columnData.map((column) => {
+                                  {this.columnRender().map((column) => {
                                     return column.numeric ? (
                                       <TableCell
                                         key={column.id}
@@ -538,12 +518,7 @@ class EnhancedTable extends React.Component {
                                       >
                                         <div
                                           width={`${column.width}px` || "100px"}
-                                          style={{
-                                            // paddingRight: "40px",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                          }}
+                                          clasName="tableWidth"
                                         >
                                           {n[column.id]}
                                         </div>
@@ -570,9 +545,9 @@ class EnhancedTable extends React.Component {
                                       </TableCell>
                                     );
                                   })}
-                                  <div style={{ display: "flex" }}>
+                                  <div className="toolHead">
                                     {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
-                                    <EditModal row={n}/>
+                                    <EditModal row={n} />
                                   </div>
                                 </TableRow>
                               </TableBody>

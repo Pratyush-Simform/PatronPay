@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -10,19 +9,7 @@ import Input from '../input/input';
 import Axios from "axios"
 import { useHistory } from "react-router-dom";
 import "../../App.css"
-
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import { useStyles } from "./styles"
 
 function Login() {
   const classes = useStyles();
@@ -69,10 +56,10 @@ function Login() {
         </Toolbar>
       </AppBar>
       <div className="login">
-        <h3 style={{marginLeft: "18%"}}>Please enter login details</h3>
+        <h3 className="loginHead">Please enter login details</h3>
       <Input label="Email" placeholder="Please enter email" onChange={onInputChnage} />
       <Input label="Password" placeholder="Please enter password" onChange={onPasswordChnage} type="password"/>
-      <Button style={{backgroundColor: "#3f51b5", marginLeft: "36%", color: "#fff" }} variant="contained" onClick={(e) => handleSubmit(e)}>Submit</Button>
+      <Button className="loginBtn" variant="contained" onClick={(e) => handleSubmit(e)}>Submit</Button>
       </div>
     </div>
   );
