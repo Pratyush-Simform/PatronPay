@@ -253,3 +253,58 @@
     padding-left: 37px !important;
   }
 }
+
+.toolHead {
+  display: flex;
+}
+
+.btnMargin {
+  margin-right: 1% !important;
+  margin-bottom: 2% !important;
+}
+
+.drpDwn {
+  display: flex;
+  margin-left: 2%;
+}
+
+.cashless {
+  margin-right: 2%;
+}
+
+.tableDir {
+  width: 50em;
+}
+
+.table {
+  display: block;
+}
+
+.tableWidth {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.btnDiv  {
+  display: flex;
+  justify-content: center;
+}
+
+.loginHead {
+  margin-left: 18%;
+}
+
+.loginBtn {
+  background-color: #3f51b5; 
+  margin-left: 36%; 
+  color: #fff;
+}
+
+.addMod {
+  display: grid;
+}
+
+.transHead {
+  background-color: blueviolet;
+}

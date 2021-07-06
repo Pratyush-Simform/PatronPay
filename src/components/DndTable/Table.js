@@ -24,6 +24,7 @@ import CashlessTrans from "../modals/CashlessTrans";
 import DatePicker from "../date/DatePicker";
 import Dropdown from "../input/Dropdown";
 import Button from '@material-ui/core/Button';
+import { styles } from "./styles"
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -39,18 +40,6 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const styles = (theme) => ({
-  root: {
-    // width: "100%",
-    marginTop: theme.spacing.unit * 3,
-  },
-  table: {
-    minWidth: 1020,
-  },
-  tableWrapper: {
-    overflowX: "auto",
-  },
-});
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super();
@@ -356,14 +345,14 @@ class EnhancedTable extends React.Component {
           disablePadding: true,
           label: "Dessert (100g serving)",
           width: 500,} */}
-          <span style={{ marginLeft: "2%", display: "flex" }}>
+          <span className="drpDwn">
             <Dropdown
               data={data}
               selectedData={(data) => this.selectedData(data)}
             />
           </span>
           <div className="buttonGrp">
-            <span style={{ marginRight: "1%", marginBottom: "2%" }}>
+            <span className="btnMargin">
               <ExcelFile element={<Button variant="contained">Download Execl</Button>}>
                 <ExcelSheet data={this.props.data} name="Nutrition">
                   <ExcelColumn label="Id" value="id" />
@@ -372,18 +361,18 @@ class EnhancedTable extends React.Component {
               </ExcelFile>
             </span>
             <Button
-              style={{ marginRight: "1%", marginBottom: "2%" }}
+              className="btnMargin"
               onClick={() => this.exportPDF()}
               variant="contained"
             >
               Generate pdf
             </Button>
-            <span style={{ marginRight: "1%", marginBottom: "2%" }}>
+            <span className="btnMargin">
               <CSVLink data={this.props.data} headers={this.state.header}>
                 <Button variant="contained">Download csv</Button>
               </CSVLink>
             </span>
-            <span style={{ marginRight: "2%" }}>
+            <span className="cashless">
               <CashlessTrans name="Cashless Transaction" data={data} />
             </span>
           </div>
@@ -439,10 +428,10 @@ class EnhancedTable extends React.Component {
                           key={n.id}
                           selected={isSelected}
                         >
-                          <td style={{ width: "50em" }}>
+                          <td className="tableDir">
                             {/* We need to nest the contenst of this row to parallel the
                              * use of Droppable in the header and ensure that headers and body line up.*/}
-                            <Table style={{ display: "block" }}>
+                            <Table className="table">
                               <TableBody>
                                 <TableRow>
                                   <TableCell padding="checkbox">
@@ -458,12 +447,7 @@ class EnhancedTable extends React.Component {
                                       >
                                         <div
                                           width={`${column.width}px` || "100px"}
-                                          style={{
-                                            // paddingRight: "40px",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                          }}
+                                          className="tableWidth"
                                         >
                                           {n[column.id]}
                                         </div>
@@ -490,7 +474,7 @@ class EnhancedTable extends React.Component {
                                       </TableCell>
                                     );
                                   })}
-                                  <div style={{ display: "flex" }}>
+                                  <div className="toolHead">
                                     {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
                                     <EditModal row={n} />
                                   </div>
@@ -515,10 +499,10 @@ class EnhancedTable extends React.Component {
                           key={n.id}
                           selected={isSelected}
                         >
-                          <td style={{ width: "50em" }}>
+                          <td className="tableDir">
                             {/* We need to nest the contenst of this row to parallel the
                              * use of Droppable in the header and ensure that headers and body line up.*/}
-                            <Table style={{ display: "block" }}>
+                            <Table className="table">
                               <TableBody>
                                 <TableRow>
                                   <TableCell padding="checkbox">
@@ -534,12 +518,7 @@ class EnhancedTable extends React.Component {
                                       >
                                         <div
                                           width={`${column.width}px` || "100px"}
-                                          style={{
-                                            // paddingRight: "40px",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                          }}
+                                          clasName="tableWidth"
                                         >
                                           {n[column.id]}
                                         </div>
@@ -566,7 +545,7 @@ class EnhancedTable extends React.Component {
                                       </TableCell>
                                     );
                                   })}
-                                  <div style={{ display: "flex" }}>
+                                  <div className="toolHead">
                                     {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
                                     <EditModal row={n} />
                                   </div>

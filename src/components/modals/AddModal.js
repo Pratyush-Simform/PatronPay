@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -7,21 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Input from "../input/input";
 import Button from "../input/Button";
 import "../../App.css"
-
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    width: "45%",
-  },
-}));
+import { useStyles } from "./styles"
 
 function AddModal() {
   const classes = useStyles();
@@ -55,7 +40,7 @@ function AddModal() {
         <Fade in={open}>
           <div className="paper">
             <h2 id="transition-modal-title">Add Modal</h2>
-            <div style={{ display: "grid" }}>
+            <div className="addMod">
               <Input label="Dessert" placeholder="Add Dessert" />
               <Input label="Protien" placeholder="Add Protien value" />
               <Input label="Carbs" placeholder="Add Carbs value" />

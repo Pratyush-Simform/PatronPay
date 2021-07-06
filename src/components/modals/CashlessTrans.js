@@ -1,37 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import CtTable from "./CtTable"
 import { Button } from '@material-ui/core';
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-    maxHeight: "70vh",
-    overflow: "scroll",
-    width: "55%"
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
+import { useStyles } from "./styles"
+import { getModalStyle } from "./styles"
 
 function CashlessTrans(props) {
   const classes = useStyles();
@@ -55,7 +27,7 @@ function CashlessTrans(props) {
   // console.log(tub);
 
   const body = (
-    <div style={modalStyle} className={classes.paper}>
+    <div style={modalStyle} className={classes.cashlessPaper}>
       <h2 id="simple-modal-title">List of cashless transactions.</h2>
       {/* <ul>
         {tub.map(p => {

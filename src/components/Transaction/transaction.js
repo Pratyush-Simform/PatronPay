@@ -24,7 +24,7 @@ const Transaction = () => {
   }, []);
 
   return (
-    <div style={{backgroundColor:"blueviolet"}}>
+    <div className="transHead">
       <div className="Trans">
         <span className="back">
         <ArrowBackIcon onClick={() => history.push("/")} classes="icon" fontSize="large" />
