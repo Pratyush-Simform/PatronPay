@@ -1,6 +1,8 @@
 import './App.css';
 import Login from "./components/login/Login" 
 import Transaction from "./components/Transaction/transaction"
+import Header from "./components/sidebar/Header"
+import Footer from "./components/sidebar/Footer"
 
 import {
 	BrowserRouter as Router,
@@ -17,7 +19,9 @@ function App() {
      
       <Switch>
         <Route path="/transaction">
-          <Transaction />
+          <Header />
+        <Transaction />
+        <Footer />
         </Route>
         {/* <Route path="/login">
           <Login />

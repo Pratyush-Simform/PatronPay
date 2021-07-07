@@ -34,4 +34,24 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  HeadRoot: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
+  headMenuButton: {
+    marginRight: theme.spacing(2),
+  },
+  footRoot: {
+    flexGrow: 1,
+  },
+  footMenuButton: {
+    marginRight: theme.spacing(2),
+  },
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
 }));
