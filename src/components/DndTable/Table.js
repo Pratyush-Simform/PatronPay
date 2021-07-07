@@ -25,6 +25,7 @@ import DatePicker from "../date/DatePicker";
 import Dropdown from "../input/Dropdown";
 import Button from '@material-ui/core/Button';
 import { styles } from "./styles"
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -413,6 +414,7 @@ class EnhancedTable extends React.Component {
               onRequestSort={this.handleRequestSort}
               rowCount={data.length}
             />
+            {data ? 
             <TableBody>
               {renderer.length
                 ? renderer
@@ -563,6 +565,7 @@ class EnhancedTable extends React.Component {
                 </TableRow>
               )}
             </TableBody>
+            : <CircularProgress />}
           </Table>
         </div>
       </Paper>

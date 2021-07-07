@@ -17,7 +17,7 @@ function App() {
      
       <Switch>
         <Route path="/transaction">
-          <Transaction />
+        <Transaction />
         </Route>
         {/* <Route path="/login">
           <Login />

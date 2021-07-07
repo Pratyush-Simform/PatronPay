@@ -35,7 +35,8 @@ function Login() {
       history.push('/transaction')
   }
   fetchMyApi()
-  }, [submitted, email, password, history])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [submitted])
 
   const onInputChnage = (value) =>{
       setEmail(value);
