@@ -232,7 +232,7 @@
 }
 
 .back {
-  margin-left: 29%; 
+  margin-left: 4%; 
   margin-top: 3%;
 }
 
@@ -307,4 +307,28 @@
 
 .transHead {
   background-color: blueviolet;
+  max-height: 56em;
+  overflow: auto;
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1024px) {
+  .transHead {
+  max-height: 100em;
+  }
+
+  .MuiPaper-rounded {
+    height: 84em !important;
+}
+}
+
+@media only screen and (min-width: 600px) and (max-width: 800px) {
+  .transHead {
+    max-height: 65.2em;
+  }
+}
+
+@media only screen and (min-width: 1100px) and (max-width: 1400px) {
+  .transHead {
+    max-height: 65.2em;
+  }
 }
