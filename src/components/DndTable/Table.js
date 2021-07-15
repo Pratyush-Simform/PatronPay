@@ -190,7 +190,7 @@ class EnhancedTable extends React.Component {
     this.setState({
       dataCopy: this.props.data,
       renderer: this.props.data,
-      ...(columnData && {columnData: JSON.parse(localStorage.getItem("Cols"))}),
+      ...(columnData && {columnData: JSON.parse(columnData)}),
      columnData: this.props.name === "Profile Items" ? columnData ? JSON.parse(columnData) : this.props.columnData : tableColdata ? JSON.parse(tableColdata) : this.props.columnData
      
     }, () => {
