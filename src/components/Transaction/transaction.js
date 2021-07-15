@@ -2,8 +2,8 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import EnhancedTable from "../DndTable/Table";
 import "../../App.css";
-import { useHistory } from "react-router-dom";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+// import { useHistory } from "react-router-dom";
+// import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const Transaction = () => {
   let cols = [
@@ -37,7 +37,7 @@ const Transaction = () => {
     },
   ];
   const [colData, setColData] = useState([]);
-  const history = useHistory();
+  // const history = useHistory();
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -53,6 +53,7 @@ const Transaction = () => {
       setData(response.data.data.results);
     }
     fetchMyApi();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(colData);

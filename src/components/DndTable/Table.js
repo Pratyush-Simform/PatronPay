@@ -20,7 +20,7 @@ import ReactExport from "react-data-export";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { CSVLink } from "react-csv";
-import CashlessTrans from "../modals/CashlessTrans";
+// import CashlessTrans from "../modals/CashlessTrans";
 import DatePicker from "../date/DatePicker";
 import Dropdown from "../input/Dropdown";
 import Button from '@material-ui/core/Button';
