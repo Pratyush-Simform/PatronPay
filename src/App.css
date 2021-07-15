@@ -316,8 +316,12 @@
   max-height: 100em;
   }
 
+  .profile {
+    height: 91.8vh
+  }
+
   .MuiPaper-rounded {
-    height: 84em !important;
+    min-height: 91.8vh !important;
 }
 }
 
@@ -331,4 +335,17 @@
   .transHead {
     max-height: 65.2em;
   }
+}
+
+.profile {
+  background-color: blueviolet;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}
+
+.EnhancedTable-tableWrapper-16 {
+  min-height: 72.2vh !important;
 }

@@ -77,7 +77,7 @@ class EnhancedTableHead extends React.Component {
                     onChange={onSelectAllClick}
                   />
                 </TableCell>
-                {columnData.map((item, index) => (
+                {columnData?.map((item, index) => (
                   <TableCell
                     key={item.id}
                     style={{

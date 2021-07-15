@@ -62,62 +62,34 @@ class EnhancedTable extends React.Component {
         { label: "Id", key: "id" },
         { label: "Payment Url", key: "payment_url" },
       ],
-      columnData: [
-        {
-          id: "payment_url",
-          numeric: false,
-          disablePadding: false,
-          label: "Payment Url",
-          width: 200,
-        },
-        {
-          id: "trs_type",
-          numeric: false,
-          disablePadding: false,
-          label: "Transaction type",
-          width: 200,
-        },
-        {
-          id: "settled",
-          numeric: true,
-          disablePadding: true,
-          label: "Settled",
-          width: 200,
-        },
-        {
-          id: "createdAt",
-          numeric: true,
-          disablePadding: true,
-          label: "Created At",
-          width: 300,
-        },
-      ],
+      columnData: [],
       page: 0,
       rowsPerPage: 15,
     };
   }
 
   onDragEnd = (result) => {
-    console.log(result);
     // dropped outside the list
     if (!result.destination) {
       return;
     }
-
+ 
     const columnData = reorder(
       this.state.columnData,
       result.source.index,
       result.destination.index
-    );
+    );     
+    console.log(this.state.columnData);              
 
     this.setState({
-      columnData,
+      columnData: columnData,
     });
-    localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
+    if(this.props.name === "Transaction") {
+      localStorage.setItem("Tcols", JSON.stringify(this.state.columnData))
+    } else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
   };
   // Demo code
   handleWidthChange = (columnId, width) => {
-    console.log("handle width change");
     this.setState((state) => {
       const currentColumns = state.columnData;
       const currentColumnIndex = currentColumns.findIndex((column) => {
@@ -135,7 +107,6 @@ class EnhancedTable extends React.Component {
   };
 
   handleArrayMove = (from, to, oldData) => {
-    console.log("Reached here");
     // guessing this gets replaced by arrayMove method
     const newData = [].concat(oldData);
     from >= to
@@ -214,11 +185,16 @@ class EnhancedTable extends React.Component {
 
   componentDidMount() {
     const columnData = localStorage.getItem("Cols")
+    // console.log(JSON.parse(localStorage.getItem("Cols")));
     this.setState({
       dataCopy: this.props.data,
       renderer: this.props.data,
-      ...(columnData && {columnData: JSON.parse(columnData)})
+      ...(columnData && {columnData: JSON.parse(localStorage.getItem("Cols"))}),
+     columnData: this.props.name === "Profile Items" ? localStorage.getItem("Cols") ? JSON.parse(localStorage.getItem("Cols")) :this.props.columnData : localStorage.getItem("Tcols") ? JSON.parse(localStorage.getItem("Tcols")) : this.props.columnData
+     
+    }, () => {
     });
+    console.log(this.state);
   }
 
   searchedFunc = (input) => {
@@ -228,7 +204,7 @@ class EnhancedTable extends React.Component {
       });
     } else {
       this.setState({
-        data: this.state.dataCopy,
+        renderer: this.state.dataCopy,
       });
     }
   };
@@ -260,7 +236,6 @@ class EnhancedTable extends React.Component {
   };
 
   setStartDate = (date) => {
-    console.log(this.props.data);
     let createdDate = this.props.data.map((i) => {
       return {
         date: new Date(i.date_created).getDate(),
@@ -277,7 +252,6 @@ class EnhancedTable extends React.Component {
     let filteredDates = createdDate.filter((fd) => {
       return fd.date < date.getDate();
     });
-    console.log(filteredDates);
     this.setState({
       renderer: filteredDates,
     });
@@ -291,13 +265,11 @@ class EnhancedTable extends React.Component {
  
 
   selectedData = (data) => {
-    console.log(data);
     const filLogs = [];
     data?.forEach((element) => {
       const a = this.state.columnData.filter((j) => j.id.includes(element));
       filLogs.push(...a);
     });
-    console.log(filLogs);
     if (filLogs.length > 0) {
       this.setState({
         columnDataCopy: filLogs,
@@ -318,27 +290,31 @@ class EnhancedTable extends React.Component {
   columnRender = () => {
    if (this.state.columnDataCopy.length > 0) {
       return this.state.columnDataCopy;
-    } else return this.state.columnData;
+    } else if (this.props.name === "Transaction"){
+      return this.state.columnData
+    } 
+    else {
+      return this.state.columnData;
+    }
   };
 
   render() {
-    const { classes, data } = this.props;
+    const { classes, data, name } = this.props;
     const { order, orderBy, selected, rowsPerPage, page, renderer } =
       this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     return (
       <Paper className="searchBox">
-        <DatePicker
-          setEndDate={(date) => this.setEndDate(date)}
-          setStartDate={(date) => this.setStartDate(date)}
-        />
-
         <EnhancedTableToolbar
-          title="Transaction"
+          title={name}
           numSelected={selected.length}
           items={this.props.data}
           searchedData={this.searchedFunc}
+        />
+        <DatePicker
+          setEndDate={(date) => this.setEndDate(date)}
+          setStartDate={(date) => this.setStartDate(date)}
         />
         {/* TODO: Customize TablePagination per https://material-ui.com/demos/tables/#custom-table-pagination-action */}
         <div className={classes.tableWrapper}>
@@ -374,9 +350,9 @@ class EnhancedTable extends React.Component {
                 <Button variant="contained">Download csv</Button>
               </CSVLink>
             </span>
-            <span className="cashless">
+            {/* <span className="cashless">
               <CashlessTrans name="Cashless Transaction" data={data} />
-            </span>
+            </span> */}
           </div>
           <Table
             table-layout="fixed"
@@ -414,7 +390,7 @@ class EnhancedTable extends React.Component {
               onRequestSort={this.handleRequestSort}
               rowCount={data.length}
             />
-            {data ? 
+            {data.length > 0 ? 
             <TableBody>
               {renderer.length
                 ? renderer
@@ -511,7 +487,7 @@ class EnhancedTable extends React.Component {
                                   <TableCell padding="checkbox">
                                     <Checkbox checked={isSelected} />
                                   </TableCell>
-                                  {this.columnRender().map((column) => {
+                                  {this.columnRender()?.map((column) => {
                                     return column.numeric ? (
                                       <TableCell
                                         key={column.id}
@@ -550,7 +526,9 @@ class EnhancedTable extends React.Component {
                                   })}
                                   <div className="toolHead">
                                     {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
+                                    {this.props.name === "Transaction" ? 
                                     <EditModal row={n} />
+                                    : null}
                                   </div>
                                 </TableRow>
                               </TableBody>
@@ -565,7 +543,7 @@ class EnhancedTable extends React.Component {
                 </TableRow>
               )}
             </TableBody>
-            : <CircularProgress />}
+            : <div className="spinner"><CircularProgress /></div>}
           </Table>
         </div>
       </Paper>
