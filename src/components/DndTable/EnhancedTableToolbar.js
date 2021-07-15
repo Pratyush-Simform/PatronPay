@@ -26,13 +26,17 @@ let EnhancedTableToolbar = (props) => {
     var input = document.getElementById("myInput");
     if (input) {
       input.onkeydown = function (event) {
-        var key = event.keyCode || event.charCode;
-        if (!(key === 8 || key === 46)) {
+        // console.log(event.key);
+        // var key = event.keyCode || event.charCode;
+        if (!(event.key === "Backspace")) {
+          if(props.title === "Profile Items"){
+            let filData = itemCopy.filter(j => j.description.includes(searchInput))
+            searchedData(filData)
+          }else {
           let itemwa = itemCopy.filter((i) => i.trs_type.includes(searchInput));
-          console.log(itemwa);
           searchedData(itemwa);
+          }
         } else {
-          console.log(items);
           searchedData([]);
         }
       };

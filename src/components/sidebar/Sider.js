@@ -24,8 +24,12 @@ export default function TemporaryDrawer() {
   });
   const siderButton = (text, index) => {
       console.log(index);
-      if (index === 1) {
-          history.push("/")
+      if(index === 0) {
+        history.push("/transaction")
+      }else if (index === 1) {
+          history.push("/profile")
+      } else if(index === 2) {
+        history.push("/")
       }
   }
 
@@ -47,7 +51,7 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Transaction', "Log Out"].map((text, index) => (
+        {['Transaction', "Profile Items", "Log Out"].map((text, index) => (
           <ListItem button key={text} onClick={() => siderButton(text, index)} >
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
