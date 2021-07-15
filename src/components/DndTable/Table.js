@@ -185,12 +185,13 @@ class EnhancedTable extends React.Component {
 
   componentDidMount() {
     const columnData = localStorage.getItem("Cols")
+    const tableColdata = localStorage.getItem("Tcols")
     // console.log(JSON.parse(localStorage.getItem("Cols")));
     this.setState({
       dataCopy: this.props.data,
       renderer: this.props.data,
       ...(columnData && {columnData: JSON.parse(localStorage.getItem("Cols"))}),
-     columnData: this.props.name === "Profile Items" ? localStorage.getItem("Cols") ? JSON.parse(localStorage.getItem("Cols")) :this.props.columnData : localStorage.getItem("Tcols") ? JSON.parse(localStorage.getItem("Tcols")) : this.props.columnData
+     columnData: this.props.name === "Profile Items" ? columnData ? JSON.parse(columnData) : this.props.columnData : tableColdata ? JSON.parse(tableColdata) : this.props.columnData
      
     }, () => {
     });
@@ -313,8 +314,8 @@ class EnhancedTable extends React.Component {
           searchedData={this.searchedFunc}
         />
         <DatePicker
-          setEndDate={(date) => this.setEndDate(date)}
-          setStartDate={(date) => this.setStartDate(date)}
+          setEndDate={this.setEndDate}
+          setStartDate={this.setStartDate}
         />
         {/* TODO: Customize TablePagination per https://material-ui.com/demos/tables/#custom-table-pagination-action */}
         <div className={classes.tableWrapper}>
