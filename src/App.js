@@ -3,11 +3,13 @@ import Login from "./components/login/Login";
 import Transaction from "./components/Transaction/transaction";
 import Header from "./components/sidebar/Header";
 import Footer from "./components/sidebar/Footer";
+import PaymentProfiles from "./components/profile/PaymentProfiles";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ProfileItems from "./components/profile/ProfileItems";
+import Order from "./components/order/Order";
 
-function App() {
+function App() { 
   return (
     <Router>
       <Switch>
@@ -19,6 +21,16 @@ function App() {
         <Route path="/profile">
           <Header />
           <ProfileItems />
+          <Footer />
+        </Route>
+        <Route path="/paymentProfile">
+          <Header />
+          <PaymentProfiles />
+          <Footer />
+        </Route>
+        <Route path="/orders">
+            <Header />
+          <Order />
           <Footer />
         </Route>
         <Route path exact="/">

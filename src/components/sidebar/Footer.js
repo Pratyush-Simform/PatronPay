@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import { useStyles } from './style';
 
 function Footer() {
@@ -11,9 +11,9 @@ function Footer() {
     <div className={classes.footRoot}>
       <AppBar position="static">
         <Toolbar variant="dense">
-          <Typography variant="h6" color="inherit">
+          {/* <Typography variant="h6" color="inherit">
            Patron pay Footer
-          </Typography>
+          </Typography> */}
         </Toolbar>
       </AppBar>
     </div>

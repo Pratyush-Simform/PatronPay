@@ -15,6 +15,7 @@ import "../../App.css"
 
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData } = props;
+  console.log(props);
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
@@ -83,7 +84,9 @@ let EnhancedTableToolbar = (props) => {
             <Tooltip title="Filter list">
               <IconButton aria-label="Filter list">
                 <Search onClick={() => setSearch(true)} />
+                {title === "Profile Items" ? 
                 <AddModal />
+                : null}
                 <MoreVert />
               </IconButton>
             </Tooltip>

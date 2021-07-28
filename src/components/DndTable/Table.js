@@ -84,8 +84,11 @@ class EnhancedTable extends React.Component {
     this.setState({
       columnData: columnData,
     });
+    console.log(this.props);
     if(this.props.name === "Transaction") {
       localStorage.setItem("Tcols", JSON.stringify(this.state.columnData))
+    } else if(this.props.name === "Payment Profiles"){
+      localStorage.setItem("Pcols", JSON.stringify(this.state.columnData))
     } else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
   };
   // Demo code
@@ -186,12 +189,34 @@ class EnhancedTable extends React.Component {
   componentDidMount() {
     const columnData = localStorage.getItem("Cols")
     const tableColdata = localStorage.getItem("Tcols")
+    // const profileItemsData = localStorage.getItem("Pcols")
+    // if(this.props.name === "Profile Items"){
+    //   if (columnData) {
+    //     this.setState({
+    //       columnData: JSON.parse(columnData) 
+    //     })
+    //   } else {
+    //     this.setState({
+    //       columnData: this.props.columnData
+    //     })
+    //   }
+    // } else {
+    //   if(tableColdata){
+    //     this.setState({
+    //       columnData: JSON.parse(tableColdata)
+    //     })
+    //   } else {
+    //     this.setState({
+    //       columnData: this.props.columnData
+    //     })
+    //   }
+    // }
     // console.log(JSON.parse(localStorage.getItem("Cols")));
     this.setState({
       dataCopy: this.props.data,
       renderer: this.props.data,
       ...(columnData && {columnData: JSON.parse(columnData)}),
-     columnData: this.props.name === "Profile Items" ? columnData ? JSON.parse(columnData) : this.props.columnData : tableColdata ? JSON.parse(tableColdata) : this.props.columnData
+     columnData: this.props.name === "Profile Items" ? columnData ? JSON.parse(columnData) : this.props.columnData : this.props.name === "Payment Profiles" ? this.props.columnData : tableColdata ? JSON.parse(tableColdata) : this.props.columnData
      
     }, () => {
     });

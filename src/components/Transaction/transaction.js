@@ -36,12 +36,12 @@ const Transaction = () => {
       width: 300,
     },
   ];
-  const [colData, setColData] = useState([]);
+  // const [colData, setColData] = useState([]);
   // const history = useHistory();
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setColData(cols);
+    // setColData(cols);
     async function fetchMyApi() {
       const api = `https://tenant3.mypatronpay.us/api/transaction/`;
       const token = localStorage.getItem("token");
@@ -55,8 +55,6 @@ const Transaction = () => {
     fetchMyApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log(colData);
 
   return (
     <div className="transHead">
