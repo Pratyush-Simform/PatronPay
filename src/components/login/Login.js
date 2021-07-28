@@ -32,7 +32,7 @@ function Login() {
       console.log(response);
       const token = response.data.data.access
       localStorage.setItem("token", token)
-      history.push('/transaction')
+      history.push('/orders')
   }
   fetchMyApi()
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
@@ -12,23 +12,39 @@ import MailIcon from '@material-ui/icons/Mail';
 import ListRoundedIcon from '@material-ui/icons/ListRounded';
 import { useHistory } from "react-router-dom";
 import { useStyles } from './style';
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import { Context } from "../../store/Context"
+import Icon from "../../assets/images/Icon.png"
 
 export default function TemporaryDrawer() {
+ 
+  const [state, dispatch] = useContext(Context);
   const history = useHistory();
   const classes = useStyles();
-  const [state, setState] = React.useState({
+  const [leftState, setState] = React.useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+  const handleStatus = () => {
+    dispatch({ type: "NOT_DONE"})
+  }
   const siderButton = (text, index) => {
       console.log(index);
       if(index === 0) {
+        history.push("/orders")
+      } else if(index === 1) {
         history.push("/transaction")
-      }else if (index === 1) {
+      } else if (index === 2) {
           history.push("/profile")
-      } else if(index === 2) {
+      } else if(index === 3) {
+        history.push("/paymentProfile")
+      } else if(index === 4) {
         history.push("/")
       }
   }
@@ -38,7 +54,7 @@ export default function TemporaryDrawer() {
       return;
     }
 
-    setState({ ...state, [anchor]: open });
+    setState({ ...leftState, [anchor]: open });
   };
 
   const list = (anchor) => (
@@ -51,7 +67,8 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Transaction', "Profile Items", "Log Out"].map((text, index) => (
+      <img src={Icon} alt="icon" />
+        {['Order','Transaction', "Profile Items", "Payment Profiles", "Log Out"].map((text, index) => (
           <ListItem button key={text} onClick={() => siderButton(text, index)} >
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
@@ -75,8 +92,49 @@ export default function TemporaryDrawer() {
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}><ListRoundedIcon fontSize="large" color="action" /></Button>
-          <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+          <Drawer anchor={anchor} open={leftState[anchor]} onClose={toggleDrawer(anchor, false)}>
             {list(anchor)}
+            <Divider />
+            {state.buttonValue === true ?
+            <div>
+             <h3 className="profileSubmitBtn">Closed Orders</h3>
+            <Card className="siderOrderCard">
+        <CardActionArea>
+          <CardContent>
+            <div className="listStyles">
+              <Typography gutterBottom variant="h5" component="h2">
+                ORDER #1
+              </Typography>
+              <h3>{state?.orders?.date} {state?.orders?.time}</h3>
+            </div>
+            <List dense className="listItems">
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <ListItem className="lists" key={state?.orders?.id}>
+                    <div>{state?.orders?.name[0]}</div>
+                    <div className="marg">{state?.orders?.quantity[0]}</div>
+                    <div className="marg">($){state?.orders?.amount}</div>
+                  </ListItem>
+                  <Divider />
+                </Typography>
+            </List>
+          </CardContent>
+        </CardActionArea>
+        <div className="cardButton">
+          <Typography>Status: Done</Typography>
+          <CardActions>
+            <Button
+              size="medium"
+              variant="outlined"
+              color="primary"
+              onClick={handleStatus}
+            >
+              Reopen
+            </Button>
+          </CardActions>
+        </div>
+      </Card>
+      </div>
+      : null}
           </Drawer>
         </React.Fragment>
       ))}

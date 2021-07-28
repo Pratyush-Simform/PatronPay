@@ -85,7 +85,7 @@
 }
 
 .paper {
-  width: 45%;
+  width: 46%;
   border: 2px solid #000;
   padding: 16px 32px 24px;
   box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%),
@@ -129,7 +129,7 @@
     display: flex;
     position: relative;
     align-items: center;
-    width: 85%;
+    width: 100%;
   }
 }
 @media only screen and (min-width: 700px) and (max-width: 1300px) {
@@ -250,7 +250,7 @@
     margin-left: 2% !important;
   }
   .MuiToolbar-gutters {
-    padding-left: 37px !important;
+    padding-left: 13px !important;
   }
 }
 
@@ -314,15 +314,16 @@
 @media only screen and (min-width: 800px) and (max-width: 1024px) {
   .transHead {
   max-height: 100em;
+  height: 92vh;
   }
 
   .profile {
     height: 91.8vh
   }
 
-  .MuiPaper-rounded {
+  /* .MuiPaper-rounded {
     min-height: 91.8vh !important;
-}
+} */
 }
 
 @media only screen and (min-width: 600px) and (max-width: 800px) {
@@ -348,4 +349,104 @@
 
 .EnhancedTable-tableWrapper-16 {
   min-height: 72.2vh !important;
+}
+
+.frstCol{
+  display: flex;
+  justify-content: space-between;
+}
+
+.scndCol {
+  display: flex;
+  margin-top: 2%;
+  justify-content: space-between;
+}
+
+.uploadBtn {
+  display: none;
+}
+
+.profileSubmitBtn {
+  display: flex;
+  justify-content: center;
+}
+
+.order {
+  min-height: 90.5vh;
+  display: list-item;
+}
+
+.orderCard {
+  max-width: 50%;
+  margin-left: 17%;
+  margin-top: 2%;
+}
+.siderOrderCard {
+  max-width: 92%;
+  margin-left: 4%;
+  margin-top: 2%;
+}
+@media only screen and (min-width: 300px) and (max-width: 800px) {
+  .orderCard {
+  max-width: 100%;
+  }
+}
+@media only screen and (min-width: 568px) and (max-width: 812px) {
+  .orderCard {
+    max-width: 68%;
+    margin-left: 16%;
+  }
+}
+
+.listStyles {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.cardButton {
+  display: flex;
+  justify-content: space-around;
+}
+.listItems {
+  width: 100%;
+  max-width: 523px;
+  justify-content: center;
+  /* background-color: blueviolet; */
+}
+
+.marg {
+  margin-left: 15%;
+}
+.lists {
+  justify-content: space-between !important;
+}
+
+.hideDisplay {
+  display: none;
+}
+
+.MuiListItem-gutters {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.MuiFormControl-root {
+  width: 55% !important;
+}
+
+@media only screen and (min-width: 900px) {
+  .MuiFormControl-root {
+    width: 37% !important;
+  }
+}
+
+.printBtn {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.MuiAppBar-colorPrimary {
+  background-color: blueviolet !important;
 }
