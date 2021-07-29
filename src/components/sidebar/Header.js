@@ -56,6 +56,7 @@ function Header(props) {
       <AppBar>
         <Toolbar>
         <Sider />
+        <span><h3>{props.name}</h3></span>
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor" />

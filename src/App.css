@@ -450,3 +450,8 @@
 .MuiAppBar-colorPrimary {
   background-color: blueviolet !important;
 }
+.orderDrpdwn {
+  margin-top: 6%;
+    display: flex;
+    justify-content: center;
+}

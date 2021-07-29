@@ -3,12 +3,11 @@ const initialState = {
 }
 
 const reducer = (state, action) => {
-    console.log(state);
     switch(action.type) {
         case "DONE": 
         return {
             ...state,
-            buttonValue : !state.buttonValue
+            buttonValue : true
         }
         case "NOT_DONE":
             return {...state,
@@ -18,6 +17,16 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 orders: action.payload
+            }
+        case "TOTALDATA":
+            return {
+                ...state,
+                totalData: action.payload
+            }
+        case "RETURN":
+            return {
+                ...state,
+                returnData: action.payload
             }
         default : return;
     }
