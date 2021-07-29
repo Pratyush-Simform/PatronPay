@@ -29,7 +29,7 @@ function App() {
           <Footer />
         </Route>
         <Route path="/orders">
-            <Header />
+            <Header name="Open Orders"/>
           <Order />
           <Footer />
         </Route>

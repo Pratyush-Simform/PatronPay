@@ -33,9 +33,9 @@ export default function TemporaryDrawer() {
   });
   const handleStatus = () => {
     dispatch({ type: "NOT_DONE"})
+    dispatch({ type: "RETURN", payload: state.totalData})
   }
   const siderButton = (text, index) => {
-      console.log(index);
       if(index === 0) {
         history.push("/orders")
       } else if(index === 1) {
@@ -49,6 +49,7 @@ export default function TemporaryDrawer() {
       }
   }
 
+  console.log(state);
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -103,17 +104,19 @@ export default function TemporaryDrawer() {
           <CardContent>
             <div className="listStyles">
               <Typography gutterBottom variant="h5" component="h2">
-                ORDER #1
+                ORDER {state.totalData.order_id}
               </Typography>
               <h3>{state?.orders?.date} {state?.orders?.time}</h3>
             </div>
             <List dense className="listItems">
                 <Typography variant="body2" color="textSecondary" component="p">
-                  <ListItem className="lists" key={state?.orders?.id}>
-                    <div>{state?.orders?.name[0]}</div>
-                    <div className="marg">{state?.orders?.quantity[0]}</div>
-                    <div className="marg">($){state?.orders?.amount}</div>
+                  {state.totalData.trs_items.map(food => (
+                    <ListItem className="lists" key={food.id}>
+                    <div>{food.tri_id_name}</div>
+                    <div className="marg">{food.quantity}</div>
+                    <div className="marg">($){food.amount}</div>
                   </ListItem>
+                  ))}
                   <Divider />
                 </Typography>
             </List>

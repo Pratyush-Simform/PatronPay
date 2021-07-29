@@ -17,7 +17,6 @@ import Select from "@material-ui/core/Select";
 import "../../App.css";
 
 function Order() {
-  const [status, setStatus] = useState("Preparing...");
   const [state, dispatch] = useContext(Context);
   const [config, setConfig] = useState([]);
   const [open, setOpen] = useState(false);
@@ -25,12 +24,28 @@ function Order() {
   const [socketData, setSoketdata] = useState({});
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [totalData, setTotalData] = useState([])
 
-  const handleStatus = () => {
+  const handleStatus = (td, index) => {
+    let spliceAry = [...totalData]
+    if (index > -1) {
+      spliceAry.splice(index, 1);
+      setTotalData(spliceAry)
+    }
     dispatch({ type: "DONE" });
-    setStatus("Done");
+    dispatch({ type: "TOTALDATA", payload: td})
+    dispatch({ type: "RETURN", payload: null})
   };
 
+  let newArray = [...totalData]
+  useEffect(() => {
+    if(state.returnData){
+      newArray.push(state.returnData)
+      setTotalData(newArray)
+    } 
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
+  }, [state])
+  console.log(totalData.length === 0 && pcfId !== "");
   useEffect(() => {
     async function getConfigApi() {
       const api = "https://tenant3.mypatronpay.us/api/patron_configuration/";
@@ -47,16 +62,16 @@ function Order() {
 
   useEffect(() => {
     const socket = new WebSocket(
-      `ws://tenant3.mypatronpay.us:8001/ws/orders/${pcfId}/`
+      `${process.env.REACT_APP_SOCKET_URL}/${pcfId}/`
     );
     socket.onmessage = function (event) {
       let data = JSON.parse(event.data);
       setSoketdata(data.message);
     };
   }, [pcfId]);
-
   useEffect(() => {
     console.log(socketData);
+    Object.keys(socketData).length > 0 && setTotalData(prev => [...prev, socketData])
     let date = new Date(socketData.date_created);
     let hours = date.getHours();
     let minutes = date.getMinutes();
@@ -99,14 +114,15 @@ function Order() {
     setOpen(true);
   };
 
- const handlePrint = () => {
-   window.print()
- }
+//  const handlePrint = () => {
+//    window.print()
+//  }
 
   return (
     <div className="order">
-      <h2 style={{ display: "flex", justifyContent: "center" }}>Open Orders</h2>
+      {/* <h2 style={{ display: "flex", justifyContent: "center" }}>Open Orders</h2> */}
       <Button onClick={handleOpen}></Button>
+      <div className="orderDrpdwn">
       <FormControl>
         <InputLabel id="demo-controlled-open-select-label">
           {" "}
@@ -126,22 +142,23 @@ function Order() {
           ))}
         </Select>
       </FormControl>
+      </div>
+      {pcfId === "" ? <h2 className="profileSubmitBtn">Please select configuration</h2> : null}
       {Object.keys(socketData).length === 0 ||
-      (status === "Done" && state.buttonValue) ? (
+      (totalData.length === 0 && pcfId === "") ? (
         <div>
           <h1 className="profileSubmitBtn">NO orders available</h1>
         </div>
       ) : (
+        totalData?.reverse().map((td, index) => (
         <Card
-          className={
-            status === "Done" && state.buttonValue ? "hideDisplay" : "orderCard"
-          }
+          className="orderCard"
         >
           <CardActionArea>
             <CardContent>
               <div className="listStyles">
                 <Typography gutterBottom variant="h5" component="h2">
-                  ORDER #1
+                  ORDER #{td.order_id}
                 </Typography>
                 <h3>
                   {date} {time}
@@ -150,15 +167,15 @@ function Order() {
               <List dense className="listItems">
                 <div style={{ display: "flex" }}>
                   <h3>
-                    {socketData?.membership_payment?.txn_type ||
-                      socketData?.cash_payment?.txn_type}
+                    {td?.membership_payment?.txn_type ||
+                      td?.cash_payment?.txn_type}
                   </h3>
                   <h3 style={{ marginLeft: "3%" }}>
-                    {socketData?.membership_payment?.amount ||
-                      socketData?.cash_payment?.amount}
+                    ${td?.membership_payment?.amount ||
+                      td?.cash_payment?.amount}
                   </h3>
                 </div>
-                {socketData?.trs_items?.map((od, index) => (
+                {td?.trs_items?.map((od, index) => (
                   <Typography
                     variant="body2"
                     color="textSecondary"
@@ -183,22 +200,23 @@ function Order() {
                 size="medium"
                 variant="outlined"
                 color="primary"
-                onClick={handleStatus}
+                onClick={()=>handleStatus(td,index)}
               >
                 Done
               </Button>
             </CardActions>
           </div>
         </Card>
+        ))
       )}
-      <div className="printBtn">
+      {/* <div className="printBtn">
       <Button
         size="medium"
         variant="outlined"
         color="primary"
         onClick={handlePrint}
       >Print this page</Button>
-      </div>
+      </div> */}
     </div>
   );
 }
