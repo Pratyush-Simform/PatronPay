@@ -445,6 +445,8 @@
   display: flex;
   justify-content: center;
   margin-top: 2%;
+  display: none;
+
 }
 
 .MuiAppBar-colorPrimary {
