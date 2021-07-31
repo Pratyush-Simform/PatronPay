@@ -194,7 +194,6 @@ const componentRef = useRef();
                       <div>{od.tri_id_name}</div>
                       <div className="marg">{od.quantity}</div>
                       <div className="marg">${od.amount}</div>
-                      {/* <div className="marg">cash | credit card </div> */}
                     </ListItem>
                     <Divider />
                   </Typography>
