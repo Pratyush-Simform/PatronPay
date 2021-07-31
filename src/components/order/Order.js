@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -15,6 +15,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import "../../App.css";
+import { useReactToPrint } from 'react-to-print';
+import { ComponentToPrint } from './ComponentToPrint';
 
 function Order() {
   const [state, dispatch] = useContext(Context);
@@ -35,6 +37,9 @@ function Order() {
     dispatch({ type: "DONE" });
     dispatch({ type: "TOTALDATA", payload: td})
     dispatch({ type: "RETURN", payload: null})
+    // localStorage.setItem("orders", JSON.stringify(totalData))
+    // let localOrders = JSON.parse(localStorage.getItem("orders"))
+    // console.log(localOrders);
   };
 
   let newArray = [...totalData]
@@ -42,10 +47,10 @@ function Order() {
     if(state.returnData){
       newArray.push(state.returnData)
       setTotalData(newArray)
+      dispatch({ type: "RETURN", payload: null})
     } 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [state])
-  console.log(totalData.length === 0 && pcfId !== "");
   useEffect(() => {
     async function getConfigApi() {
       const api = "https://tenant3.mypatronpay.us/api/patron_configuration/";
@@ -70,7 +75,6 @@ function Order() {
     };
   }, [pcfId]);
   useEffect(() => {
-    console.log(socketData);
     Object.keys(socketData).length > 0 && setTotalData(prev => [...prev, socketData])
     let date = new Date(socketData.date_created);
     let hours = date.getHours();
@@ -118,6 +122,11 @@ function Order() {
 //    window.print()
 //  }
 
+const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
     <div className="order">
       {/* <h2 style={{ display: "flex", justifyContent: "center" }}>Open Orders</h2> */}
@@ -150,7 +159,7 @@ function Order() {
           <h1 className="profileSubmitBtn">NO orders available</h1>
         </div>
       ) : (
-        totalData?.reverse().map((td, index) => (
+        totalData?.map((td, index) => (
         <Card
           className="orderCard"
         >
@@ -209,14 +218,17 @@ function Order() {
         </Card>
         ))
       )}
-      {/* <div className="printBtn">
-      <Button
+      <div className="printBtn">
+        <div style={{display: "none"}}>
+      <ComponentToPrint ref={componentRef} data={totalData} />
+      </div>
+      <Button 
         size="medium"
         variant="outlined"
         color="primary"
         onClick={handlePrint}
-      >Print this page</Button>
-      </div> */}
+      >Print this out!</Button>
+      </div>
     </div>
   );
 }
