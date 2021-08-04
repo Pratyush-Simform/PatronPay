@@ -102,7 +102,7 @@ function Order() {
         <h2 className="profileSubmitBtn">Please select configuration</h2>
       ) : null}
       {Object.keys(socketData).length === 0 ||
-      (state.orderArray.length === 0 && pcfId === "") ? (
+      (state?.orderArray?.length === 0 && pcfId === "") ? (
         <div>
           <h1 className="profileSubmitBtn">NO orders available</h1>
         </div>
@@ -115,7 +115,7 @@ function Order() {
                   <Typography gutterBottom variant="h5" component="h2">
                     ORDER #{td.order_id}
                   </Typography>
-                  {td.trs_items.map((dt) => (
+                  {td?.trs_items?.map((dt) => (
                     <h3>
                      {dt.date_created.toString().slice(0, 10)} {dt.date_created.toString().slice(27, 32)}
                     </h3>
