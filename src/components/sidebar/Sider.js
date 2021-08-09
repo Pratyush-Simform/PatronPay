@@ -46,6 +46,7 @@ export default function TemporaryDrawer() {
     } else if (index === 3) {
       history.push("/paymentProfile");
     } else if (index === 4) {
+      localStorage.setItem("token", "")
       history.push("/");
     }
   };

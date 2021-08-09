@@ -18,17 +18,21 @@ import "../../App.css";
 // import { useReactToPrint } from "react-to-print";
 // import { ComponentToPrint } from "./ComponentToPrint";
 import { getConfigApi } from "../../services/orderApi"
+import Localbase from "localbase";
 
 function Order() {
+  let db = new Localbase("db");
   const [state, dispatch] = useContext(Context);
   const [config, setConfig] = useState([]);
   const [open, setOpen] = useState(false);
   const [pcfId, setPcfId] = useState("");
   const [socketData, setSoketdata] = useState({});
+  const [renderData, setRenderData] = useState([])
 
   const handleStatus = (td, index) => {
     dispatch({ type: "DONEARRAY", payload: td });
     state.orderArray.splice(index, 1);
+    db.collection('orderArray').doc({ id: td.id }).delete()
   };
   useEffect(() => {
     getConfigApi().then(res => (
@@ -42,13 +46,17 @@ function Order() {
     );
     socket.onmessage = function (event) {
       let data = JSON.parse(event.data);
-      dispatch({ type: "ORDERARRAY", payload: data.message });
+      setRenderData(data);
+      if(data) dispatch({ type: "ORDERARRAY", payload: data.message });
       setSoketdata(data.message);
     };
+    console.log(socket);
   }
 
+  console.log(state);
+
   useEffect(() => {
-   triggerSocket()
+    triggerSocket()
    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pcfId]);
 
@@ -113,7 +121,7 @@ function Order() {
               <CardContent>
                 <div className="listStyles">
                   <Typography gutterBottom variant="h5" component="h2">
-                    ORDER #{td.order_id}
+                    ORDER #{td?.order_id}
                   </Typography>
                   {td?.trs_items?.map((dt) => (
                     <h3>

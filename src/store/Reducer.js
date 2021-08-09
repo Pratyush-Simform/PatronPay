@@ -4,16 +4,12 @@ let db = new Localbase("db");
 db.config.debug = false;
 const initialState = {
   buttonValue: false,
-  //   siderData: db.collection("sider").get(),
-  //   siderReturnData: db.collection("siderReturn").get(),
   doneArray: [],
   notDoneArray: [],
   orderArray: [],
 };
 
 const reducer = (state, action) => {
-  const abc = db.collection("siderReturn").get();
-  console.log(abc);
   switch (action.type) {
     case "DONE":
       return {
@@ -46,9 +42,9 @@ const reducer = (state, action) => {
         siderData: action.payload,
       };
     case "SIDERRETURN":
-      db.collection("siderReturn").add({
-        siderData: action.payload,
-      });
+      // db.collection("siderReturn").add({
+      //   siderData: action.payload,
+      // });
       return {
         ...state,
         siderReturnData: action.payload,

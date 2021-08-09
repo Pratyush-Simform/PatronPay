@@ -37,12 +37,6 @@ function Login() {
       console.log(response);
       const token = response.data.data.access
       localStorage.setItem("token", token)
-      db.collection('orderArray').get().then(orderArray => {
-        dispatch({type: "ORDERARRAY", payload: orderArray})
-      })
-      db.collection('doneArray').get().then(doneArray => {
-        dispatch({type: "DONEARRAY", payload: doneArray})
-      })
       history.push('/orders')
   }
   fetchMyApi()
