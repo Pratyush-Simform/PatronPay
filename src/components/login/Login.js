@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -10,13 +10,9 @@ import Axios from "axios"
 import { useHistory } from "react-router-dom";
 import "../../App.css"
 import { useStyles } from "./styles"
-import Localbase from "localbase";
-import { Context } from "../../store/Context"
 
 
 function Login() {
-  let db = new Localbase("db");
-  const [,dispatch] = useContext(Context);
   const classes = useStyles();
   const history = useHistory()
   const [email, setEmail] = useState("");

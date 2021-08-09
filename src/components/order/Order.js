@@ -27,7 +27,6 @@ function Order() {
   const [open, setOpen] = useState(false);
   const [pcfId, setPcfId] = useState("");
   const [socketData, setSoketdata] = useState({});
-  const [renderData, setRenderData] = useState([])
 
   const handleStatus = (td, index) => {
     dispatch({ type: "DONEARRAY", payload: td });
@@ -46,7 +45,6 @@ function Order() {
     );
     socket.onmessage = function (event) {
       let data = JSON.parse(event.data);
-      setRenderData(data);
       if(data) dispatch({ type: "ORDERARRAY", payload: data.message });
       setSoketdata(data.message);
     };
