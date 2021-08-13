@@ -445,8 +445,6 @@
   display: flex;
   justify-content: center;
   margin-top: 2%;
-  display: none;
-
 }
 
 .MuiAppBar-colorPrimary {
@@ -457,7 +455,24 @@
     display: flex;
     justify-content: center;
 }
-.table{
-  /* margin-top: 10%;
-  margin-left: 10%; */
+.printTable {
+  display: block;
+  font-size: 25px;
+  margin-left: 15%;
+  width: 60%;
+  float: left;
+  /* float: right; */
+  margin-top: 10%;
+  border: 1px solid black;
+}
+
+.allTables {
+  width: 100%;
+}
+.printTable, th, tr, td {
+  border-left: 1px solid black;
+}
+
+.printTable, th, td {
+  border-top: 1px solid black;
 }

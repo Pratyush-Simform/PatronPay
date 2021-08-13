@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -15,9 +15,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import "../../App.css";
-// import { useReactToPrint } from "react-to-print";
-// import { ComponentToPrint } from "./ComponentToPrint";
-import { getConfigApi } from "../../services/orderApi"
+import { useReactToPrint } from "react-to-print";
+import { ComponentToPrint } from "./ComponentToPrint";
+import { getConfigApi } from "../../services/orderApi";
 import Localbase from "localbase";
 
 function Order() {
@@ -31,12 +31,10 @@ function Order() {
   const handleStatus = (td, index) => {
     dispatch({ type: "DONEARRAY", payload: td });
     state.orderArray.splice(index, 1);
-    db.collection('orderArray').doc({ id: td.id }).delete()
+    db.collection("orderArray").doc({ id: td.id }).delete();
   };
   useEffect(() => {
-    getConfigApi().then(res => (
-      setConfig(res.data.data.results)
-    ));
+    getConfigApi().then((res) => setConfig(res.data.data.results));
   }, []);
 
   const triggerSocket = () => {
@@ -45,17 +43,17 @@ function Order() {
     );
     socket.onmessage = function (event) {
       let data = JSON.parse(event.data);
-      if(data) dispatch({ type: "ORDERARRAY", payload: data.message });
+      if (data) dispatch({ type: "ORDERARRAY", payload: data.message });
       setSoketdata(data.message);
     };
     console.log(socket);
-  }
+  };
 
   console.log(state);
 
   useEffect(() => {
-    triggerSocket()
-   // eslint-disable-next-line react-hooks/exhaustive-deps
+    triggerSocket();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pcfId]);
 
   const handleChange = (event) => {
@@ -74,10 +72,10 @@ function Order() {
   //    window.print()
   //  }
 
-  // const componentRef = useRef();
-  //   const handlePrint = useReactToPrint({
-  //     content: () => componentRef.current,
-  //   });
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   return (
     <div className="order">
@@ -123,14 +121,15 @@ function Order() {
                   </Typography>
                   {td?.trs_items?.map((dt) => (
                     <h3>
-                     {dt.date_created.toString().slice(0, 10)} {dt.date_created.toString().slice(27, 32)}
+                      {dt.date_created.toString().slice(0, 10)}{" "}
+                      {dt.date_created.toString().slice(27, 32)}
                     </h3>
                   ))}
                 </div>
                 <List dense className="listItems">
-                    <h3>
-                      {td?.membership_payment.first_name} {td?.membership_payment.last_name}
-                    </h3>
+                  <h3>
+                    {td?.receipt_receiver}
+                  </h3>
                   <div style={{ display: "flex" }}>
                     <h3>
                       {td?.membership_payment?.txn_type ||
@@ -175,17 +174,19 @@ function Order() {
           </Card>
         ))
       )}
-      {/* <div className="printBtn">
-        <div style={{display: "none"}}>
-      <ComponentToPrint ref={componentRef} data={totalData} />
+      <div className="printBtn">
+        <div style={{ display: "none" }}>
+          <ComponentToPrint ref={componentRef} data={state.doneArray} otherData={state.orderArray}/>
+        </div>
+        <Button
+          size="medium"
+          variant="outlined"
+          color="primary"
+          onClick={handlePrint}
+        >
+          Print this out!
+        </Button>
       </div>
-      <Button 
-        size="medium"
-        variant="outlined"
-        color="primary"
-        onClick={handlePrint}
-      >Print this out!</Button>
-      </div> */}
     </div>
   );
 }
