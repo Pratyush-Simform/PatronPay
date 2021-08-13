@@ -128,6 +128,9 @@ function Order() {
                   ))}
                 </div>
                 <List dense className="listItems">
+                    <h3>
+                      {td?.membership_payment.first_name} {td?.membership_payment.last_name}
+                    </h3>
                   <div style={{ display: "flex" }}>
                     <h3>
                       {td?.membership_payment?.txn_type ||

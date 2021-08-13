@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Input from '../input/input';
-import Axios from "axios"
+// import Axios from "axios"
+import { login } from "../../services/orderApi"
 import { useHistory } from "react-router-dom";
 import "../../App.css"
 import { useStyles } from "./styles"
@@ -24,18 +25,8 @@ function Login() {
   }
 
   useEffect(() => {
-    async function fetchMyApi() {
-    const api = `https://tenant3.mypatronpay.us/api/token/`
-    const response = await Axios.post(api, {
-        email: email,
-        password: password
-    })
-      console.log(response);
-      const token = response.data.data.access
-      localStorage.setItem("token", token)
-      history.push('/orders')
-  }
-  fetchMyApi()
+   
+  login(email, password).then(() => history.push('/orders'))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted])
 
