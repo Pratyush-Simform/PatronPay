@@ -18,7 +18,7 @@ export class ComponentToPrint extends React.Component {
             {this.props?.otherData?.map((data) => (
               <tr>
                 <td>{data.order_id}</td>
-                {data.trs_items.map((trs) => (
+                {data?.trs_items?.map((trs) => (
                   <>
                     <td>{trs.tri_id_name}</td>
                     <td>{trs.quantity}</td>
@@ -44,7 +44,7 @@ export class ComponentToPrint extends React.Component {
             {this.props?.data?.map((data) => (
               <tr>
                 <td>{data.order_id}</td>
-                {data.trs_items.map((trs) => (
+                {data?.trs_items?.map((trs) => (
                   <>
                     <td>{trs.tri_id_name}</td>
                     <td>{trs.quantity}</td>

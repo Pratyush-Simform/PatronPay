@@ -17,7 +17,7 @@ import Select from "@material-ui/core/Select";
 import "../../App.css";
 import { useReactToPrint } from "react-to-print";
 import { ComponentToPrint } from "./ComponentToPrint";
-import { getConfigApi } from "../../services/orderApi";
+import { getConfigApi, getPastOrders } from "../../services/orderApi";
 import Localbase from "localbase";
 
 function Order() {
@@ -27,8 +27,13 @@ function Order() {
   const [open, setOpen] = useState(false);
   const [pcfId, setPcfId] = useState("");
   const [socketData, setSoketdata] = useState({});
+  const [pastData, setPastData] = useState({})
 
   const handleStatus = (td, index) => {
+    // console.log(td, index);
+    // const newData = [...pastData]
+    // newData.splice(index, 1)
+    // setPastData(newData)
     dispatch({ type: "DONEARRAY", payload: td });
     state.orderArray.splice(index, 1);
     db.collection("orderArray").doc({ id: td.id }).delete();
@@ -36,6 +41,8 @@ function Order() {
   useEffect(() => {
     getConfigApi().then((res) => setConfig(res.data.data.results));
   }, []);
+  console.log(state.orderArray);
+
 
   const triggerSocket = () => {
     const socket = new WebSocket(
@@ -46,15 +53,21 @@ function Order() {
       if (data) dispatch({ type: "ORDERARRAY", payload: data.message });
       setSoketdata(data.message);
     };
-    console.log(socket);
   };
-
-  console.log(state);
 
   useEffect(() => {
     triggerSocket();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pcfId]);
+
+  useEffect(() => {
+    console.log(pastData);
+    if(pastData?.length > 1) dispatch({ type: "ORDERARRAY", payload: pastData })
+  }, [pastData])
+
+  useEffect(() => {
+    getPastOrders(pcfId).then(res => setPastData(...res.data.data.results))
+  }, [socketData])
 
   const handleChange = (event) => {
     setPcfId(event.target.value);
@@ -111,7 +124,7 @@ function Order() {
           <h1 className="profileSubmitBtn">NO orders available</h1>
         </div>
       ) : (
-        state.orderArray?.map((td, index) => (
+        state?.orderArray?.map((td, index) => (
           <Card className="orderCard">
             <CardActionArea>
               <CardContent>
