@@ -21,3 +21,14 @@ export const getConfigApi = async () => {
       });
     return response
 }
+
+export const getPastOrders = async (pcfId) => {
+  const api = `https://tenant3.mypatronpay.us/api/transaction/?pcf_id=${pcfId}&previous_txns_by_time=30`
+  const token = localStorage.getItem("token");
+  const response = await Axios.get(api, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response
+}
