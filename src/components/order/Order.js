@@ -27,7 +27,6 @@ function Order() {
   const [open, setOpen] = useState(false);
   const [pcfId, setPcfId] = useState("");
   const [socketData, setSoketdata] = useState({});
-  const [pastData, setPastData] = useState({})
 
   const handleStatus = (td, index) => {
     // console.log(td, index);
@@ -38,13 +37,17 @@ function Order() {
     state.orderArray.splice(index, 1);
     db.collection("orderArray").doc({ id: td.id }).delete();
   };
-  useEffect(async () => {
-    getConfigApi().then((res) => setConfig(res.data.data.results));
+  async function pastOrders() {
     const response = await getPastOrders(pcfId)
     console.log(response.data.data.results);
      response.data.data.results.forEach(order => {
       if (order) dispatch({ type: "ORDERARRAY", payload: order });
      });
+    }
+  useEffect(() => {
+    getConfigApi().then((res) => setConfig(res.data.data.results));
+    pastOrders()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(state.orderArray);
 
