@@ -38,8 +38,13 @@ function Order() {
     state.orderArray.splice(index, 1);
     db.collection("orderArray").doc({ id: td.id }).delete();
   };
-  useEffect(() => {
+  useEffect(async () => {
     getConfigApi().then((res) => setConfig(res.data.data.results));
+    const response = await getPastOrders(pcfId)
+    console.log(response.data.data.results);
+     response.data.data.results.forEach(order => {
+      if (order) dispatch({ type: "ORDERARRAY", payload: order });
+     });
   }, []);
   console.log(state.orderArray);
 
@@ -48,9 +53,9 @@ function Order() {
     const socket = new WebSocket(
       `${process.env.REACT_APP_SOCKET_URL}/${pcfId}/`
     );
-    socket.onmessage = function (event) {
+    socket.onmessage = async function (event) {
       let data = JSON.parse(event.data);
-      if (data) dispatch({ type: "ORDERARRAY", payload: data.message });
+     if(data) dispatch({ type: "ORDERARRAY", payload: data.message });
       setSoketdata(data.message);
     };
   };
@@ -60,14 +65,14 @@ function Order() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pcfId]);
 
-  useEffect(() => {
-    console.log(pastData);
-    if(pastData?.length > 1) dispatch({ type: "ORDERARRAY", payload: pastData })
-  }, [pastData])
+  // useEffect(() => {
+  //   console.log(pastData);
+  //   if(pastData?.length > 1) dispatch({ type: "ORDERARRAY", payload: pastData })
+  // }, [pastData, socketData])
 
-  useEffect(() => {
-    getPastOrders(pcfId).then(res => setPastData(...res.data.data.results))
-  }, [socketData])
+  // useEffect(() => {
+  //   getPastOrders(pcfId).then(res => setPastData(...res.data.data.results))
+  // }, [socketData])
 
   const handleChange = (event) => {
     setPcfId(event.target.value);
