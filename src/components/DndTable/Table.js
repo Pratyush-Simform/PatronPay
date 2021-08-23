@@ -401,7 +401,6 @@ class EnhancedTable extends React.Component {
                                   </TableCell>
                                   {this.columnRender().map((column) => {
                                     return column.numeric ? (
-                                      <>
                                       <TableCell
                                         key={column.id}
                                         padding="none"
@@ -415,7 +414,6 @@ class EnhancedTable extends React.Component {
                                           {n[column.id]}
                                         </div>
                                       </TableCell>
-                                      </>
                                     ) : (
                                       <TableCell
                                         key={column.id}
