@@ -6,7 +6,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import Button from "@material-ui/core/Button"
+// import Button from "@material-ui/core/Button"
 
 function DatePicker({setEndDate, setStartDate}) {
   // The first commit of Material-UI
@@ -58,7 +58,6 @@ function DatePicker({setEndDate, setStartDate}) {
             'aria-label': 'change date',
           }}
         />
-       <Button variant="contained">Select Date filter</Button>
       </Grid>
     </MuiPickersUtilsProvider>
   );

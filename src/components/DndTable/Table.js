@@ -20,7 +20,6 @@ import ReactExport from "react-data-export";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { CSVLink } from "react-csv";
-// import CashlessTrans from "../modals/CashlessTrans";
 import DatePicker from "../date/DatePicker";
 import Dropdown from "../input/Dropdown";
 import Button from '@material-ui/core/Button';
@@ -31,8 +30,6 @@ const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-// a little function to help us with reordering the result
-// From react-sortable-hoc sample code
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -54,10 +51,6 @@ class EnhancedTable extends React.Component {
       datacopy: [],
       updatedCol: [],
       columnDataCopy: [],
-      // id must be lowercase
-      // width must be integer (for pixels)
-      // TODO: rename width -> widthInPixels?
-      // TODO: make columnData a prop
       header: [
         { label: "Id", key: "id" },
         { label: "Payment Url", key: "payment_url" },
@@ -69,7 +62,6 @@ class EnhancedTable extends React.Component {
   }
 
   onDragEnd = (result) => {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
@@ -91,7 +83,6 @@ class EnhancedTable extends React.Component {
       localStorage.setItem("Pcols", JSON.stringify(this.state.columnData))
     } else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
   };
-  // Demo code
   handleWidthChange = (columnId, width) => {
     this.setState((state) => {
       const currentColumns = state.columnData;
@@ -101,7 +92,6 @@ class EnhancedTable extends React.Component {
       const columnToChange = currentColumns[currentColumnIndex];
       const changedColumn = { ...columnToChange, width };
       currentColumns.splice(currentColumnIndex, 1, changedColumn);
-      // Return the unchanged columns concatenated with the new column
       const newState = {
         columnData: currentColumns,
       };
@@ -110,7 +100,6 @@ class EnhancedTable extends React.Component {
   };
 
   handleArrayMove = (from, to, oldData) => {
-    // guessing this gets replaced by arrayMove method
     const newData = [].concat(oldData);
     from >= to
       ? newData.splice(to, 0, newData.splice(from, 1)[0])
@@ -145,7 +134,6 @@ class EnhancedTable extends React.Component {
     this.setState({ data, order, orderBy });
   };
 
-  // material-ui code
   handleSelectAllClick = (event, checked) => {
     if (checked) {
       this.setState({ selected: this.props.data.map((n) => n.id) });
@@ -154,7 +142,6 @@ class EnhancedTable extends React.Component {
     this.setState({ selected: [] });
   };
 
-  // material-ui code
   handleClick = (event, id) => {
     const { selected } = this.state;
     const selectedIndex = selected.indexOf(id);
@@ -187,31 +174,9 @@ class EnhancedTable extends React.Component {
   isSelected = (id) => this.state.selected.indexOf(id) !== -1;
 
   componentDidMount() {
+    console.log(this.props.data);
     const columnData = localStorage.getItem("Cols")
     const tableColdata = localStorage.getItem("Tcols")
-    // const profileItemsData = localStorage.getItem("Pcols")
-    // if(this.props.name === "Profile Items"){
-    //   if (columnData) {
-    //     this.setState({
-    //       columnData: JSON.parse(columnData) 
-    //     })
-    //   } else {
-    //     this.setState({
-    //       columnData: this.props.columnData
-    //     })
-    //   }
-    // } else {
-    //   if(tableColdata){
-    //     this.setState({
-    //       columnData: JSON.parse(tableColdata)
-    //     })
-    //   } else {
-    //     this.setState({
-    //       columnData: this.props.columnData
-    //     })
-    //   }
-    // }
-    // console.log(JSON.parse(localStorage.getItem("Cols")));
     this.setState({
       dataCopy: this.props.data,
       renderer: this.props.data,
@@ -237,18 +202,18 @@ class EnhancedTable extends React.Component {
 
   exportPDF = () => {
     const unit = "pt";
-    const size = "A4"; // Use A1, A2, A3 or A4
-    const orientation = "portrait"; // portrait or landscape
+    const size = "A4"; 
+    const orientation = "portrait"; 
 
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
 
     doc.setFontSize(15);
 
-    const title = "PatronPay Transaction";
-    const headers = [["Id", "Payment Url"]];
+    const title = this.props.name === "Transaction" ? "Profile Tramsactions" : ""
+    const headers = [["Date/time", "Payment Url", "Transaction type", "Settled", "No of Items"]];
 
-    const data = this.props.data.map((elt) => [elt.id, elt.name]);
+    const data = this.props.data.map((elt) => [elt.newDate, elt.payment_url, elt.trs_type, elt.settled, elt.noOfItems]);
 
     let content = {
       startY: 50,
@@ -262,6 +227,7 @@ class EnhancedTable extends React.Component {
   };
 
   setStartDate = (date) => {
+    console.log(date);
     let createdDate = this.props.data.map((i) => {
       return {
         date: new Date(i.date_created).getDate(),
@@ -270,10 +236,6 @@ class EnhancedTable extends React.Component {
         type: i.trs_type,
       };
     });
-
-    // let days = createdDate.map(d => {
-    //   return {date: d.date.getDate(), id: d.id, url: d.payment_url, type: d.txn_type}
-    // })
 
     let filteredDates = createdDate.filter((fd) => {
       return fd.date < date.getDate();
@@ -285,10 +247,22 @@ class EnhancedTable extends React.Component {
 
   setEndDate = (date) => {
     console.log(date);
-    // console.log(days);
-  };
+    let endDate = this.props.data.map(j => {
+      return {
+        date: new Date(j.date_modified).getDate(),
+        id: j.id,
+        url: j.payment_url,
+        type: j.trs_type
+      };
+    });
 
- 
+    let filteredDates = endDate.filter(fd => {
+      return fd.date > date.getDate();
+    })
+    this.setState({
+      renderer: filteredDates,
+    });
+  };
 
   selectedData = (data) => {
     const filLogs = [];
@@ -303,16 +277,6 @@ class EnhancedTable extends React.Component {
     }
   };
 
-// componentDidUpdate(prevProps, prevState, snapshot) {
-//   console.log(prevState.columnData = JSON.parse(localStorage.getItem("Cols")), "456");
-//   let updatedColumns = JSON.parse(localStorage.getItem("Cols"))
-
-//   this.setState({
-//     columnData: updatedColumns
-//   })
-//   console.log(updatedColumns, "320");
-// }  
-
   columnRender = () => {
    if (this.state.columnDataCopy.length > 0) {
       return this.state.columnDataCopy;
@@ -324,6 +288,7 @@ class EnhancedTable extends React.Component {
     }
   };
 
+ 
   render() {
     const { classes, data, name } = this.props;
     const { order, orderBy, selected, rowsPerPage, page, renderer } =
@@ -342,13 +307,7 @@ class EnhancedTable extends React.Component {
           setEndDate={this.setEndDate}
           setStartDate={this.setStartDate}
         />
-        {/* TODO: Customize TablePagination per https://material-ui.com/demos/tables/#custom-table-pagination-action */}
         <div className={classes.tableWrapper}>
-          {/* { id: "name",
-          numeric: false,
-          disablePadding: true,
-          label: "Dessert (100g serving)",
-          width: 500,} */}
           <span className="drpDwn">
             <Dropdown
               data={data}
@@ -359,8 +318,11 @@ class EnhancedTable extends React.Component {
             <span className="btnMargin">
               <ExcelFile element={<Button variant="contained">Download Execl</Button>}>
                 <ExcelSheet data={this.props.data} name="Nutrition">
-                  <ExcelColumn label="Id" value="id" />
-                  <ExcelColumn label="Label" value="name" />
+                  <ExcelColumn label="Date/time" value="newDate" />
+                  <ExcelColumn label="Payment Url" value="payment_url" />
+                  <ExcelColumn label="Transaction type" value="trs_type" />
+                  <ExcelColumn label="Settled" value="settled" />
+                  <ExcelColumn label="No of Items" value="noOfItems" />
                 </ExcelSheet>
               </ExcelFile>
             </span>
@@ -376,9 +338,6 @@ class EnhancedTable extends React.Component {
                 <Button variant="contained">Download csv</Button>
               </CSVLink>
             </span>
-            {/* <span className="cashless">
-              <CashlessTrans name="Cashless Transaction" data={data} />
-            </span> */}
           </div>
           <Table
             table-layout="fixed"
@@ -434,8 +393,6 @@ class EnhancedTable extends React.Component {
                           selected={isSelected}
                         >
                           <td className="tableDir">
-                            {/* We need to nest the contenst of this row to parallel the
-                             * use of Droppable in the header and ensure that headers and body line up.*/}
                             <Table className="table">
                               <TableBody>
                                 <TableRow>
@@ -505,8 +462,6 @@ class EnhancedTable extends React.Component {
                           selected={isSelected}
                         >
                           <td className="tableDir">
-                            {/* We need to nest the contenst of this row to parallel the
-                             * use of Droppable in the header and ensure that headers and body line up.*/}
                             <Table className="table">
                               <TableBody>
                                 <TableRow>
@@ -523,7 +478,7 @@ class EnhancedTable extends React.Component {
                                       >
                                         <div
                                           width={`${column.width}px` || "100px"}
-                                          clasName="tableWidth"
+                                          className="tableWidth"
                                         >
                                           {n[column.id]}
                                         </div>
