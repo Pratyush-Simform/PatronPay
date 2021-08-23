@@ -469,10 +469,10 @@
 .allTables {
   width: 100%;
 }
-.printTable, th, tr, td {
+/* .printTable, th, tr, td {
   border-left: 1px solid black;
 }
 
 .printTable, th, td {
   border-top: 1px solid black;
-}
+} */

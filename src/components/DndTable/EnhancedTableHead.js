@@ -6,12 +6,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-// TODO: Remove MoreVert reference and replace with <Icon>ArrowSplitVertical</Icon>
 import { MoreVert } from "@material-ui/icons";
-// import { SortablePane, Pane } from "react-sortable-pane";
 import ReactDraggable from "react-draggable";
 
-// React-Beautiful-dnd code
 const grid = 4;
 const getListStyle = isDraggingOver => ({
   display: "flex",
@@ -19,18 +16,11 @@ const getListStyle = isDraggingOver => ({
   overflow: "none"
 });
 
-// React-Beautiful-dnd code
 const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
   userSelect: "none",
   paddingBottom: grid * 2,
   margin: `0 ${grid}px 0 0`,
   display: "inline-block",
-
-  // change background colour if dragging
-  // background: isDragging ? "lightgreen" : "grey",
-
-  // styles we need to apply on draggables
   ...draggableStyle
 });
 
@@ -48,7 +38,7 @@ class EnhancedTableHead extends React.Component {
       orderBy,
       order,
       handleResizeColumn,
-      handleReorderColumnData
+      handleReorderColumnData,
     } = this.props;
 
     return (
@@ -133,8 +123,6 @@ class EnhancedTableHead extends React.Component {
                               }}
                               zIndex={999}
                             >
-                              {/* contentEditable is a hack to get Draggable (column sort behavior) to ignore the MoreVert. 
-                                 we suppress ContentEditable warning because it's not actually editable */}
                               <MoreVert
                                 suppressContentEditableWarning={true}
                                 contentEditable={true}

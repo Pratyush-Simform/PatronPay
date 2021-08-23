@@ -2,11 +2,18 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import EnhancedTable from "../DndTable/Table";
 import "../../App.css";
-// import { useHistory } from "react-router-dom";
-// import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const Transaction = () => {
+  const [data, setData] = useState([]);
+ const[ newData, setNewData] = useState([])
   let cols = [
+    {
+      id: "newDate",
+      numeric: false,
+      disablePadding: false,
+      label: "Date/time",
+      width: 200,
+    },
     {
       id: "payment_url",
       numeric: false,
@@ -29,19 +36,15 @@ const Transaction = () => {
       width: 200,
     },
     {
-      id: "createdAt",
+      id: "noOfItems",
       numeric: true,
       disablePadding: true,
-      label: "Created At",
-      width: 300,
-    },
+      label: "No of Items",
+      width: 200,
+    }
   ];
-  // const [colData, setColData] = useState([]);
-  // const history = useHistory();
-  const [data, setData] = useState([]);
-
+ 
   useEffect(() => {
-    // setColData(cols);
     async function fetchMyApi() {
       const api = `https://tenant3.mypatronpay.us/api/transaction/`;
       const token = localStorage.getItem("token");
@@ -56,19 +59,14 @@ const Transaction = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    let newData =  data.map(d => ({...d, noOfItems: d.trs_items.length, newDate: d.date_created.substring(0, 10)}))
+    setNewData(newData)
+  }, [data])
+
   return (
     <div className="transHead">
-      {/* <div className="Trans">
-        <span className="back">
-          <ArrowBackIcon
-            onClick={() => history.push("/")}
-            classes="icon"
-            fontSize="large"
-          />
-        </span>
-        <h1 className="heading">PatronPay</h1>
-      </div> */}
-      <EnhancedTable data={data} columnData={cols} name="Transaction" />
+      <EnhancedTable data={newData} columnData={cols} name="Transaction" />
     </div>
   );
 };
