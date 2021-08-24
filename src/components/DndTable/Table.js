@@ -22,9 +22,9 @@ import "jspdf-autotable";
 import { CSVLink } from "react-csv";
 import DatePicker from "../date/DatePicker";
 import Dropdown from "../input/Dropdown";
-import Button from '@material-ui/core/Button';
-import { styles } from "./styles"
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from "@material-ui/core/Button";
+import { styles } from "./styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -51,9 +51,22 @@ class EnhancedTable extends React.Component {
       datacopy: [],
       updatedCol: [],
       columnDataCopy: [],
-      header: [
-        { label: "Id", key: "id" },
+      transactionHeader: [
+        { label: "Date/time", key: "newDate" },
         { label: "Payment Url", key: "payment_url" },
+        { label: "Transaction type", key: "trs_type" },
+        { label: "Settled", key: "settled" },
+        { label: "No of Items", key: "noOfItems" },
+      ],
+      profileItemsHeader: [
+        { label: "Barcode", key: "barcode" },
+        { label: "Description", key: "description" },
+        { label: "Short Name", key: "short_name" },
+        { label: "Price", key: "price" },
+      ],
+      paymentProfileHeader: [
+        {label: "Configuration Type", key: "config_type"},
+        {label: "Name", key: "name"}
       ],
       columnData: [],
       page: 0,
@@ -65,22 +78,22 @@ class EnhancedTable extends React.Component {
     if (!result.destination) {
       return;
     }
- 
+
     const columnData = reorder(
       this.state.columnData,
       result.source.index,
       result.destination.index
-    );     
-    console.log(this.state.columnData);              
+    );
+    console.log(this.state.columnData);
 
     this.setState({
       columnData: columnData,
     });
     console.log(this.props);
-    if(this.props.name === "Transaction") {
-      localStorage.setItem("Tcols", JSON.stringify(this.state.columnData))
-    } else if(this.props.name === "Payment Profiles"){
-      localStorage.setItem("Pcols", JSON.stringify(this.state.columnData))
+    if (this.props.name === "Transaction") {
+      localStorage.setItem("Tcols", JSON.stringify(this.state.columnData));
+    } else if (this.props.name === "Payment Profiles") {
+      localStorage.setItem("Pcols", JSON.stringify(this.state.columnData));
     } else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
   };
   handleWidthChange = (columnId, width) => {
@@ -175,16 +188,29 @@ class EnhancedTable extends React.Component {
 
   componentDidMount() {
     console.log(this.props.data);
-    const columnData = localStorage.getItem("Cols")
-    const tableColdata = localStorage.getItem("Tcols")
-    this.setState({
-      dataCopy: this.props.data,
-      renderer: this.props.data,
-      ...(columnData && {columnData: JSON.parse(columnData)}),
-     columnData: this.props.name === "Profile Items" ? columnData ? JSON.parse(columnData) : this.props.columnData : this.props.name === "Payment Profiles" ? this.props.columnData : tableColdata ? JSON.parse(tableColdata) : this.props.columnData
-     
-    }, () => {
-    });
+    const columnData = localStorage.getItem("Cols");
+    const tableColdata = localStorage.getItem("Tcols");
+    const profileColData = localStorage.getItem("Pcols")
+    this.setState(
+      {
+        dataCopy: this.props.data,
+        renderer: this.props.data,
+        ...(columnData && { columnData: JSON.parse(columnData) }),
+        columnData:
+          this.props.name === "Profile Items"
+            ? columnData
+              ? JSON.parse(columnData)
+              : this.props.columnData
+            : this.props.name === "Payment Profiles"
+            ? profileColData 
+              ? JSON.parse(profileColData)
+              : this.props.columnData
+            : tableColdata
+            ? JSON.parse(tableColdata)
+            : this.props.columnData,
+      },
+      () => {}
+    );
     console.log(this.state);
   }
 
@@ -202,24 +228,71 @@ class EnhancedTable extends React.Component {
 
   exportPDF = () => {
     const unit = "pt";
-    const size = "A4"; 
-    const orientation = "portrait"; 
+    const size = "A4";
+    const orientation = "portrait";
 
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
 
     doc.setFontSize(15);
+    let title = "";
+    let content = {};
+    if (this.props.name === "Transaction") {
+      title = "Transaction";
+      const headers = [
+        [
+          "Date/time",
+          "Payment Url",
+          "Transaction type",
+          "Settled",
+          "No of Items",
+        ],
+      ];
 
-    const title = this.props.name === "Transaction" ? "Profile Tramsactions" : ""
-    const headers = [["Date/time", "Payment Url", "Transaction type", "Settled", "No of Items"]];
+      const data = this.props.data.map((elt) => [
+        elt.newDate,
+        elt.payment_url,
+        elt.trs_type,
+        elt.settled,
+        elt.noOfItems,
+      ]);
 
-    const data = this.props.data.map((elt) => [elt.newDate, elt.payment_url, elt.trs_type, elt.settled, elt.noOfItems]);
+      content = {
+        startY: 50,
+        head: headers,
+        body: data,
+      };
+    } else if (this.props.name === "Profile Items") {
+      title = "Profile Items";
+      const headers = [["Barcode", "Description", "Short Name", "Price"]];
 
-    let content = {
-      startY: 50,
-      head: headers,
-      body: data,
-    };
+      const data = this.props.data.map((elt) => [
+        elt.barcode,
+        elt.description,
+        elt.short_name,
+        elt.price,
+      ]);
+
+      content = {
+        startY: 50,
+        head: headers,
+        body: data,
+      };
+    } else if(this.props.name === "Payment Profiles") {
+      title = "Payment Profiles";
+      const headers = [["Name", "Configuration Type"]];
+
+      const data = this.props.data.map((elt) => [
+        elt.name,
+        elt.config_type,
+      ]);
+
+      content = {
+        startY: 50,
+        head: headers,
+        body: data,
+      };
+    }
 
     doc.text(title, marginLeft, 40);
     doc.autoTable(content);
@@ -247,18 +320,18 @@ class EnhancedTable extends React.Component {
 
   setEndDate = (date) => {
     console.log(date);
-    let endDate = this.props.data.map(j => {
+    let endDate = this.props.data.map((j) => {
       return {
         date: new Date(j.date_modified).getDate(),
         id: j.id,
         url: j.payment_url,
-        type: j.trs_type
+        type: j.trs_type,
       };
     });
 
-    let filteredDates = endDate.filter(fd => {
+    let filteredDates = endDate.filter((fd) => {
       return fd.date > date.getDate();
-    })
+    });
     this.setState({
       renderer: filteredDates,
     });
@@ -278,17 +351,15 @@ class EnhancedTable extends React.Component {
   };
 
   columnRender = () => {
-   if (this.state.columnDataCopy.length > 0) {
+    if (this.state.columnDataCopy.length > 0) {
       return this.state.columnDataCopy;
-    } else if (this.props.name === "Transaction"){
-      return this.state.columnData
-    } 
-    else {
+    } else if (this.props.name === "Transaction") {
+      return this.state.columnData;
+    } else {
       return this.state.columnData;
     }
   };
 
- 
   render() {
     const { classes, data, name } = this.props;
     const { order, orderBy, selected, rowsPerPage, page, renderer } =
@@ -303,10 +374,12 @@ class EnhancedTable extends React.Component {
           items={this.props.data}
           searchedData={this.searchedFunc}
         />
-        <DatePicker
-          setEndDate={this.setEndDate}
-          setStartDate={this.setStartDate}
-        />
+        {name === "Transaction" ? (
+          <DatePicker
+            setEndDate={this.setEndDate}
+            setStartDate={this.setStartDate}
+          />
+        ) : null}
         <div className={classes.tableWrapper}>
           <span className="drpDwn">
             <Dropdown
@@ -316,14 +389,30 @@ class EnhancedTable extends React.Component {
           </span>
           <div className="buttonGrp">
             <span className="btnMargin">
-              <ExcelFile element={<Button variant="contained">Download Execl</Button>}>
-                <ExcelSheet data={this.props.data} name="Nutrition">
-                  <ExcelColumn label="Date/time" value="newDate" />
-                  <ExcelColumn label="Payment Url" value="payment_url" />
-                  <ExcelColumn label="Transaction type" value="trs_type" />
-                  <ExcelColumn label="Settled" value="settled" />
-                  <ExcelColumn label="No of Items" value="noOfItems" />
-                </ExcelSheet>
+              <ExcelFile
+                element={<Button variant="contained">Download Execl</Button>}
+              >
+                {name === "Transction" ? (
+                  <ExcelSheet data={this.props.data} name="Transction">
+                    <ExcelColumn label="Date/time" value="newDate" />
+                    <ExcelColumn label="Payment Url" value="payment_url" />
+                    <ExcelColumn label="Transaction type" value="trs_type" />
+                    <ExcelColumn label="Settled" value="settled" />
+                    <ExcelColumn label="No of Items" value="noOfItems" />
+                  </ExcelSheet>
+                ) : name === "Profile Items" ? (
+                  <ExcelSheet data={this.props.data} name="Profile Items">
+                    <ExcelColumn label="Barcode" value="barcode" />
+                    <ExcelColumn label="Description" value="description" />
+                    <ExcelColumn label="Short Name" value="short_name" />
+                    <ExcelColumn label="Price" value="price" />
+                  </ExcelSheet>
+                ) : name === "Payment Profiles" ? (
+                  <ExcelSheet data={this.props.data} name="Payment Profile">
+                    <ExcelColumn label="Name" value="name" />
+                    <ExcelColumn label="Configuration Type" value="config_type" />
+                  </ExcelSheet>
+                ) : null}
               </ExcelFile>
             </span>
             <Button
@@ -334,9 +423,28 @@ class EnhancedTable extends React.Component {
               Generate pdf
             </Button>
             <span className="btnMargin">
-              <CSVLink data={this.props.data} headers={this.state.header}>
-                <Button variant="contained">Download csv</Button>
-              </CSVLink>
+              {name === "Transaction" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.transactionHeader}
+                >
+                  <Button variant="contained">Download csv</Button>
+                </CSVLink>
+              ) : name === "Profile Items" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.profileItemsHeader}
+                >
+                  <Button variant="contained">Download csv</Button>
+                </CSVLink>
+              ) : name === "Payment Profiles" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.paymentProfileHeader}
+                >
+                  <Button variant="contained">Download csv</Button>
+                </CSVLink>
+              ) : null}
             </span>
           </div>
           <Table
@@ -375,156 +483,170 @@ class EnhancedTable extends React.Component {
               onRequestSort={this.handleRequestSort}
               rowCount={data.length}
             />
-            {data.length > 0 ? 
-            <TableBody>
-              {renderer.length
-                ? renderer
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((n) => {
-                      const isSelected = this.isSelected(n.id);
-                      return (
-                        <TableRow
-                          hover
-                          onClick={(event) => this.handleClick(event, n.id)}
-                          role="checkbox"
-                          aria-checked={isSelected}
-                          tabIndex={-1}
-                          key={n.id}
-                          selected={isSelected}
-                        >
-                          <td className="tableDir">
-                            <Table className="table">
-                              <TableBody>
-                                <TableRow>
-                                  <TableCell padding="checkbox">
-                                    <Checkbox checked={isSelected} />
-                                  </TableCell>
-                                  {this.columnRender().map((column) => {
-                                    return column.numeric ? (
-                                      <TableCell
-                                        key={column.id}
-                                        padding="none"
-                                        width={`${column.width}px` || "100px"}
-                                        // numeric
-                                      >
-                                        <div
+            {data.length > 0 ? (
+              <TableBody>
+                {renderer.length
+                  ? renderer
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((n) => {
+                        const isSelected = this.isSelected(n.id);
+                        return (
+                          <TableRow
+                            hover
+                            onClick={(event) => this.handleClick(event, n.id)}
+                            role="checkbox"
+                            aria-checked={isSelected}
+                            tabIndex={-1}
+                            key={n.id}
+                            selected={isSelected}
+                          >
+                            <td className="tableDir">
+                              <Table className="table">
+                                <TableBody>
+                                  <TableRow>
+                                    <TableCell padding="checkbox">
+                                      <Checkbox checked={isSelected} />
+                                    </TableCell>
+                                    {this.columnRender().map((column) => {
+                                      return column.numeric ? (
+                                        <TableCell
+                                          key={column.id}
+                                          padding="none"
                                           width={`${column.width}px` || "100px"}
-                                          className="tableWidth"
+                                          // numeric
                                         >
-                                          {n[column.id]}
-                                        </div>
-                                      </TableCell>
-                                    ) : (
-                                      <TableCell
-                                        key={column.id}
-                                        padding="none"
-                                        width={`${column.width}px` || "100px"}
-                                      >
-                                        <div
-                                          style={{
-                                            width:
-                                              `${column.width}px` || "100px",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            // wordBreak: "break-all",
-                                            // wordWrap: "break-word"
-                                          }}
-                                        >
-                                          {n[column.id]}
-                                        </div>
-                                      </TableCell>
-                                    );
-                                  })}
-                                  <div className="toolHead">
-                                    {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
-                                    <EditModal row={n} />
-                                  </div>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </td>
-                        </TableRow>
-                      );
-                    })
-                : data
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((n) => {
-                      const isSelected = this.isSelected(n.id);
-                      return (
-                        <TableRow
-                          hover
-                          onClick={(event) => this.handleClick(event, n.id)}
-                          role="checkbox"
-                          aria-checked={isSelected}
-                          tabIndex={-1}
-                          key={n.id}
-                          selected={isSelected}
-                        >
-                          <td className="tableDir">
-                            <Table className="table">
-                              <TableBody>
-                                <TableRow>
-                                  <TableCell padding="checkbox">
-                                    <Checkbox checked={isSelected} />
-                                  </TableCell>
-                                  {this.columnRender()?.map((column) => {
-                                    return column.numeric ? (
-                                      <TableCell
-                                        key={column.id}
-                                        padding="none"
-                                        width={`${column.width}px` || "100px"}
-                                        // numeric
-                                      >
-                                        <div
+                                          <div
+                                            width={
+                                              `${column.width}px` || "100px"
+                                            }
+                                            className="tableWidth"
+                                          >
+                                            {n[column.id]}
+                                          </div>
+                                        </TableCell>
+                                      ) : (
+                                        <TableCell
+                                          key={column.id}
+                                          padding="none"
                                           width={`${column.width}px` || "100px"}
-                                          className="tableWidth"
                                         >
-                                          {n[column.id]}
-                                        </div>
-                                      </TableCell>
-                                    ) : (
-                                      <TableCell
-                                        key={column.id}
-                                        padding="none"
-                                        width={`${column.width}px` || "100px"}
-                                      >
-                                        <div
-                                          style={{
-                                            width:
-                                              `${column.width}px` || "100px",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            // wordBreak: "break-all",
-                                            // wordWrap: "break-word"
-                                          }}
+                                          <div
+                                            style={{
+                                              width:
+                                                `${column.width}px` || "100px",
+                                              whiteSpace: "nowrap",
+                                              overflow: "hidden",
+                                              textOverflow: "ellipsis",
+                                              // wordBreak: "break-all",
+                                              // wordWrap: "break-word"
+                                            }}
+                                          >
+                                            {n[column.id]}
+                                          </div>
+                                        </TableCell>
+                                      );
+                                    })}
+                                    <div className="toolHead">
+                                      {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
+                                      <EditModal row={n} />
+                                    </div>
+                                  </TableRow>
+                                </TableBody>
+                              </Table>
+                            </td>
+                          </TableRow>
+                        );
+                      })
+                  : data
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((n) => {
+                        const isSelected = this.isSelected(n.id);
+                        return (
+                          <TableRow
+                            hover
+                            onClick={(event) => this.handleClick(event, n.id)}
+                            role="checkbox"
+                            aria-checked={isSelected}
+                            tabIndex={-1}
+                            key={n.id}
+                            selected={isSelected}
+                          >
+                            <td className="tableDir">
+                              <Table className="table">
+                                <TableBody>
+                                  <TableRow>
+                                    <TableCell padding="checkbox">
+                                      <Checkbox checked={isSelected} />
+                                    </TableCell>
+                                    {this.columnRender()?.map((column) => {
+                                      return column.numeric ? (
+                                        <TableCell
+                                          key={column.id}
+                                          padding="none"
+                                          width={`${column.width}px` || "100px"}
+                                          // numeric
                                         >
-                                          {n[column.id]}
-                                        </div>
-                                      </TableCell>
-                                    );
-                                  })}
-                                  <div className="toolHead">
-                                    {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
-                                    {this.props.name === "Transaction" ? 
-                                    <EditModal row={n} />
-                                    : null}
-                                  </div>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </td>
-                        </TableRow>
-                      );
-                    })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-            : <div className="spinner"><CircularProgress /></div>}
+                                          <div
+                                            width={
+                                              `${column.width}px` || "100px"
+                                            }
+                                            className="tableWidth"
+                                          >
+                                            {n[column.id]}
+                                          </div>
+                                        </TableCell>
+                                      ) : (
+                                        <TableCell
+                                          key={column.id}
+                                          padding="none"
+                                          width={`${column.width}px` || "100px"}
+                                        >
+                                          <div
+                                            style={{
+                                              width:
+                                                `${column.width}px` || "100px",
+                                              whiteSpace: "nowrap",
+                                              overflow: "hidden",
+                                              textOverflow: "ellipsis",
+                                              // wordBreak: "break-all",
+                                              // wordWrap: "break-word"
+                                            }}
+                                          >
+                                            {n[column.id]}
+                                          </div>
+                                        </TableCell>
+                                      );
+                                    })}
+                                    <div className="toolHead">
+                                      {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
+                                      {this.props.name === "Transaction" ? (
+                                        <EditModal row={n} />
+                                      ) : null}
+                                    </div>
+                                  </TableRow>
+                                </TableBody>
+                              </Table>
+                            </td>
+                          </TableRow>
+                        );
+                      })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 49 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            ) : (
+              <div className="spinner">
+                <CircularProgress />
+              </div>
+            )}
           </Table>
         </div>
       </Paper>

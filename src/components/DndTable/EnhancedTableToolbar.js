@@ -23,6 +23,7 @@ let EnhancedTableToolbar = (props) => {
     setSearchInput(e.target.value);
   };
   let itemCopy = items;
+  console.log(itemCopy);
   useEffect(() => {
     var input = document.getElementById("myInput");
     if (input) {
@@ -33,9 +34,12 @@ let EnhancedTableToolbar = (props) => {
           if(props.title === "Profile Items"){
             let filData = itemCopy.filter(j => j.description.includes(searchInput))
             searchedData(filData)
-          }else {
-          let itemwa = itemCopy.filter((i) => i.trs_type.includes(searchInput));
-          searchedData(itemwa);
+          }else if (props.title === "Transaction") {
+          let filData = itemCopy.filter((i) => i.trs_type.includes(searchInput));
+          searchedData(filData);
+          } else if (props.title === "Payment Profiles"){
+            let filData = itemCopy.filter(k => k.name.includes(searchInput));
+          searchedData(filData);
           }
         } else {
           searchedData([]);
