@@ -7,6 +7,7 @@ const initialState = {
   doneArray: [],
   notDoneArray: [],
   orderArray: [],
+  transaction: []
 };
 
 const reducer = (state, action) => {
@@ -81,6 +82,12 @@ const reducer = (state, action) => {
       return {
         orderArray: action.payload,
       };
+
+      case "TRANSACTION":
+        return {
+          ...state,
+          transaction: action.payload
+        }
     default:
       return;
   }

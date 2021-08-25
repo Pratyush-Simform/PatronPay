@@ -65,8 +65,8 @@ class EnhancedTable extends React.Component {
         { label: "Price", key: "price" },
       ],
       paymentProfileHeader: [
-        {label: "Configuration Type", key: "config_type"},
-        {label: "Name", key: "name"}
+        { label: "Configuration Type", key: "config_type" },
+        { label: "Name", key: "name" },
       ],
       columnData: [],
       page: 0,
@@ -94,7 +94,12 @@ class EnhancedTable extends React.Component {
       localStorage.setItem("Tcols", JSON.stringify(this.state.columnData));
     } else if (this.props.name === "Payment Profiles") {
       localStorage.setItem("Pcols", JSON.stringify(this.state.columnData));
-    } else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
+    } else if (this.props.name === "Membership Payments") {
+      localStorage.setItem("MemCols", JSON.stringify(this.state.columnData));
+    } else if (this.props.name === "Cashless Payments") {
+      localStorage.setItem("CashlessCols", JSON.stringify(this.state.columnData))
+    }
+    else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
   };
   handleWidthChange = (columnId, width) => {
     this.setState((state) => {
@@ -190,7 +195,9 @@ class EnhancedTable extends React.Component {
     console.log(this.props.data);
     const columnData = localStorage.getItem("Cols");
     const tableColdata = localStorage.getItem("Tcols");
-    const profileColData = localStorage.getItem("Pcols")
+    const profileColData = localStorage.getItem("Pcols");
+    const memberCols = localStorage.getItem("MemCols");
+    const cashlessCols = localStorage.getItem("CashlessCols")
     this.setState(
       {
         dataCopy: this.props.data,
@@ -202,10 +209,18 @@ class EnhancedTable extends React.Component {
               ? JSON.parse(columnData)
               : this.props.columnData
             : this.props.name === "Payment Profiles"
-            ? profileColData 
+            ? profileColData
               ? JSON.parse(profileColData)
               : this.props.columnData
-            : tableColdata
+            : this.props.name === "Membership Payments"
+            ? memberCols
+              ? JSON.parse(memberCols)
+              : this.props.columnData
+            : this.props.name === "CashLess Payments" 
+            ? cashlessCols
+              ? JSON.parse(cashlessCols)
+              : this.props.columnData
+            :tableColdata
             ? JSON.parse(tableColdata)
             : this.props.columnData,
       },
@@ -278,14 +293,11 @@ class EnhancedTable extends React.Component {
         head: headers,
         body: data,
       };
-    } else if(this.props.name === "Payment Profiles") {
+    } else if (this.props.name === "Payment Profiles") {
       title = "Payment Profiles";
       const headers = [["Name", "Configuration Type"]];
 
-      const data = this.props.data.map((elt) => [
-        elt.name,
-        elt.config_type,
-      ]);
+      const data = this.props.data.map((elt) => [elt.name, elt.config_type]);
 
       content = {
         startY: 50,
@@ -410,7 +422,10 @@ class EnhancedTable extends React.Component {
                 ) : name === "Payment Profiles" ? (
                   <ExcelSheet data={this.props.data} name="Payment Profile">
                     <ExcelColumn label="Name" value="name" />
-                    <ExcelColumn label="Configuration Type" value="config_type" />
+                    <ExcelColumn
+                      label="Configuration Type"
+                      value="config_type"
+                    />
                   </ExcelSheet>
                 ) : null}
               </ExcelFile>

@@ -46,6 +46,12 @@ export default function TemporaryDrawer() {
     } else if (index === 3) {
       history.push("/paymentProfile");
     } else if (index === 4) {
+      history.push("/memberPayments")
+    } else if (index === 5){
+      history.push("/cashlessPayments")
+    } else if ( index === 6) {
+      history.push("/cashPayments")
+    } else if (index === 7) {
       localStorage.setItem("token", "")
       history.push("/");
     }
@@ -78,6 +84,9 @@ export default function TemporaryDrawer() {
           "Transaction",
           "Profile Items",
           "Payment Profiles",
+          "Member Payments",
+          "Cashless Payments",
+          "Cash Payments",
           "Log Out",
         ].map((text, index) => (
           <ListItem button key={text} onClick={() => siderButton(text, index)}>
