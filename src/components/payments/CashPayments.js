@@ -3,7 +3,7 @@ import EnhancedTable from '../DndTable/Table'
 import { Context } from "../../store/Context"
 import { cols } from "./PaymentCols"
 
-function MemberPayment() {
+function CashPayment() {
     const [state] = useContext(Context)
     const data = state.transaction.filter(
         obj => !(obj && Object.keys(obj.cash_payment).length === 0)
@@ -12,10 +12,8 @@ function MemberPayment() {
  console.log(data);
 
     return (
-        <div>
           <EnhancedTable data={data} columnData={cols} name="Cash Payments" />
-        </div>
     )
 }
 
-export default MemberPayment
+export default CashPayment

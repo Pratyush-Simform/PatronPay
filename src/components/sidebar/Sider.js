@@ -23,6 +23,7 @@ import Icon from "../../assets/images/Icon.png";
 export default function TemporaryDrawer() {
   const [state, dispatch] = useContext(Context);
   const history = useHistory();
+  console.log(history);
   const classes = useStyles();
   const [leftState, setState] = React.useState({
     top: false,

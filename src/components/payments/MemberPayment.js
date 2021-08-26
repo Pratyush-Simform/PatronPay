@@ -12,9 +12,7 @@ function MemberPayment() {
  console.log(data);
 
     return (
-        <div>
           <EnhancedTable data={data} columnData={cols} name="Membership Payments" />
-        </div>
     )
 }
 
