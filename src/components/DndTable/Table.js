@@ -68,9 +68,41 @@ class EnhancedTable extends React.Component {
         { label: "Configuration Type", key: "config_type" },
         { label: "Name", key: "name" },
       ],
+      memberPaymentsHeader: [
+        {label: "Amount", key: "amount"},
+        {label: "Card number", key: "card_number"},
+        {label: "Currency", key: "currency"},
+        {label: "Name", key: "first_name"},
+        {label: "Tip", key: "tip"},
+        {label: "Tax", key: "tax"},
+        {label: "Tip Tax", key: "tip_tax"},
+        {label: "Transaction Type", key: "txn_type"}
+      ],
+      cashPaymentsHeader: [
+        {label: "Amount", key: "amount"},
+        {label: "Currency", key: "currency"},
+        {label: "Tip", key: "tip"},
+        {label: "Tax", key: "tax"},
+        {label: "Tip Tax", key: "tip_tax"},
+        {label: "Transaction Type", key: "txn_type"}
+      ],
+      cashlessPaymentsHeader: [
+        {label: "Amount", key: "amount_auth"},
+        {label: "Card type", key: "card_type"},
+        {label: "Currency", key: "currency"},
+        {label: "Name", key: "first_name"},
+        {label: "Tip", key: "tip"},
+        {label: "Tax", key: "tax"},
+        {label: "Tip Tax", key: "tip_tax"},
+        {label: "Transaction Type", key: "txn_type"}
+      ],
       columnData: [],
       page: 0,
       rowsPerPage: 15,
+      amount_auth_total: 0,
+      tip_total: 0,
+      tip_tax_total: 0,
+      amount_total: 0,
     };
   }
 
@@ -84,12 +116,10 @@ class EnhancedTable extends React.Component {
       result.source.index,
       result.destination.index
     );
-    console.log(this.state.columnData);
 
     this.setState({
       columnData: columnData,
     });
-    console.log(this.props);
     if (this.props.name === "Transaction") {
       localStorage.setItem("Tcols", JSON.stringify(this.state.columnData));
     } else if (this.props.name === "Payment Profiles") {
@@ -97,9 +127,11 @@ class EnhancedTable extends React.Component {
     } else if (this.props.name === "Membership Payments") {
       localStorage.setItem("MemCols", JSON.stringify(this.state.columnData));
     } else if (this.props.name === "Cashless Payments") {
-      localStorage.setItem("CashlessCols", JSON.stringify(this.state.columnData))
-    }
-    else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
+      localStorage.setItem(
+        "CashlessCols",
+        JSON.stringify(this.state.columnData)
+      );
+    } else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
   };
   handleWidthChange = (columnId, width) => {
     this.setState((state) => {
@@ -192,12 +224,11 @@ class EnhancedTable extends React.Component {
   isSelected = (id) => this.state.selected.indexOf(id) !== -1;
 
   componentDidMount() {
-    console.log(this.props.data);
     const columnData = localStorage.getItem("Cols");
     const tableColdata = localStorage.getItem("Tcols");
     const profileColData = localStorage.getItem("Pcols");
     const memberCols = localStorage.getItem("MemCols");
-    const cashlessCols = localStorage.getItem("CashlessCols")
+    const cashlessCols = localStorage.getItem("CashlessCols");
     this.setState(
       {
         dataCopy: this.props.data,
@@ -216,17 +247,35 @@ class EnhancedTable extends React.Component {
             ? memberCols
               ? JSON.parse(memberCols)
               : this.props.columnData
-            : this.props.name === "CashLess Payments" 
+            : this.props.name === "CashLess Payments"
             ? cashlessCols
               ? JSON.parse(cashlessCols)
               : this.props.columnData
-            :tableColdata
+            : tableColdata
             ? JSON.parse(tableColdata)
             : this.props.columnData,
       },
       () => {}
     );
-    console.log(this.state);
+    const reduceAmountData = this.props?.data?.map((rd) => rd.amount);
+    const reduceAmountAuthData = this.props?.data?.map((rd) => rd.amount_auth);
+    const reduceTipData = this.props?.data.map((rt) => rt.tip);
+    const reduceTipTaxTotal = this.props?.data.map((rtt) => rtt.tip_tax);
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    const ReduceData =
+      reduceAmountData.length > 0 && reduceAmountData.reduce(reducer);
+    const ReduceTipData =
+      reduceTipData.length > 0 && reduceTipData.reduce(reducer);
+    const ReduceAmountAuth =
+      reduceAmountAuthData.length > 0 && reduceAmountAuthData.reduce(reducer);
+    const ReduceTipTaxData =
+      reduceTipTaxTotal.length > 0 && reduceTipTaxTotal.reduce(reducer);
+    this.setState({
+      amount_total: ReduceData,
+      amount_auth_total: ReduceAmountAuth,
+      tip_total: ReduceTipData,
+      tip_tax_total: ReduceTipTaxData,
+    });
   }
 
   searchedFunc = (input) => {
@@ -304,15 +353,98 @@ class EnhancedTable extends React.Component {
         head: headers,
         body: data,
       };
-    }
+    } else if (this.props.name === "Membership Payments") {
+      title = "Membership Payments";
+      const headers = [
+        [
+          "Amount",
+          "Card Number",
+          "Curremcy",
+          "Name",
+          "Tip",
+          "Tax",
+          "Tip Tax",
+          "Transaction Type",
+        ],
+      ];
+      const data = this.props.data.map((elt) => [
+        elt.amount,
+        elt.card_number,
+        elt.currency,
+        elt.first_name,
+        elt.tip,
+        elt.tax,
+        elt.tip_tax,
+        elt.txn_type,
+      ]);
 
+      content = {
+        startY: 50,
+        head: headers,
+        body: data,
+      };
+    } else if (this.props.name === "Cash Payments") {
+      const headers = [
+        [
+        "Amount",
+        "Curremcy",
+        "Tip",
+        "Tax",
+        "Tip Tax",
+        "Transaction Type",
+        ]
+      ];
+      const data = this.props.data.map((elt) => [
+        elt.amount,
+        elt.currency,
+        elt.tip,
+        elt.tax,
+        elt.tip_tax,
+        elt.txn_type,
+      ]);
+
+      content = {
+        startY: 50,
+        head: headers,
+        body: data,
+      };
+    } else if (this.props.name === "Cashless Payments") {
+      const headers = [
+        [
+        "Amount",
+        "Card Type",
+        "Currency",
+        "Name",
+        "Tip",
+        "Tax",
+        "Tip Tax",
+        "Transaction Type",
+        ]
+      ];
+      const data = this.props.data.map((elt) => [
+        elt.amount_auth,
+        elt.card_type,
+        elt.currency,
+        elt.first_name,
+        elt.tip,
+        elt.tax,
+        elt.tip_tax,
+        elt.txn_type,
+      ]);
+
+      content = {
+        startY: 50,
+        head: headers,
+        body: data,
+      };
+    }
+    
     doc.text(title, marginLeft, 40);
     doc.autoTable(content);
     doc.save("report.pdf");
   };
 
   setStartDate = (date) => {
-    console.log(date);
     let createdDate = this.props.data.map((i) => {
       return {
         date: new Date(i.date_created).getDate(),
@@ -331,7 +463,6 @@ class EnhancedTable extends React.Component {
   };
 
   setEndDate = (date) => {
-    console.log(date);
     let endDate = this.props.data.map((j) => {
       return {
         date: new Date(j.date_modified).getDate(),
@@ -372,10 +503,142 @@ class EnhancedTable extends React.Component {
     }
   };
 
+  setMemEndDate = (date) => {
+    const endDate = this.props.data.map((sd) => {
+      return {
+        date: new Date(sd.date_created).getDate(),
+        amount: sd.amount,
+        card_number: sd.card_number,
+        first_name: sd.first_name,
+        last_name: sd.last_name,
+        tip: sd.tip,
+        tip_tax: sd.tip_tax,
+        txn_type: sd.txn_type,
+      };
+    });
+    let filteredDates = endDate.filter((fd) => {
+      return fd.date > date.getDate();
+    });
+    this.setState({
+      renderer: filteredDates,
+    });
+  };
+
+  setMemStartDate = (date) => {
+    const startDate = this.props.data.map((sd) => {
+      return {
+        date: new Date(sd.date_modified).getDate(),
+        amount: sd.amount,
+        card_number: sd.card_number,
+        first_name: sd.first_name,
+        last_name: sd.last_name,
+        tip: sd.tip,
+        tip_tax: sd.tip_tax,
+        txn_type: sd.txn_type,
+      };
+    });
+    let filteredDates = startDate.filter((fd) => {
+      return fd.date > date.getDate();
+    });
+    this.setState({
+      renderer: filteredDates,
+    });
+  };
+
+  setCashlessStartDate = (date) => {
+    const startDate = this.props.data.map((sd) => {
+      return {
+        date: new Date(sd.date_modified).getDate(),
+        amount_auth: sd.amount_auth,
+        card_type: sd.card_type,
+        cc_last4: sd.cc_last4,
+        currency: sd.currency,
+        tip: sd.tip,
+        tip_tax: sd.tip_tax,
+        txn_type: sd.txn_type,
+      };
+    });
+    let filteredDates = startDate.filter((fd) => {
+      return fd.date > date.getDate();
+    });
+    this.setState({
+      renderer: filteredDates,
+    });
+  };
+
+  setCashlessEndDate = (date) => {
+    const startDate = this.props.data.map((sd) => {
+      return {
+        date: new Date(sd.date_created).getDate(),
+        amount_auth: sd.amount_auth,
+        card_type: sd.card_type,
+        cc_last4: sd.cc_last4,
+        currency: sd.currency,
+        tip: sd.tip,
+        tip_tax: sd.tip_tax,
+        txn_type: sd.txn_type,
+      };
+    });
+    let filteredDates = startDate.filter((fd) => {
+      return fd.date > date.getDate();
+    });
+    this.setState({
+      renderer: filteredDates,
+    });
+  };
+
+  setCashStartDate = (date) => {
+    const startDate = this.props.data.map((sd) => {
+      return {
+        date: new Date(sd.date_created).getDate(),
+        amount: sd.amount,
+        currency: sd.currency,
+        tip: sd.tip,
+        tip_tax: sd.tip_tax,
+        txn_type: sd.txn_type,
+      };
+    });
+    let filteredDates = startDate.filter((fd) => {
+      return fd.date > date.getDate();
+    });
+    this.setState({
+      renderer: filteredDates,
+    });
+  };
+
+  setCashEndDate = (date) => {
+    const startDate = this.props.data.map((sd) => {
+      return {
+        date: new Date(sd.date_modified).getDate(),
+        amount: sd.amount,
+        currency: sd.currency,
+        tip: sd.tip,
+        tip_tax: sd.tip_tax,
+        txn_type: sd.txn_type,
+      };
+    });
+    let filteredDates = startDate.filter((fd) => {
+      return fd.date > date.getDate();
+    });
+    this.setState({
+      renderer: filteredDates,
+    });
+  };
+
   render() {
     const { classes, data, name } = this.props;
-    const { order, orderBy, selected, rowsPerPage, page, renderer } =
-      this.state;
+    const {
+      order,
+      orderBy,
+      selected,
+      rowsPerPage,
+      page,
+      renderer,
+      amount_auth_total,
+      amount_total,
+      tip_total,
+      tip_tax_total,
+    } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     return (
@@ -390,6 +653,21 @@ class EnhancedTable extends React.Component {
           <DatePicker
             setEndDate={this.setEndDate}
             setStartDate={this.setStartDate}
+          />
+        ) : name === "Membership Payments" ? (
+          <DatePicker
+            setEndDate={this.setMemEndDate}
+            setStartDate={this.setMemStartDate}
+          />
+        ) : name === "Cashless Payments" ? (
+          <DatePicker
+            setEndDate={this.setCashlessEndDate}
+            setStartDate={this.setCashlessStartDate}
+          />
+        ) : name === "Cash Payments" ? (
+          <DatePicker
+            setEndDate={this.setCashEndDate}
+            setStartDate={this.setCashStartDate}
           />
         ) : null}
         <div className={classes.tableWrapper}>
@@ -427,6 +705,94 @@ class EnhancedTable extends React.Component {
                       value="config_type"
                     />
                   </ExcelSheet>
+                ) : name === "Membership Payments" ? (
+                  <ExcelSheet data={this.props.data} name="Membership Payments">
+                    <ExcelColumn label="Amount" value="amount" />
+                    <ExcelColumn
+                      label="Card number"
+                      value="card_number"
+                    />
+                     <ExcelColumn
+                      label="Currency"
+                      value="currency"
+                    />
+                     <ExcelColumn
+                      label="Name"
+                      value="first_name"
+                    />
+                     <ExcelColumn
+                      label="Tip"
+                      value="tip"
+                    />
+                     <ExcelColumn
+                      label="Tax"
+                      value="tax"
+                    />
+                     <ExcelColumn
+                      label="Tip Tax"
+                      value="tip_tax"
+                    />
+                     <ExcelColumn
+                      label="Transaction Type"
+                      value="txn_type"
+                    />
+                  </ExcelSheet>
+                ) : name === "Cash Payments" ? (
+                  <ExcelSheet data={this.props.data} name="Cash Payments">
+                    <ExcelColumn label="Amount" value="amount" />
+                     <ExcelColumn
+                      label="Currency"
+                      value="currency"
+                    />
+                     <ExcelColumn
+                      label="Tip"
+                      value="tip"
+                    />
+                     <ExcelColumn
+                      label="Tax"
+                      value="tax"
+                    />
+                     <ExcelColumn
+                      label="Tip Tax"
+                      value="tip_tax"
+                    />
+                     <ExcelColumn
+                      label="Transaction Type"
+                      value="txn_type"
+                    />
+                  </ExcelSheet>
+                ) : name === "Cashless Payments" ? (
+                  <ExcelSheet data={this.props.data} name="Cashless Payments">
+                  <ExcelColumn label="Amount" value="amount_auth" />
+                    <ExcelColumn
+                      label="Card Type"
+                      value="card_type"
+                    />
+                     <ExcelColumn
+                      label="Currency"
+                      value="currency"
+                    />
+                     <ExcelColumn
+                      label="Name"
+                      value="first_name"
+                    />
+                     <ExcelColumn
+                      label="Tip"
+                      value="tip"
+                    />
+                     <ExcelColumn
+                      label="Tax"
+                      value="tax"
+                    />
+                     <ExcelColumn
+                      label="Tip Tax"
+                      value="tip_tax"
+                    />
+                     <ExcelColumn
+                      label="Transaction Type"
+                      value="txn_type"
+                    />
+                  </ExcelSheet>
                 ) : null}
               </ExcelFile>
             </span>
@@ -459,6 +825,27 @@ class EnhancedTable extends React.Component {
                 >
                   <Button variant="contained">Download csv</Button>
                 </CSVLink>
+              ) : name === "Membership Payments" ? (
+                <CSVLink 
+                data={this.props.data}
+                headers={this.state.memberPaymentsHeader}
+                >
+                <Button variant="contained">Download csv</Button>
+              </CSVLink>
+              ) : name === "Cash Payments" ? (
+                <CSVLink 
+                data={this.props.data}
+                headers={this.state.cashPaymentsHeader}
+                >
+                <Button variant="contained">Download csv</Button>
+              </CSVLink>
+              ) : name === "Cashless Payments" ? (
+                <CSVLink 
+                data={this.props.data}
+                headers={this.state.cashlessPaymentsHeader}
+                >
+                <Button variant="contained">Download csv</Button>
+              </CSVLink>
               ) : null}
             </span>
           </div>
@@ -663,6 +1050,19 @@ class EnhancedTable extends React.Component {
               </div>
             )}
           </Table>
+          {name === "Transaction" ||
+          name === "Payment Profiles" ||
+          name === "Profile Items" ? null : (
+            <div className="totals">
+              {name === "Cashless Payments" ? (
+                <h3>Amount: {amount_auth_total}</h3>
+              ) : (
+                <h3>Amount Total: {amount_total} </h3>
+              )}
+              <h3>Tip: {tip_total}</h3>
+              <h3>Tip Tax: {tip_tax_total}</h3>
+            </div>
+          )}
         </div>
       </Paper>
     );

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import EnhancedTable from '../DndTable/Table'
 import { Context } from "../../store/Context"
-import { cols } from "./PaymentCols"
+import { cashCols } from "./PaymentCols"
 
 function CashPayment() {
     const [state] = useContext(Context)
@@ -12,7 +12,7 @@ function CashPayment() {
  console.log(data);
 
     return (
-          <EnhancedTable data={data} columnData={cols} name="Cash Payments" />
+          <EnhancedTable data={data} columnData={cashCols} name="Cash Payments" />
     )
 }
 

@@ -41,6 +41,7 @@
   /* margin-top: 9%;
   width: 120%; */
   margin-left: 2%;
+  min-height: 86vh;
 }
 
 @media only screen and (max-width: 600px) {
@@ -192,6 +193,7 @@
   margin-top: 15%;
   width: 50%;
   margin-left: 25%;
+  margin-bottom: 17%;
 }
 @media only screen and (max-width: 500px) {
   .login {
@@ -309,6 +311,7 @@
   background-color: blueviolet;
   max-height: 56em;
   overflow: auto;
+  height: 86vh;
 }
 
 @media only screen and (min-width: 800px) and (max-width: 1024px) {
@@ -476,3 +479,8 @@
 .printTable, th, td {
   border-top: 1px solid black;
 } */
+
+.totals {
+  display: flex;
+  justify-content: space-around;
+}
