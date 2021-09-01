@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Input from '../input/input';
-// import Axios from "axios"
 import { login } from "../../services/orderApi"
 import { useHistory } from "react-router-dom";
 import "../../App.css"
@@ -38,16 +32,6 @@ function Login() {
   }
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Login
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <div className="login">
         <h3 className="loginHead">Please enter login details</h3>
       <Input label="Email" placeholder="Please enter email" onChange={onInputChnage} />

@@ -9,7 +9,6 @@ function MemberPayment() {
         obj => !(obj && Object.keys(obj.membership_payment).length === 0)
       ).map(td => td.membership_payment);
  
- console.log(data);
 
     return (
           <EnhancedTable data={data} columnData={cols} name="Membership Payments" />

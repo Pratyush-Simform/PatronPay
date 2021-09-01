@@ -6,13 +6,13 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-// import Button from "@material-ui/core/Button"
+import { Button } from '@material-ui/core';
 
 function DatePicker({setEndDate, setStartDate}) {
-  // The first commit of Material-UI
   const [selectedStartDate, setSelecteStartDate] = React.useState(new Date());
   const [selectedEndDate, setSelecteEndDate] = React.useState(new Date());
-
+  const [newDate, setNewDate] = React.useState(0)
+  const [newEndDate, setNewEndDate] = React.useState(0)
 
   const handleStartDateChange = (date) => {
     setSelecteStartDate(date);
@@ -31,9 +31,42 @@ function DatePicker({setEndDate, setStartDate}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStartDate])
 
+  const handleAddDate = () => {
+    setNewDate(newDate + 1)
+  }
+
+  const handleAddEndDate = () => {
+    setNewEndDate(newEndDate + 1)
+  }
+
+  const handleSubtractDate = () => {
+    setNewDate(newDate - 1);
+  }
+
+  const handleSubEndDate = () => {
+    setNewEndDate(newEndDate - 1);
+  }
+
+  useEffect(() => {
+    selectedStartDate.setDate(selectedStartDate.getDate() + newDate)
+    setSelecteStartDate(selectedStartDate)
+    setNewDate(0)
+    setStartDate(selectedStartDate)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newDate])
+
+  useEffect(() => {
+    selectedEndDate.setDate(selectedEndDate.getDate() + newEndDate)
+    setSelecteEndDate(selectedEndDate)
+    setNewEndDate(0)
+    setEndDate(selectedEndDate)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newEndDate])
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container justify="space-around">
+        <Button variant="contained" color="primary"  onClick={handleSubtractDate}>-1 day</Button>
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
@@ -47,7 +80,12 @@ function DatePicker({setEndDate, setStartDate}) {
             'aria-label': 'change date',
           }}
         />
+        <Button variant="contained" color="primary"  onClick={handleAddDate}>+1 day</Button>
+
+        <Button variant="contained" color="primary" onClick={handleSubEndDate}>-1 day</Button>
         <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
           margin="normal"
           id="date-picker-dialog"
           label="End Date"
@@ -58,6 +96,7 @@ function DatePicker({setEndDate, setStartDate}) {
             'aria-label': 'change date',
           }}
         />
+        <Button variant="contained" color="primary" onClick={handleAddEndDate}>+1 day</Button>
       </Grid>
     </MuiPickersUtilsProvider>
   );

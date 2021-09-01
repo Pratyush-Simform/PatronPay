@@ -9,9 +9,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { MoreVert, Search } from "@material-ui/icons";
 import CancelIcon from "@material-ui/icons/Cancel";
-import AddModal from "../modals/AddModal"
-import { toolbarStyles } from "./styles"
-import "../../App.css"
+import AddModal from "../modals/AddModal";
+import { toolbarStyles } from "./styles";
+import "../../App.css";
 
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData } = props;
@@ -31,15 +31,22 @@ let EnhancedTableToolbar = (props) => {
         // console.log(event.key);
         // var key = event.keyCode || event.charCode;
         if (!(event.key === "Backspace")) {
-          if(props.title === "Profile Items"){
-            let filData = itemCopy.filter(j => j.description.includes(searchInput))
-            searchedData(filData)
-          }else if (props.title === "Transaction") {
-          let filData = itemCopy.filter((i) => i.trs_type.includes(searchInput));
-          searchedData(filData);
-          } else if (props.title === "Payment Profiles"){
-            let filData = itemCopy.filter(k => k.name.includes(searchInput));
-          searchedData(filData);
+          if (props.title === "Profile Items") {
+            let filData = itemCopy.filter((j) =>
+              j.description.includes(searchInput)
+            );
+            searchedData(filData);
+          } else if (props.title === "Transaction") {
+            let filData = itemCopy.filter((i) =>
+              i.trs_type.includes(searchInput)
+            );
+            searchedData(filData);
+          } else if (props.title === "Payment Profiles") {
+            let filData = itemCopy.filter((k) => k.name.includes(searchInput));
+            searchedData(filData);
+          } else if (props.title === "Membership Payments") {
+            let filData = itemCopy.filter((k) => k.first_name.includes(searchInput));
+            searchedData(filData);
           }
         } else {
           searchedData([]);
@@ -88,9 +95,7 @@ let EnhancedTableToolbar = (props) => {
             <Tooltip title="Filter list">
               <IconButton aria-label="Filter list">
                 <Search onClick={() => setSearch(true)} />
-                {title === "Profile Items" ? 
-                <AddModal />
-                : null}
+                {title === "Profile Items" ? <AddModal /> : null}
                 <MoreVert />
               </IconButton>
             </Tooltip>
