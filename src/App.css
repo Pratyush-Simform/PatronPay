@@ -41,7 +41,7 @@
   /* margin-top: 9%;
   width: 120%; */
   margin-left: 2%;
-  min-height: 86vh;
+  min-height: 88vh;
 }
 
 @media only screen and (max-width: 600px) {
@@ -257,7 +257,7 @@
 }
 
 .toolHead {
-  display: flex;
+  display: none;
 }
 
 .btnMargin {
@@ -311,7 +311,7 @@
   background-color: blueviolet;
   max-height: 56em;
   overflow: auto;
-  height: 86vh;
+  height: 88vh;
 }
 
 @media only screen and (min-width: 800px) and (max-width: 1024px) {
