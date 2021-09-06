@@ -98,7 +98,7 @@ class EnhancedTable extends React.Component {
       ],
       columnData: [],
       page: 0,
-      rowsPerPage: 15,
+      rowsPerPage: 6,
       amount_auth_total: 0,
       tip_total: 0,
       tip_tax_total: 0,
