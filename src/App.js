@@ -6,6 +6,7 @@ import MemberPayment from "./components/payments/MemberPayment";
 import CardPayments from "./components/payments/CardPayments";
 import CashPayments from "./components/payments/CashPayments";
 import Layout from "./layout/Layout";
+import Users from "./components/users/Users";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ProfileItems from "./components/profile/ProfileItems";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/cashlessPayments" component={CardPayments} />
         <Route path="/cashPayments" component={CashPayments} />
         <Route path="/orders" component={Order} />
+        <Route path="/users" component={Users} />
         <Route path exact="/" component={Login} />
       </Layout>
     </Router>

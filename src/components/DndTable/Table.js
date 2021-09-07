@@ -15,6 +15,7 @@ import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import EnhancedTableHead from "./EnhancedTableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import EditModal from "../modals/EditModal";
+import EditUserModal from "../modals/EditUserModal";
 import "../../App.css";
 import ReactExport from "react-data-export";
 import jsPDF from "jspdf";
@@ -25,6 +26,8 @@ import Dropdown from "../input/Dropdown";
 import Button from "@material-ui/core/Button";
 import { styles } from "./styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { deleteUsers } from "../../services/userApi";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -69,32 +72,32 @@ class EnhancedTable extends React.Component {
         { label: "Name", key: "name" },
       ],
       memberPaymentsHeader: [
-        {label: "Amount", key: "amount"},
-        {label: "Card number", key: "card_number"},
-        {label: "Currency", key: "currency"},
-        {label: "Name", key: "first_name"},
-        {label: "Tip", key: "tip"},
-        {label: "Tax", key: "tax"},
-        {label: "Tip Tax", key: "tip_tax"},
-        {label: "Transaction Type", key: "txn_type"}
+        { label: "Amount", key: "amount" },
+        { label: "Card number", key: "card_number" },
+        { label: "Currency", key: "currency" },
+        { label: "Name", key: "first_name" },
+        { label: "Tip", key: "tip" },
+        { label: "Tax", key: "tax" },
+        { label: "Tip Tax", key: "tip_tax" },
+        { label: "Transaction Type", key: "txn_type" },
       ],
       cashPaymentsHeader: [
-        {label: "Amount", key: "amount"},
-        {label: "Currency", key: "currency"},
-        {label: "Tip", key: "tip"},
-        {label: "Tax", key: "tax"},
-        {label: "Tip Tax", key: "tip_tax"},
-        {label: "Transaction Type", key: "txn_type"}
+        { label: "Amount", key: "amount" },
+        { label: "Currency", key: "currency" },
+        { label: "Tip", key: "tip" },
+        { label: "Tax", key: "tax" },
+        { label: "Tip Tax", key: "tip_tax" },
+        { label: "Transaction Type", key: "txn_type" },
       ],
       cashlessPaymentsHeader: [
-        {label: "Amount", key: "amount_auth"},
-        {label: "Card type", key: "card_type"},
-        {label: "Currency", key: "currency"},
-        {label: "Name", key: "first_name"},
-        {label: "Tip", key: "tip"},
-        {label: "Tax", key: "tax"},
-        {label: "Tip Tax", key: "tip_tax"},
-        {label: "Transaction Type", key: "txn_type"}
+        { label: "Amount", key: "amount_auth" },
+        { label: "Card type", key: "card_type" },
+        { label: "Currency", key: "currency" },
+        { label: "Name", key: "first_name" },
+        { label: "Tip", key: "tip" },
+        { label: "Tax", key: "tax" },
+        { label: "Tip Tax", key: "tip_tax" },
+        { label: "Transaction Type", key: "txn_type" },
       ],
       columnData: [],
       page: 0,
@@ -385,14 +388,7 @@ class EnhancedTable extends React.Component {
       };
     } else if (this.props.name === "Cash Payments") {
       const headers = [
-        [
-        "Amount",
-        "Curremcy",
-        "Tip",
-        "Tax",
-        "Tip Tax",
-        "Transaction Type",
-        ]
+        ["Amount", "Curremcy", "Tip", "Tax", "Tip Tax", "Transaction Type"],
       ];
       const data = this.props.data.map((elt) => [
         elt.amount,
@@ -411,15 +407,15 @@ class EnhancedTable extends React.Component {
     } else if (this.props.name === "Cashless Payments") {
       const headers = [
         [
-        "Amount",
-        "Card Type",
-        "Currency",
-        "Name",
-        "Tip",
-        "Tax",
-        "Tip Tax",
-        "Transaction Type",
-        ]
+          "Amount",
+          "Card Type",
+          "Currency",
+          "Name",
+          "Tip",
+          "Tax",
+          "Tip Tax",
+          "Transaction Type",
+        ],
       ];
       const data = this.props.data.map((elt) => [
         elt.amount_auth,
@@ -438,7 +434,7 @@ class EnhancedTable extends React.Component {
         body: data,
       };
     }
-    
+
     doc.text(title, marginLeft, 40);
     doc.autoTable(content);
     doc.save("report.pdf");
@@ -625,6 +621,10 @@ class EnhancedTable extends React.Component {
     });
   };
 
+  handleDelete = (row) => {
+    deleteUsers(row.id);
+    window.location.reload();
+  }
   render() {
     const { classes, data, name } = this.props;
     const {
@@ -708,90 +708,33 @@ class EnhancedTable extends React.Component {
                 ) : name === "Membership Payments" ? (
                   <ExcelSheet data={this.props.data} name="Membership Payments">
                     <ExcelColumn label="Amount" value="amount" />
-                    <ExcelColumn
-                      label="Card number"
-                      value="card_number"
-                    />
-                     <ExcelColumn
-                      label="Currency"
-                      value="currency"
-                    />
-                     <ExcelColumn
-                      label="Name"
-                      value="first_name"
-                    />
-                     <ExcelColumn
-                      label="Tip"
-                      value="tip"
-                    />
-                     <ExcelColumn
-                      label="Tax"
-                      value="tax"
-                    />
-                     <ExcelColumn
-                      label="Tip Tax"
-                      value="tip_tax"
-                    />
-                     <ExcelColumn
-                      label="Transaction Type"
-                      value="txn_type"
-                    />
+                    <ExcelColumn label="Card number" value="card_number" />
+                    <ExcelColumn label="Currency" value="currency" />
+                    <ExcelColumn label="Name" value="first_name" />
+                    <ExcelColumn label="Tip" value="tip" />
+                    <ExcelColumn label="Tax" value="tax" />
+                    <ExcelColumn label="Tip Tax" value="tip_tax" />
+                    <ExcelColumn label="Transaction Type" value="txn_type" />
                   </ExcelSheet>
                 ) : name === "Cash Payments" ? (
                   <ExcelSheet data={this.props.data} name="Cash Payments">
                     <ExcelColumn label="Amount" value="amount" />
-                     <ExcelColumn
-                      label="Currency"
-                      value="currency"
-                    />
-                     <ExcelColumn
-                      label="Tip"
-                      value="tip"
-                    />
-                     <ExcelColumn
-                      label="Tax"
-                      value="tax"
-                    />
-                     <ExcelColumn
-                      label="Tip Tax"
-                      value="tip_tax"
-                    />
-                     <ExcelColumn
-                      label="Transaction Type"
-                      value="txn_type"
-                    />
+                    <ExcelColumn label="Currency" value="currency" />
+                    <ExcelColumn label="Tip" value="tip" />
+                    <ExcelColumn label="Tax" value="tax" />
+                    <ExcelColumn label="Tip Tax" value="tip_tax" />
+                    <ExcelColumn label="Transaction Type" value="txn_type" />
                   </ExcelSheet>
                 ) : name === "Cashless Payments" ? (
                   <ExcelSheet data={this.props.data} name="Cashless Payments">
-                  <ExcelColumn label="Amount" value="amount_auth" />
-                    <ExcelColumn
-                      label="Card Type"
-                      value="card_type"
-                    />
-                     <ExcelColumn
-                      label="Currency"
-                      value="currency"
-                    />
-                     <ExcelColumn
-                      label="Name"
-                      value="first_name"
-                    />
-                     <ExcelColumn
-                      label="Tip"
-                      value="tip"
-                    />
-                     <ExcelColumn
-                      label="Tax"
-                      value="tax"
-                    />
-                     <ExcelColumn
-                      label="Tip Tax"
-                      value="tip_tax"
-                    />
-                     <ExcelColumn
-                      label="Transaction Type"
-                      value="txn_type"
-                    />
+                    <ExcelColumn label="Amount" value="amount_auth" />
+                    <ExcelColumn label="Card Type" value="card_type" />
+                    <ExcelColumn label="Currency" value="currency" />
+                    <ExcelColumn label="Name" value="first_name" />
+                    <ExcelColumn label="Tip" value="tip" />
+                    <ExcelColumn label="Tax" value="tax" />
+                    <ExcelColumn label="Tip Tax" value="tip_tax" />
+                    <ExcelColumn label="Transaction Type" value="txn_type" />
                   </ExcelSheet>
                 ) : null}
               </ExcelFile>
@@ -826,26 +769,26 @@ class EnhancedTable extends React.Component {
                   <Button variant="contained">Download csv</Button>
                 </CSVLink>
               ) : name === "Membership Payments" ? (
-                <CSVLink 
-                data={this.props.data}
-                headers={this.state.memberPaymentsHeader}
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.memberPaymentsHeader}
                 >
-                <Button variant="contained">Download csv</Button>
-              </CSVLink>
+                  <Button variant="contained">Download csv</Button>
+                </CSVLink>
               ) : name === "Cash Payments" ? (
-                <CSVLink 
-                data={this.props.data}
-                headers={this.state.cashPaymentsHeader}
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.cashPaymentsHeader}
                 >
-                <Button variant="contained">Download csv</Button>
-              </CSVLink>
+                  <Button variant="contained">Download csv</Button>
+                </CSVLink>
               ) : name === "Cashless Payments" ? (
-                <CSVLink 
-                data={this.props.data}
-                headers={this.state.cashlessPaymentsHeader}
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.cashlessPaymentsHeader}
                 >
-                <Button variant="contained">Download csv</Button>
-              </CSVLink>
+                  <Button variant="contained">Download csv</Button>
+                </CSVLink>
               ) : null}
             </span>
           </div>
@@ -953,7 +896,8 @@ class EnhancedTable extends React.Component {
                                     })}
                                     <div className="toolHead">
                                       {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
-                                      <EditModal row={n} />
+                                      <EditUserModal row={n} />
+                                      <DeleteIcon onClick={() => this.handleDelete(n)} />
                                     </div>
                                   </TableRow>
                                 </TableBody>
@@ -1025,12 +969,13 @@ class EnhancedTable extends React.Component {
                                         </TableCell>
                                       );
                                     })}
-                                    <div className="toolHead">
-                                      {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
-                                      {this.props.name === "Transaction" ? (
-                                        <EditModal row={n} />
-                                      ) : null}
-                                    </div>
+                                    {name === "Users" ? (
+                                      <div className="toolHead">
+                                        {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
+                                        <EditUserModal row={n} />
+                                        <DeleteIcon onClick={() => this.handleDelete(n)}/>
+                                      </div>
+                                    ) : null}
                                   </TableRow>
                                 </TableBody>
                               </Table>
@@ -1052,7 +997,8 @@ class EnhancedTable extends React.Component {
           </Table>
           {name === "Transaction" ||
           name === "Payment Profiles" ||
-          name === "Profile Items" ? null : (
+          name === "Profile Items" ||
+          name === "Users" ? null : (
             <div className="totals">
               {name === "Cashless Payments" ? (
                 <h3>Amount: {amount_auth_total}</h3>

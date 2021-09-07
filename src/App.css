@@ -257,7 +257,7 @@
 }
 
 .toolHead {
-  display: none;
+  display: flex;
 }
 
 .btnMargin {
@@ -483,4 +483,8 @@
 .totals {
   display: flex;
   justify-content: space-around;
+}
+
+.editUserInput{
+  width: 100%;
 }

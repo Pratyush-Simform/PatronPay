@@ -10,11 +10,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { MoreVert, Search } from "@material-ui/icons";
 import CancelIcon from "@material-ui/icons/Cancel";
 import AddModal from "../modals/AddModal";
+import EditUserModal from "../modals/EditUserModal";
 import { toolbarStyles } from "./styles";
 import "../../App.css";
 
 let EnhancedTableToolbar = (props) => {
-  const { numSelected, classes, title, items, searchedData } = props;
+  const { numSelected, classes, title, items, searchedData, rows} = props;
   console.log(props);
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -96,6 +97,7 @@ let EnhancedTableToolbar = (props) => {
               <IconButton aria-label="Filter list">
                 <Search onClick={() => setSearch(true)} />
                 {title === "Profile Items" ? <AddModal /> : null}
+                {title === "Users" ? <EditUserModal name="ADD" /> : null}
                 <MoreVert />
               </IconButton>
             </Tooltip>
