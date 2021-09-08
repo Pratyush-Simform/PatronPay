@@ -14,6 +14,7 @@ function ProfileItems() {
       setData(response.data.data.results);
       setId(response.data.data.results[0].pcf_id);
     }) 
+    .catch((err) => console.error(err));
   }, [id]);
   return (
     <div className="profile">
