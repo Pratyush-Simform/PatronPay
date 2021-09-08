@@ -14,7 +14,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import EnhancedTableHead from "./EnhancedTableHead";
 import TablePagination from "@material-ui/core/TablePagination";
-import EditModal from "../modals/EditModal";
 import EditUserModal from "../modals/EditUserModal";
 import "../../App.css";
 import ReactExport from "react-data-export";
@@ -98,6 +97,11 @@ class EnhancedTable extends React.Component {
         { label: "Tax", key: "tax" },
         { label: "Tip Tax", key: "tip_tax" },
         { label: "Transaction Type", key: "txn_type" },
+      ],
+      users: [
+        {label: "Email", key: "email"},
+        {label: "First Name", key: "first_name"},
+        {label: "Last Name", key: "last_name"}
       ],
       columnData: [],
       page: 0,
@@ -433,6 +437,19 @@ class EnhancedTable extends React.Component {
         head: headers,
         body: data,
       };
+    } else if (this.props.name === "Users") {
+      const headers = [["email", "first_name", "last_name"]];
+      const data = this.props.data.map((elt) => [
+        elt.email,
+        elt.first_name,
+        elt.last_name,
+      ]);
+
+      content = {
+        startY: 50,
+        head: headers,
+        body: data,
+      };
     }
 
     doc.text(title, marginLeft, 40);
@@ -624,7 +641,7 @@ class EnhancedTable extends React.Component {
   handleDelete = (row) => {
     deleteUsers(row.id);
     window.location.reload();
-  }
+  };
   render() {
     const { classes, data, name } = this.props;
     const {
@@ -736,6 +753,12 @@ class EnhancedTable extends React.Component {
                     <ExcelColumn label="Tip Tax" value="tip_tax" />
                     <ExcelColumn label="Transaction Type" value="txn_type" />
                   </ExcelSheet>
+                ) : name === "Users" ? (
+                  <ExcelSheet data={this.props.data} name="Users">
+                  <ExcelColumn label="Email" value="email" />
+                  <ExcelColumn label="First Name" value="first_name" />
+                  <ExcelColumn label="Last Name" value="last_name" />
+                </ExcelSheet>
                 ) : null}
               </ExcelFile>
             </span>
@@ -786,6 +809,13 @@ class EnhancedTable extends React.Component {
                 <CSVLink
                   data={this.props.data}
                   headers={this.state.cashlessPaymentsHeader}
+                >
+                  <Button variant="contained">Download csv</Button>
+                </CSVLink>
+              ) : name === "Users" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.users}
                 >
                   <Button variant="contained">Download csv</Button>
                 </CSVLink>
@@ -897,7 +927,9 @@ class EnhancedTable extends React.Component {
                                     <div className="toolHead">
                                       {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
                                       <EditUserModal row={n} />
-                                      <DeleteIcon onClick={() => this.handleDelete(n)} />
+                                      <DeleteIcon
+                                        onClick={() => this.handleDelete(n)}
+                                      />
                                     </div>
                                   </TableRow>
                                 </TableBody>
@@ -973,7 +1005,9 @@ class EnhancedTable extends React.Component {
                                       <div className="toolHead">
                                         {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
                                         <EditUserModal row={n} />
-                                        <DeleteIcon onClick={() => this.handleDelete(n)}/>
+                                        <DeleteIcon
+                                          onClick={() => this.handleDelete(n)}
+                                        />
                                       </div>
                                     ) : null}
                                   </TableRow>

@@ -15,7 +15,7 @@ import { toolbarStyles } from "./styles";
 import "../../App.css";
 
 let EnhancedTableToolbar = (props) => {
-  const { numSelected, classes, title, items, searchedData, rows} = props;
+  const { numSelected, classes, title, items, searchedData} = props;
   console.log(props);
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -46,6 +46,9 @@ let EnhancedTableToolbar = (props) => {
             let filData = itemCopy.filter((k) => k.name.includes(searchInput));
             searchedData(filData);
           } else if (props.title === "Membership Payments") {
+            let filData = itemCopy.filter((k) => k.first_name.includes(searchInput));
+            searchedData(filData);
+          } else if (props.title === "Users") {
             let filData = itemCopy.filter((k) => k.first_name.includes(searchInput));
             searchedData(filData);
           }
