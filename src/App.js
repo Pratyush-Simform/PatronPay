@@ -1,4 +1,4 @@
-import React from "react"
+import React, {Suspense} from "react"
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Layout from "./layout/Layout"
@@ -15,6 +15,7 @@ const PaymentProfiles = React.lazy(() => import('./components/profile/PaymentPro
 
 function App() {
   return (
+    <Suspense fallback={"...loading"}>
     <Router>
       <Layout>
         <Route path="/transaction" component={Transaction} />
@@ -28,6 +29,7 @@ function App() {
         <Route path exact="/" component={Login} />
       </Layout>
     </Router>
+    </Suspense>
   );
 }
 
