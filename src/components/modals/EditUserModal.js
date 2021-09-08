@@ -13,11 +13,20 @@ import TextField from "@material-ui/core/TextField";
 import { addUsers, editUsers, getUsers } from "../../services/userApi"
 import { Context } from "../../store/Context";
 import {Constants} from "../DndTable/Constants"
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 function EditUserModal({ row, name }) {
   const classes = useStyles();
+  const [snackState, setsnackState] = React.useState({
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const [snackMsg, setSnackMsg] = React.useState("")
+  const { vertical, horizontal } = snackState;
   const [open, setOpen] = React.useState(false);
   const [state, dispatch] = useContext(Context)
+  const [snackbar, setSnackbar] = React.useState(false)
 
   const handleOpen = () => {
     setOpen(true);
@@ -26,6 +35,10 @@ function EditUserModal({ row, name }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSnackClose = () => {
+    setsnackState({ ...snackState, open: false });
   };
 
   const formik = useFormik({
@@ -37,16 +50,31 @@ function EditUserModal({ row, name }) {
     },
     onSubmit: (values) => {
      if(name === Constants.ADD) {
-         addUsers(values).then(() => getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
+         addUsers(values).then(() => getUsers()
+         .then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
+         .catch(() => setSnackMsg("Cannot Create User"), setSnackbar(true))
+         setSnackMsg("User Created Succesfully")
+         setSnackbar(true)
          setOpen(false);
      }else {
-         editUsers(row.id, values).then(() => getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
+         editUsers(row.id, values)
+         .then(() => getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
+         .catch(() => setSnackMsg("Cannot Edit User"), setSnackbar(true))
+         setSnackMsg("User Edited Succesfully")
+         setSnackbar(true)
          setOpen(false);
      }
     },
   });
   return (
     <>
+    <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={snackbar}
+        onClose={handleSnackClose}
+        message={snackMsg}
+        key={vertical + horizontal}
+      />
       <span type="button" onClick={handleOpen}>
         {name ===  Constants.ADD ? <AddIcon /> : <EditIcon />}
       </span>

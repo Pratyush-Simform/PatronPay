@@ -15,8 +15,8 @@ const PaymentProfiles = React.lazy(() => import('./components/profile/PaymentPro
 
 function App() {
   return (
-    <Suspense fallback={"...loading"}>
     <Router>
+      <Suspense fallback={"...loading"}>
       <Layout>
         <Route path="/transaction" component={Transaction} />
         <Route path="/profile" component={ProfileItems} />
@@ -28,8 +28,8 @@ function App() {
         <Route path="/users" component={Users} />
         <Route path exact="/" component={Login} />
       </Layout>
-    </Router>
     </Suspense>
+    </Router>
   );
 }
 
