@@ -79,6 +79,7 @@ function EditUserModal({ row, name }) {
                     variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.email}
+                    className="text"
                   />
                   <TextField
                     id="outlined-basic"
@@ -112,7 +113,7 @@ function EditUserModal({ row, name }) {
                   />
                 </div>
                 <div className="profileSubmitBtn">
-                  <button type="submit">Submit</button>
+                  <button className="btn" type="submit">Submit</button>
                 </div>
               </form>
             </div>
