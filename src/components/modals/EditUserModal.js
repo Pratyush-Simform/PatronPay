@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -10,14 +10,18 @@ import { useFormik } from "formik";
 import "../../App.css";
 import { useStyles } from "./styles";
 import TextField from "@material-ui/core/TextField";
-import { addUsers, editUsers } from "../../services/userApi"
+import { addUsers, editUsers, getUsers } from "../../services/userApi"
+import { Context } from "../../store/Context";
+import {Constants} from "../DndTable/Constants"
 
 function EditUserModal({ row, name }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [state, dispatch] = useContext(Context)
 
   const handleOpen = () => {
     setOpen(true);
+    console.log(state);
   };
 
   const handleClose = () => {
@@ -26,27 +30,25 @@ function EditUserModal({ row, name }) {
 
   const formik = useFormik({
     initialValues: {
-      email: row?.email ? row.email : "",
-      first_name: row?.first_name ? row.first_name : "",
-      last_name: row?.last_name ? row.last_name : "",
+      email: row?.email || "",
+      first_name: row?.first_name || "",
+      last_name: row?.last_name || "",
       password: "",
     },
     onSubmit: (values) => {
-     if(name === "ADD") {
-         addUsers(values)
+     if(name === Constants.ADD) {
+         addUsers(values).then(() => getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
          setOpen(false);
-         window.location.reload();
      }else {
-         editUsers(row.id, values)
+         editUsers(row.id, values).then(() => getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
          setOpen(false);
-         window.location.reload();
      }
     },
   });
   return (
-    <div>
+    <>
       <span type="button" onClick={handleOpen}>
-        {name === "ADD" ? <AddIcon /> : <EditIcon />}
+        {name ===  Constants.ADD ? <AddIcon /> : <EditIcon />}
       </span>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -62,7 +64,7 @@ function EditUserModal({ row, name }) {
       >
         <Fade in={open}>
           <div className="paper">
-            {name === "ADD" ? (
+            {Constants.ADD ? (
               <h2 id="transition-modal-title">Add Users</h2>
             ) : (
               <h2 id="transition-modal-title">Edit Users</h2>
@@ -120,8 +122,8 @@ function EditUserModal({ row, name }) {
           </div>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }
 
-export default EditUserModal;
+export default React.memo(EditUserModal);

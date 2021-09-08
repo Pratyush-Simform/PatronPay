@@ -13,9 +13,10 @@ import AddModal from "../modals/AddModal";
 import EditUserModal from "../modals/EditUserModal";
 import { toolbarStyles } from "./styles";
 import "../../App.css";
+import { Constants } from "./Constants"
 
 let EnhancedTableToolbar = (props) => {
-  const { numSelected, classes, title, items, searchedData} = props;
+  const { numSelected, classes, title, items, searchedData, updatedUsers} = props;
   console.log(props);
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -29,8 +30,6 @@ let EnhancedTableToolbar = (props) => {
     var input = document.getElementById("myInput");
     if (input) {
       input.onkeydown = function (event) {
-        // console.log(event.key);
-        // var key = event.keyCode || event.charCode;
         if (!(event.key === "Backspace")) {
           if (props.title === "Profile Items") {
             let filData = itemCopy.filter((j) =>
@@ -58,7 +57,7 @@ let EnhancedTableToolbar = (props) => {
       };
     }
   });
-
+console.log(updatedUsers, 59);
   return (
     <Toolbar
       className={classNames(classes.root, {
@@ -100,7 +99,7 @@ let EnhancedTableToolbar = (props) => {
               <IconButton aria-label="Filter list">
                 <Search onClick={() => setSearch(true)} />
                 {title === "Profile Items" ? <AddModal /> : null}
-                {title === "Users" ? <EditUserModal name="ADD" /> : null}
+                {title === "Users" ? <EditUserModal name={Constants.ADD} /> : null}
                 <MoreVert />
               </IconButton>
             </Tooltip>

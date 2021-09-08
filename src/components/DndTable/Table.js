@@ -26,7 +26,8 @@ import Button from "@material-ui/core/Button";
 import { styles } from "./styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { deleteUsers } from "../../services/userApi";
+import { deleteUsers, getUsers } from "../../services/userApi";
+import { withContext } from "../../store/WithContext";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -99,9 +100,9 @@ class EnhancedTable extends React.Component {
         { label: "Transaction Type", key: "txn_type" },
       ],
       users: [
-        {label: "Email", key: "email"},
-        {label: "First Name", key: "first_name"},
-        {label: "Last Name", key: "last_name"}
+        { label: "Email", key: "email" },
+        { label: "First Name", key: "first_name" },
+        { label: "Last Name", key: "last_name" },
       ],
       columnData: [],
       page: 0,
@@ -639,9 +640,13 @@ class EnhancedTable extends React.Component {
   };
 
   handleDelete = (row) => {
-    deleteUsers(row.id);
-    window.location.reload();
+    deleteUsers(row.id).then(() =>
+      getUsers().then((res) =>
+        this.setState({ renderer: res.data.data.results })
+      )
+    );
   };
+
   render() {
     const { classes, data, name } = this.props;
     const {
@@ -663,7 +668,7 @@ class EnhancedTable extends React.Component {
         <EnhancedTableToolbar
           title={name}
           numSelected={selected.length}
-          items={this.props.data}
+          items={data}
           searchedData={this.searchedFunc}
         />
         {name === "Transaction" ? (
@@ -755,10 +760,10 @@ class EnhancedTable extends React.Component {
                   </ExcelSheet>
                 ) : name === "Users" ? (
                   <ExcelSheet data={this.props.data} name="Users">
-                  <ExcelColumn label="Email" value="email" />
-                  <ExcelColumn label="First Name" value="first_name" />
-                  <ExcelColumn label="Last Name" value="last_name" />
-                </ExcelSheet>
+                    <ExcelColumn label="Email" value="email" />
+                    <ExcelColumn label="First Name" value="first_name" />
+                    <ExcelColumn label="Last Name" value="last_name" />
+                  </ExcelSheet>
                 ) : null}
               </ExcelFile>
             </span>
@@ -813,10 +818,7 @@ class EnhancedTable extends React.Component {
                   <Button variant="contained">Download csv</Button>
                 </CSVLink>
               ) : name === "Users" ? (
-                <CSVLink
-                  data={this.props.data}
-                  headers={this.state.users}
-                >
+                <CSVLink data={this.props.data} headers={this.state.users}>
                   <Button variant="contained">Download csv</Button>
                 </CSVLink>
               ) : null}
@@ -1053,4 +1055,4 @@ EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnhancedTable);
+export default withContext(withStyles(styles)(EnhancedTable));

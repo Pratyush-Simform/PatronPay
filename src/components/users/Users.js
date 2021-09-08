@@ -1,20 +1,24 @@
-import React, {useState, useEffect} from 'react'
-import { getUsers } from "../../services/userApi"
-import { cols } from "./userColumns"
-import EnhancedTable from "../DndTable/Table"
+import React, { useEffect, useContext } from "react";
+import { getUsers } from "../../services/userApi";
+import { cols } from "./userColumns";
+import EnhancedTable from "../DndTable/Table";
+import { Context } from "../../store/Context";
 
 function Users() {
-    const [data, setData] = useState([]);
+  const [state, dispatch] = useContext(Context)
 
-    useEffect(() => {
-    getUsers().then(res => setData(res.data.data.results));
-    }, [])
+  const getUserList = () => {
+    getUsers()
+    .then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results}))
+    .catch((err) => console.error(err));
+  }
 
-    return (
-        <div>
-          <EnhancedTable data={data} columnData={cols} name="Users" />
-        </div>
-    )
+  useEffect(() => {
+    getUserList()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <EnhancedTable data={state.userData} columnData={cols} name="Users" />;
 }
 
-export default Users
+export default Users;

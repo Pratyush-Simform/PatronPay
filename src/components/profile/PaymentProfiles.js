@@ -10,6 +10,7 @@ function PaymentProfiles() {
         getPaymentProfiles().then(response => {
             setData(response.data.data.results);
         })
+        .catch((err) => console.error(err));
     }, [])
 
     return (
