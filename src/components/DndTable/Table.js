@@ -28,6 +28,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteUsers, getUsers } from "../../services/userApi";
 import { withContext } from "../../store/WithContext";
+import Snackbar from '@material-ui/core/Snackbar';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -104,6 +105,10 @@ class EnhancedTable extends React.Component {
         { label: "First Name", key: "first_name" },
         { label: "Last Name", key: "last_name" },
       ],
+      snackbar: false,
+      vertical: 'top',
+      horizontal: 'center',
+      snackMsg: "",
       columnData: [],
       page: 0,
       rowsPerPage: 6,
@@ -642,9 +647,13 @@ class EnhancedTable extends React.Component {
   handleDelete = (row) => {
     deleteUsers(row.id).then(() =>
       getUsers().then((res) =>
-        this.setState({ renderer: res.data.data.results })
-      )
+        this.setState({ renderer: res.data.data.results, snackbar: true, snackMsg: "User Deleted Succesfully" })
+      ).catch(() => this.setState({snackbar: true, snackMsg: "Could Delete User" }))
     );
+  };
+
+  handleClose = () => {
+    this.setState({ snackbar: false });
   };
 
   render() {
@@ -660,11 +669,22 @@ class EnhancedTable extends React.Component {
       amount_total,
       tip_total,
       tip_tax_total,
+      vertical,
+      horizontal,
+      snackbar,
+      snackMsg,
     } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     return (
       <Paper className="searchBox">
+        <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={snackbar}
+        onClose={this.handleClose}
+        message={snackMsg}
+        key={vertical + horizontal}
+      />
         <EnhancedTableToolbar
           title={name}
           numSelected={selected.length}
