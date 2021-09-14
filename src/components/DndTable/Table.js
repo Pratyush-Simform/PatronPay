@@ -28,7 +28,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteUsers, getUsers } from "../../services/userApi";
 import { withContext } from "../../store/WithContext";
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar from "@material-ui/core/Snackbar";
+import ExportTransactions from "../modals/ExportTranactions";
+import AddModal from "../modals/AddModal";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -106,8 +108,8 @@ class EnhancedTable extends React.Component {
         { label: "Last Name", key: "last_name" },
       ],
       snackbar: false,
-      vertical: 'top',
-      horizontal: 'center',
+      vertical: "top",
+      horizontal: "center",
       snackMsg: "",
       columnData: [],
       page: 0,
@@ -646,9 +648,17 @@ class EnhancedTable extends React.Component {
 
   handleDelete = (row) => {
     deleteUsers(row.id).then(() =>
-      getUsers().then((res) =>
-        this.setState({ renderer: res.data.data.results, snackbar: true, snackMsg: "User Deleted Succesfully" })
-      ).catch(() => this.setState({snackbar: true, snackMsg: "Could Delete User" }))
+      getUsers()
+        .then((res) =>
+          this.setState({
+            renderer: res.data.data.results,
+            snackbar: true,
+            snackMsg: "User Deleted Succesfully",
+          })
+        )
+        .catch(() =>
+          this.setState({ snackbar: true, snackMsg: "Could Delete User" })
+        )
     );
   };
 
@@ -679,12 +689,12 @@ class EnhancedTable extends React.Component {
     return (
       <Paper className="searchBox">
         <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        open={snackbar}
-        onClose={this.handleClose}
-        message={snackMsg}
-        key={vertical + horizontal}
-      />
+          anchorOrigin={{ vertical, horizontal }}
+          open={snackbar}
+          onClose={this.handleClose}
+          message={snackMsg}
+          key={vertical + horizontal}
+        />
         <EnhancedTableToolbar
           title={name}
           numSelected={selected.length}
@@ -720,7 +730,16 @@ class EnhancedTable extends React.Component {
             />
           </span>
           <div className="buttonGrp">
+            {name === "Transction" ? <ExportTransactions data={data} /> : null}
             <span className="btnMargin">
+              {name === "Profile Items" ? (
+                 <CSVLink
+                 data={this.props.data}
+                 headers={this.state.profileItemsHeader}
+               >
+                <Button variant="contained">Export All</Button>
+                </CSVLink>
+              ) : null}
               <ExcelFile
                 element={<Button variant="contained">Download Execl</Button>}
               >
@@ -909,21 +928,27 @@ class EnhancedTable extends React.Component {
                                     </TableCell>
                                     {this.columnRender().map((column) => {
                                       return column.numeric ? (
-                                        <TableCell
-                                          key={column.id}
-                                          padding="none"
-                                          width={`${column.width}px` || "100px"}
-                                          // numeric
-                                        >
-                                          <div
+                                        <>
+                                          <TableCell
+                                            key={column.id}
+                                            padding="none"
                                             width={
                                               `${column.width}px` || "100px"
                                             }
-                                            className="tableWidth"
+                                            // numeric
                                           >
-                                            {n[column.id]}
-                                          </div>
-                                        </TableCell>
+                                            <div
+                                              width={
+                                                `${column.width}px` || "100px"
+                                              }
+                                              className="tableWidth"
+                                            >
+                                              {console.log(n[column.id], 929)}
+                                              {n[column.id]}
+                                            </div>
+                                          </TableCell>
+                                          {/* <TableCell><image src={n.icon} /></TableCell> */}
+                                        </>
                                       ) : (
                                         <TableCell
                                           key={column.id}
@@ -1030,6 +1055,11 @@ class EnhancedTable extends React.Component {
                                         <DeleteIcon
                                           onClick={() => this.handleDelete(n)}
                                         />
+                                      </div>
+                                    ) : name === "Profile Items" ? (
+                                      <div className="toolHead">
+                                        <AddModal row={n} />
+                                        <DeleteIcon />
                                       </div>
                                     ) : null}
                                   </TableRow>

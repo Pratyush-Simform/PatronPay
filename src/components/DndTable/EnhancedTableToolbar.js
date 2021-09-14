@@ -98,7 +98,7 @@ console.log(updatedUsers, 59);
             <Tooltip title="Filter list">
               <IconButton aria-label="Filter list">
                 <Search onClick={() => setSearch(true)} />
-                {title === "Profile Items" ? <AddModal /> : null}
+                {title === "Profile Items" ? <AddModal name={Constants.ADD} /> : null}
                 {title === "Users" ? <EditUserModal name={Constants.ADD} /> : null}
                 <MoreVert />
               </IconButton>

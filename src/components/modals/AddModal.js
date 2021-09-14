@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
 import "../../App.css";
 import { useStyles } from "./styles";
-import { useFormik } from "formik";
+import { useFormik, Form } from "formik";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-// import ButtonGroup from '@material-ui/core/ButtonGroup';
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import { addProfileItems } from "../../services/profileApi";
+import { Constants } from "../DndTable/Constants";
+import { getConfigApi } from "../../services/orderApi";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
-function AddModal() {
+function AddModal({ name }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [config, setConfig] = useState([]);
+  const [pcfId, setPcfId] = useState("Select");
+  const [openMode, setOpenMode] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -30,21 +41,35 @@ function AddModal() {
       barcode: "",
       shortName: "",
       description: "",
+      category: "",
       icon: {},
       full: {},
       price: "",
       tax: "",
-      otherAmount: ""
+      otherAmount: "",
+      checkedpriceOverride: true,
+      is_deleted: false,
+      checkedTips: false,
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      addProfileItems(values);
     },
   });
+
+  const handleChange = (event) => {
+    setPcfId(event.target.value);
+  };
+
+  useEffect(() => {
+    getConfigApi().then((res) => setConfig(res.data.data.results));
+    // pastOrders()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
       <span type="button" onClick={handleOpen}>
-        <AddIcon />
+        {name === Constants.ADD ? <AddIcon /> : <EditIcon />}
       </span>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -60,11 +85,37 @@ function AddModal() {
       >
         <Fade in={open}>
           <div className="paper">
-            <h2 id="transition-modal-title">Add Modal</h2>
+            {name === Constants.ADD ? (
+              <h2 id="transition-modal-title">Add Modal</h2>
+            ) : (
+              <h2 id="transition-modal-title">Edit Modal</h2>
+            )}
             <div className="addMod">
-              <form onSubmit={formik.handleSubmit}>
+              <form onSubmit={formik.handleSubmit} noValidate>
+                {name === Constants.ADD ? null : (
+                  <div>
+                    <InputLabel id="demo-controlled-open-select-label">
+                      {" "}
+                      Mode{" "}
+                    </InputLabel>
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={openMode}
+                      onClose={() => setOpenMode(false)}
+                      onOpen={() => setOpenMode(true)}
+                      onChange={handleChange}
+                      value={pcfId}
+                    >
+                      {config?.map((con) => (
+                        <MenuItem value={con.id}>{con.name}</MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+                )}
                 <div className="frstCol">
                   <TextField
+                    required={true}
                     id="outlined-basic"
                     name="profile"
                     type="text"
@@ -75,6 +126,7 @@ function AddModal() {
                     value={formik.values.profile}
                   />
                   <TextField
+                    required={true}
                     id="outlined-basic"
                     label="Order"
                     name="order"
@@ -84,6 +136,18 @@ function AddModal() {
                     placeholder="0"
                     onChange={formik.handleChange}
                     value={formik.values.order}
+                  />
+                </div>
+                <div className="scndCol">
+                  <TextField
+                    id="outlined-basic"
+                    label="Category"
+                    name="category"
+                    type="text"
+                    multiline
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    value={formik.values.category}
                   />
                   <TextField
                     id="outlined-basic"
@@ -97,8 +161,8 @@ function AddModal() {
                   />
                 </div>
                 <div className="scndCol">
-                {/* <ButtonGroup variant="contained" color="primary" fullWidth={true}> */}
                   <TextField
+                    required={true}
                     id="outlined-basic"
                     name="shortName"
                     type="text"
@@ -118,8 +182,8 @@ function AddModal() {
                     onChange={formik.handleChange}
                     value={formik.values.description}
                   />
-                  {/* </ButtonGroup> */}
                 </div>
+                {/* </ButtonGroup> */}
                 <div className="frstCol">
                   <label htmlFor="contained-button-file">
                     <input
@@ -141,7 +205,7 @@ function AddModal() {
                     </Button>
                   </label>
                   <label htmlFor="contained-button-file">
-                  <input
+                    <input
                       accept="image/*"
                       className="uploadBtn"
                       id="contained-button-file"
@@ -162,6 +226,7 @@ function AddModal() {
                 </div>
                 <div className="scndCol">
                   <TextField
+                    required={true}
                     id="outlined-basic"
                     name="price"
                     type="text"
@@ -183,6 +248,8 @@ function AddModal() {
                     value={formik.values.tax}
                     placeholder="0.00"
                   />
+                </div>
+                <div className="frstCol">
                   <TextField
                     id="outlined-basic"
                     label="Other Amount"
@@ -194,9 +261,46 @@ function AddModal() {
                     placeholder="0.00"
                     value={formik.values.otherAmount}
                   />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={formik.values.checkedpriceOverride}
+                        onChange={formik.handleChange}
+                        name="checkedpriceOverride"
+                        color="primary"
+                      />
+                    }
+                    label="Allow Price/Amount Override"
+                  />
+                </div>
+                <div className="frstCol">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={formik.values.is_deleted}
+                        onChange={formik.handleChange}
+                        name="is_deleted"
+                        color="primary"
+                      />
+                    }
+                    label="Active"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={formik.values.checkedTips}
+                        onChange={formik.handleChange}
+                        name="checkedTips"
+                        color="primary"
+                      />
+                    }
+                    label="Exclude from tips"
+                  />
                 </div>
                 <div className="profileSubmitBtn">
-                <Button variant="contained" color="default" type="submit">Submit</Button>
+                  <Button variant="contained" color="default" type="submit">
+                    Submit
+                  </Button>
                 </div>
               </form>
             </div>

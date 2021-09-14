@@ -92,7 +92,7 @@ function EditUserModal({ row, name }) {
       >
         <Fade in={open}>
           <div className="paper">
-            {Constants.ADD ? (
+            {name === Constants.ADD ? (
               <h2 id="transition-modal-title">Add Users</h2>
             ) : (
               <h2 id="transition-modal-title">Edit Users</h2>
