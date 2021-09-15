@@ -23,7 +23,7 @@ export const getProfileItems = async () => {
   }
 
   export const addProfileItems = async (payload) => {
-    const api = `https://tenant3.mypatronpay.us/api/patron_configuration/`;
+    const api = `https://tenant3.mypatronpay.us/api/patron_configuration_item/`;
     const token = localStorage.getItem("token");
     const response = await Axios.post(api, payload, {
       headers: {
@@ -34,7 +34,7 @@ export const getProfileItems = async () => {
   }
 
   export const editProfileItems = async (id, payload) => {
-    const api = `https://tenant3.mypatronpay.us/api/patron_configuration/${id}`;
+    const api = `https://tenant3.mypatronpay.us/api/patron_configuration_item/${id}`;
     const token = localStorage.getItem("token");
     const response = await Axios.post(api, payload, {
       headers: {
@@ -45,7 +45,7 @@ export const getProfileItems = async () => {
   }
 
   export const deleteProfileItems = async (id) => {
-    const api = `https://tenant3.mypatronpay.us/api/patron_configuration/${id}`;
+    const api = `https://tenant3.mypatronpay.us/api/patron_configuration_item/${id}`;
     const token = localStorage.getItem("token");
     const response = await Axios.post(api, {
       headers: {

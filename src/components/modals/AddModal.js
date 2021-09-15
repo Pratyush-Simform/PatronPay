@@ -12,18 +12,18 @@ import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { addProfileItems } from "../../services/profileApi";
+import { addProfileItems, editProfileItems } from "../../services/profileApi";
 import { Constants } from "../DndTable/Constants";
 import { getConfigApi } from "../../services/orderApi";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-function AddModal({ name }) {
+function AddModal({ row, name }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState([]);
-  const [pcfId, setPcfId] = useState("Select");
+  const [pcfId, setPcfId] = useState("");
   const [openMode, setOpenMode] = useState(false);
 
   const handleOpen = () => {
@@ -36,27 +36,33 @@ function AddModal({ name }) {
 
   const formik = useFormik({
     initialValues: {
-      profile: "",
-      order: "",
-      barcode: "",
-      shortName: "",
-      description: "",
-      category: "",
-      icon: {},
-      full: {},
-      price: "",
-      tax: "",
-      otherAmount: "",
-      checkedpriceOverride: true,
-      is_deleted: false,
-      checkedTips: false,
+      pcf_id: row?.pcf_id || "",
+      order: row?.order || "",
+      barcode: row?.barcode || "",
+      short_name: row?.short_name || "",
+      description: row?.description || "",
+      category: row?.category || "",
+      icon: row?.icon || "",
+      full_image: row?.full_image || "",
+      price: row?.price || 0.0,
+      tax: row?.tax || 0.0,
+      other_amt: row?.other_amt || 0.0,
+      price_override_allowed: row?.price_override_allowed || true,
+      is_deleted: row?.is_deleted || false,
+      exclude_from_tips: row?.exclude_from_tips || false,
     },
     onSubmit: (values) => {
-      addProfileItems(values);
+      const newpcf = { ...values, pcf_id: pcfId };
+      if (name === Constants.ADD) {
+        addProfileItems(newpcf);
+      } else {
+        editProfileItems(row.id, newpcf);
+      }
     },
   });
 
   const handleChange = (event) => {
+    alert(event.target.value);
     setPcfId(event.target.value);
   };
 
@@ -92,7 +98,7 @@ function AddModal({ name }) {
             )}
             <div className="addMod">
               <form onSubmit={formik.handleSubmit} noValidate>
-                {name === Constants.ADD ? null : (
+                {/* {name === Constants.ADD ? null : (
                   <div>
                     <InputLabel id="demo-controlled-open-select-label">
                       {" "}
@@ -112,19 +118,29 @@ function AddModal({ name }) {
                       ))}
                     </Select>
                   </div>
-                )}
+                )} */}
                 <div className="frstCol">
-                  <TextField
-                    required={true}
-                    id="outlined-basic"
-                    name="profile"
-                    type="text"
-                    label="Profile"
-                    multiline
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    value={formik.values.profile}
-                  />
+                  <div>
+                    <InputLabel id="demo-controlled-open-select-label">
+                      {" "}
+                      Profile{" "}
+                    </InputLabel>
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={openMode}
+                      onClose={() => setOpenMode(false)}
+                      onOpen={() => setOpenMode(true)}
+                      onChange={handleChange}
+                      value={pcfId}
+                    >
+                      {config?.map((con) => (
+                        <MenuItem onChange={formik.handleChange} value={con.id}>
+                          {con.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </div>
                   <TextField
                     required={true}
                     id="outlined-basic"
@@ -164,13 +180,13 @@ function AddModal({ name }) {
                   <TextField
                     required={true}
                     id="outlined-basic"
-                    name="shortName"
+                    name="short_name"
                     type="text"
                     label="Short Name"
                     multiline
                     variant="outlined"
                     onChange={formik.handleChange}
-                    value={formik.values.shortName}
+                    value={formik.values.short_name}
                   />
                   <TextField
                     id="outlined-basic"
@@ -211,7 +227,7 @@ function AddModal({ name }) {
                       id="contained-button-file"
                       multiple
                       type="file"
-                      name="full"
+                      name="full_image"
                       onChange={formik.handleChange}
                     />
                     <Button
@@ -253,20 +269,20 @@ function AddModal({ name }) {
                   <TextField
                     id="outlined-basic"
                     label="Other Amount"
-                    name="otherAmount"
+                    name="other_amt"
                     type="text"
                     multiline
                     variant="outlined"
                     onChange={formik.handleChange}
                     placeholder="0.00"
-                    value={formik.values.otherAmount}
+                    value={formik.values.other_amt}
                   />
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={formik.values.checkedpriceOverride}
+                        checked={formik.values.price_override_allowed}
                         onChange={formik.handleChange}
-                        name="checkedpriceOverride"
+                        name="price_override_allowed"
                         color="primary"
                       />
                     }
@@ -288,9 +304,9 @@ function AddModal({ name }) {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={formik.values.checkedTips}
+                        checked={formik.values.exclude_from_tips}
                         onChange={formik.handleChange}
-                        name="checkedTips"
+                        name="exclude_from_tips"
                         color="primary"
                       />
                     }

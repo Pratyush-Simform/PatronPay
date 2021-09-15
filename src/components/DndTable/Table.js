@@ -31,6 +31,7 @@ import { withContext } from "../../store/WithContext";
 import Snackbar from "@material-ui/core/Snackbar";
 import ExportTransactions from "../modals/ExportTranactions";
 import AddModal from "../modals/AddModal";
+import  ImportFile  from "../modals/ImportFile";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -731,6 +732,7 @@ class EnhancedTable extends React.Component {
           </span>
           <div className="buttonGrp">
             {name === "Transction" ? <ExportTransactions data={data} /> : null}
+            <ImportFile />
             <span className="btnMargin">
               {name === "Profile Items" ? (
                  <CSVLink
