@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -6,18 +6,21 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import "../../App.css";
 import { useStyles } from "./styles";
-import { useFormik, Form } from "formik";
+import { useFormik } from "formik";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { addProfileItems, editProfileItems } from "../../services/profileApi";
+import { addProfileItems, editProfileItems, getProfileItems } from "../../services/profileApi";
 import { Constants } from "../DndTable/Constants";
 import { getConfigApi } from "../../services/orderApi";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import FormControl from '@material-ui/core/FormControl';
+import Snackbar from '@material-ui/core/Snackbar';
+import { Context } from "../../store/Context"
 
 function AddModal({ row, name }) {
   const classes = useStyles();
@@ -25,9 +28,19 @@ function AddModal({ row, name }) {
   const [config, setConfig] = useState([]);
   const [pcfId, setPcfId] = useState("");
   const [openMode, setOpenMode] = useState(false);
+  const [snackState, setsnackState] = useState({
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const [snackMsg, setSnackMsg] = useState("")
+  const [snackbar, setSnackbar] = useState(false)
+  const [state, dispatch] = useContext(Context)
+  const { vertical, horizontal } = snackState;
+
 
   const handleOpen = () => {
     setOpen(true);
+    console.log(state);
   };
 
   const handleClose = () => {
@@ -46,7 +59,7 @@ function AddModal({ row, name }) {
       full_image: row?.full_image || "",
       price: row?.price || 0.0,
       tax: row?.tax || 0.0,
-      other_amt: row?.other_amt || 0.0,
+      other_amt: row?.other_amt || 0.0,                                   
       price_override_allowed: row?.price_override_allowed || true,
       is_deleted: row?.is_deleted || false,
       exclude_from_tips: row?.exclude_from_tips || false,
@@ -54,9 +67,19 @@ function AddModal({ row, name }) {
     onSubmit: (values) => {
       const newpcf = { ...values, pcf_id: pcfId };
       if (name === Constants.ADD) {
-        addProfileItems(newpcf);
+        addProfileItems(newpcf).then(() => getProfileItems()
+        .then((res) => dispatch({type: "PROFILE_ITEMS", payload: res.data.data.results})))
+        .catch(() => setSnackMsg("Cannot create Profile Items"), setSnackbar(true))
+        setSnackMsg("Profile Item Created Succesfully")
+        setSnackbar(true)
+        setOpen(false);
       } else {
-        editProfileItems(row.id, newpcf);
+        editProfileItems(row.id, newpcf)
+        .then(() => getProfileItems().then((res) => dispatch({type: "PROFILE_ITEMS", payload: res.data.data.results})))
+        .catch(() => setSnackMsg("Cannot Edit Profile Items"), setSnackbar(true))
+         setSnackMsg("Profile Items Edited Succesfully")
+         setSnackbar(true)
+         setOpen(false);
       }
     },
   });
@@ -72,8 +95,19 @@ function AddModal({ row, name }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSnackClose = () => {
+    setsnackState({ ...snackState, open: false });
+  };
+
   return (
-    <div>
+    <>
+       <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={snackbar}
+        onClose={handleSnackClose}
+        message={snackMsg}
+        key={vertical + horizontal}
+      />
       <span type="button" onClick={handleOpen}>
         {name === Constants.ADD ? <AddIcon /> : <EditIcon />}
       </span>
@@ -97,30 +131,10 @@ function AddModal({ row, name }) {
               <h2 id="transition-modal-title">Edit Modal</h2>
             )}
             <div className="addMod">
-              <form onSubmit={formik.handleSubmit} noValidate>
-                {/* {name === Constants.ADD ? null : (
-                  <div>
-                    <InputLabel id="demo-controlled-open-select-label">
-                      {" "}
-                      Mode{" "}
-                    </InputLabel>
-                    <Select
-                      labelId="demo-controlled-open-select-label"
-                      id="demo-controlled-open-select"
-                      open={openMode}
-                      onClose={() => setOpenMode(false)}
-                      onOpen={() => setOpenMode(true)}
-                      onChange={handleChange}
-                      value={pcfId}
-                    >
-                      {config?.map((con) => (
-                        <MenuItem value={con.id}>{con.name}</MenuItem>
-                      ))}
-                    </Select>
-                  </div>
-                )} */}
+              <form onSubmit={formik.handleSubmit}>
                 <div className="frstCol">
-                  <div>
+                  <div style={{width: "55%", marginLeft: "4%", marginTop: "4%"}}>
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
                     <InputLabel id="demo-controlled-open-select-label">
                       {" "}
                       Profile{" "}
@@ -133,6 +147,8 @@ function AddModal({ row, name }) {
                       onOpen={() => setOpenMode(true)}
                       onChange={handleChange}
                       value={pcfId}
+                      variant="outlined"
+                      required={true}
                     >
                       {config?.map((con) => (
                         <MenuItem onChange={formik.handleChange} value={con.id}>
@@ -140,6 +156,7 @@ function AddModal({ row, name }) {
                         </MenuItem>
                       ))}
                     </Select>
+                    </FormControl>
                   </div>
                   <TextField
                     required={true}
@@ -323,7 +340,7 @@ function AddModal({ row, name }) {
           </div>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }
 

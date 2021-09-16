@@ -9,7 +9,8 @@ const initialState = {
   orderArray: [],
   transaction: [],
   memberTime: "",
-  userData: []
+  userData: [],
+  profileItems: []
 };
 
 const reducer = (state, action) => {
@@ -99,6 +100,11 @@ const reducer = (state, action) => {
         return {
           ...state,
           userData: action.payload
+        }  
+      case "PROFILE_ITEMS":
+        return {
+          ...state,
+          profileItems: action.payload
         }  
     default:
       return;

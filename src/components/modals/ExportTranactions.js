@@ -54,8 +54,7 @@ function ExportTransactions({ data }) {
       return fd.date > date.getDate();
     });
     setSelectedToDate(filteredDates);
-    // let filteredTrs = transactionDates.map(trs => trs.trs_items)
-    // setTrsItems(filteredTrs)
+    console.log(selectedToDate);
   };
 
   const handleToDateChange = (date) => {
@@ -127,20 +126,6 @@ function ExportTransactions({ data }) {
     { label: "Transaction Type", key: "trs_type" },
     { label: "TRU ID", key: "tru_id" },
   ];
-
-// const trsHeaders = [
-//   {label: "Amount", key: "amount"},
-//   {label: "Amount Overridden", key: "amount_overridden"},
-//   {label: "Created Date", key: "date_created"},
-//   {label: "Modified Date", key: "date_modified"},
-//   {label: "Id", key: "id"},
-//   {label: "Original Amount", key: "original_amount"},
-//   {label: "Other Amount", key: "other_amount"},
-//   {label: "Quantity", key: "quantity"},
-//   {label: "Tax", key: "tax"},
-//   {label: "Tri Id", key: "tri_id"},
-//   {label: "Tri Id Name", key: "tri_id_name"},
-// ]
 
   return (
     <div>

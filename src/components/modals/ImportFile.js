@@ -1,39 +1,16 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState } from "react";
 import Modal from "@material-ui/core/Modal";
 import ReactFileReader from "react-file-reader";
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: "absolute",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
+import { Button } from "@material-ui/core";
+import { useStyles, getImportModalStyle } from "./styles"
 
 function ImportFile() {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const [modalStyle] = useState(getImportModalStyle);
+  const [files, setFiles] = useState({})
 
   const handleOpen = () => {
     setOpen(true);
@@ -44,26 +21,49 @@ function ImportFile() {
   };
 
   const handleFiles = (files) => {
-    console.log(files, 47)
+    setFiles(files);
+    setFileName(files.fileList[0].name);
+  };
+
+  const handleSubmit = () => {
+    const file = files?.fileList[0]
+    const reader = new FileReader();
+    reader.readAsText(file)
+    reader.onload = () => {
+      console.log(reader.result); 
+    }
   }
+
   const body = (
-    <div style={modalStyle} className={classes.paper}>
+    <div style={modalStyle} className={classes.importPaper}>
+      <h1>Import Profile Items</h1>
       <ReactFileReader
         fileTypes={[".csv", ".zip", ".xlsx"]}
         base64={true}
         multipleFiles={true}
         handleFiles={handleFiles}
       >
-        <button className="btn">Upload</button>
+        <div style={{ display: "flex", justifyContent: "space-between", width: "20em" }}>
+          <button className="btn">Upload</button>
+          <span>{fileName ? fileName : null}</span>
+        </div>
       </ReactFileReader>
+      <p>
+        Supported files- .csv and .xlsx To download a sample import file <Button>click
+        here.</Button> <br />
+        Order of profile item will be set based upon the order in which it
+        appears in import file. Profile item images should be uploaded
+        individually for each item in edit screen.
+      </p>
+      <Button variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
     </div>
   );
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Open Modal
-      </button>
+      <Button type="button" onClick={handleOpen}>
+        Import CSV/XLSX
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}

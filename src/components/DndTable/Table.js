@@ -31,7 +31,7 @@ import { withContext } from "../../store/WithContext";
 import Snackbar from "@material-ui/core/Snackbar";
 import ExportTransactions from "../modals/ExportTranactions";
 import AddModal from "../modals/AddModal";
-import  ImportFile  from "../modals/ImportFile";
+import ImportFile from "../modals/ImportFile";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -735,11 +735,11 @@ class EnhancedTable extends React.Component {
             <ImportFile />
             <span className="btnMargin">
               {name === "Profile Items" ? (
-                 <CSVLink
-                 data={this.props.data}
-                 headers={this.state.profileItemsHeader}
-               >
-                <Button variant="contained">Export All</Button>
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.profileItemsHeader}
+                >
+                  <Button variant="contained">Export All</Button>
                 </CSVLink>
               ) : null}
               <ExcelFile
@@ -975,10 +975,19 @@ class EnhancedTable extends React.Component {
                                     })}
                                     <div className="toolHead">
                                       {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
-                                      <EditUserModal row={n} />
-                                      <DeleteIcon
-                                        onClick={() => this.handleDelete(n)}
-                                      />
+                                      {name === "Transactions" ? (
+                                        <div className="toolHead">
+                                          <EditUserModal row={n} />
+                                          <DeleteIcon
+                                            onClick={() => this.handleDelete(n)}
+                                          />
+                                        </div>
+                                      ) : name === "Profile Items" ? (
+                                        <div className="toolHead">
+                                          <AddModal row={n} />
+                                          <DeleteIcon />
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </TableRow>
                                 </TableBody>
