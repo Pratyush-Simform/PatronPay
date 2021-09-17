@@ -16,7 +16,7 @@ export const subdomainUrl = async (email) => {
   const response = await Axios.post(api, {
     email: email
   })
-  console.log(response);
+  return response;
 }
 
 export const getConfigApi = async () => {
