@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Input from '../input/input';
-import { login } from "../../services/orderApi"
+import { login, subdomainUrl } from "../../services/orderApi"
 import { useHistory } from "react-router-dom";
 import "../../App.css"
 import { useStyles } from "./styles"
@@ -15,12 +15,12 @@ function Login() {
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = () => {                                                        
-      setSubmitted(true)
+      setSubmitted(!submitted)
   }
 
   useEffect(() => {
-   
-  login(email, password).then(() => history.push('/orders'))
+  // login(email, password).then(() => history.push('/orders'))
+  subdomainUrl(email)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted])
 
