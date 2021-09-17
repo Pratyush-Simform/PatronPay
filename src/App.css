@@ -162,7 +162,7 @@
   height: fit-content;
   margin-top: 2%;
   margin-right: 2%;
-  background-color: #008CBA; /* Blue */
+  background-color: #008cba; /* Blue */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -173,7 +173,7 @@
 }
 
 .button {
-  background-color: #008CBA; /* Blue */
+  background-color: #008cba; /* Blue */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -184,12 +184,13 @@
 }
 
 .MuiPaper-elevation1 {
-  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important;
+  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important;
   width: 96% !important;
   /* margin-left: 15% !important; */
 }
 
-.login{
+.login {
   margin-top: 15%;
   width: 50%;
   margin-left: 25%;
@@ -227,14 +228,15 @@
 
 .MuiButton-contained {
   color: rgba(0, 0, 0, 0.87);
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
   background-color: #e0e0e0;
   /* height: 37px !important; */
   margin-top: 22px !important;
 }
 
 .back {
-  margin-left: 4%; 
+  margin-left: 4%;
   margin-top: 3%;
 }
 
@@ -247,7 +249,8 @@
     width: 3em;
   }
   .MuiPaper-elevation1 {
-    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important;
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
+      0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%) !important;
     width: 96% !important;
     margin-left: 2% !important;
   }
@@ -288,7 +291,7 @@
   text-overflow: ellipsis !important;
 }
 
-.btnDiv  {
+.btnDiv {
   display: flex;
   justify-content: center;
 }
@@ -298,8 +301,8 @@
 }
 
 .loginBtn {
-  background-color: #3f51b5; 
-  margin-left: 36%; 
+  background-color: #3f51b5;
+  margin-left: 36%;
   color: #fff;
 }
 
@@ -317,12 +320,12 @@
 
 @media only screen and (min-width: 800px) and (max-width: 1024px) {
   .transHead {
-  max-height: 100em;
-  height: 92vh;
+    max-height: 100em;
+    height: 92vh;
   }
 
   .profile {
-    height: 91.8vh
+    height: 91.8vh;
   }
 
   /* .MuiPaper-rounded {
@@ -355,7 +358,7 @@
   min-height: 72.2vh !important;
 }
 
-.frstCol{
+.frstCol {
   display: flex;
   justify-content: space-between;
 }
@@ -392,7 +395,7 @@
 }
 @media only screen and (min-width: 300px) and (max-width: 800px) {
   .orderCard {
-  max-width: 100%;
+    max-width: 100%;
   }
 }
 @media only screen and (min-width: 568px) and (max-width: 812px) {
@@ -442,7 +445,7 @@
 @media only screen and (min-width: 900px) {
   .MuiFormControl-root {
     width: 37% !important;
-  }                                                                                          
+  }
 }
 
 .printBtn {
@@ -456,8 +459,8 @@
 }
 .orderDrpdwn {
   margin-top: 6%;
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .printTable {
   display: block;
@@ -486,7 +489,7 @@
   justify-content: space-around;
 }
 
-.editUserInput{
+.editUserInput {
   width: 100%;
 }
 
@@ -506,5 +509,23 @@
 }
 
 .btn:hover {
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.gridCon {
+  justify-content: center;
+}
+
+.gridBtn {
+  display: flex;
+  justify-content: space-evenly;
+}
+.selectMode {
+  padding-right: 28em;
+}
+
+.mode {
+  display: flex;
+  justify-content: center;
 }

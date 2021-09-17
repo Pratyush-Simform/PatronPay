@@ -1,22 +1,49 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
 import "../../App.css";
 import { useStyles } from "./styles";
 import { useFormik } from "formik";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-// import ButtonGroup from '@material-ui/core/ButtonGroup';
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import {
+  addProfileItems,
+  editProfileItems,
+  getProfileItems,
+} from "../../services/profileApi";
+import { Constants } from "../DndTable/Constants";
+import { getConfigApi } from "../../services/orderApi";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import Snackbar from "@material-ui/core/Snackbar";
+import { Context } from "../../store/Context";
 
-function AddModal() {
+function AddModal({ row, name }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [config, setConfig] = useState([]);
+  const [pcfId, setPcfId] = useState("");
+  const [openMode, setOpenMode] = useState(false);
+  const [snackState, setsnackState] = useState({
+    vertical: "top",
+    horizontal: "center",
+  });
+  const [snackMsg, setSnackMsg] = useState("");
+  const [snackbar, setSnackbar] = useState(false);
+  const [state, dispatch] = useContext(Context);
+  const { vertical, horizontal } = snackState;
 
   const handleOpen = () => {
     setOpen(true);
+    console.log(state);
   };
 
   const handleClose = () => {
@@ -25,26 +52,88 @@ function AddModal() {
 
   const formik = useFormik({
     initialValues: {
-      profile: "",
-      order: "",
-      barcode: "",
-      shortName: "",
-      description: "",
-      icon: {},
-      full: {},
-      price: "",
-      tax: "",
-      otherAmount: ""
+      pcf_id: row?.pcf_id || "",
+      order: row?.order || "",
+      barcode: row?.barcode || "",
+      short_name: row?.short_name || "",
+      description: row?.description || "",
+      category: row?.category || "",
+      icon: row?.icon || "",
+      full_image: row?.full_image || "",
+      price: row?.price || 0.0,
+      tax: row?.tax || 0.0,
+      other_amt: row?.other_amt || 0.0,
+      price_override_allowed: row?.price_override_allowed || true,
+      is_deleted: row?.is_deleted || false,
+      exclude_from_tips: row?.exclude_from_tips || false,
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      const newpcf = { ...values, pcf_id: pcfId };
+      if (name === Constants.ADD) {
+        addProfileItems(newpcf)
+          .then(() =>
+            getProfileItems().then((res) =>
+              dispatch({
+                type: "PROFILE_ITEMS",
+                payload: res.data.data.results,
+              })
+            )
+          )
+          .catch(
+            () => setSnackMsg("Cannot create Profile Items"),
+            setSnackbar(true)
+          );
+        setSnackMsg("Profile Item Created Succesfully");
+        setSnackbar(true);
+        setOpen(false);
+      } else {
+        editProfileItems(row.id, newpcf)
+          .then(() =>
+            getProfileItems().then((res) =>
+              dispatch({
+                type: "PROFILE_ITEMS",
+                payload: res.data.data.results,
+              })
+            )
+          )
+          .catch(
+            () => setSnackMsg("Cannot Edit Profile Items"),
+            setSnackbar(true)
+          );
+        setSnackMsg("Profile Items Edited Succesfully");
+        setSnackbar(true);
+        setOpen(false);
+      }
     },
   });
 
+  const handleChange = (event) => {
+    alert(event.target.value);
+    setPcfId(event.target.value);
+  };
+
+  useEffect(() => {
+    getConfigApi()
+      .then((res) => setConfig(res.data.data.results))
+      .catch(() => setSnackMsg("Cannot load profile configurations"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSnackClose = () => {
+    setsnackState({ ...snackState, open: false });
+  };
+
   return (
-    <div>
+    <>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={snackbar}
+        onClose={handleSnackClose}
+        message={snackMsg}
+        key={vertical + horizontal}
+      />
       <span type="button" onClick={handleOpen}>
-        <AddIcon />
+        {name === Constants.ADD ? <AddIcon /> : <EditIcon />}
       </span>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -60,21 +149,49 @@ function AddModal() {
       >
         <Fade in={open}>
           <div className="paper">
-            <h2 id="transition-modal-title">Add Modal</h2>
+            {name === Constants.ADD ? (
+              <h2 id="transition-modal-title">Add Modal</h2>
+            ) : (
+              <h2 id="transition-modal-title">Edit Modal</h2>
+            )}
             <div className="addMod">
               <form onSubmit={formik.handleSubmit}>
                 <div className="frstCol">
+                  <div
+                    style={{ width: "55%", marginLeft: "4%", marginTop: "4%" }}
+                  >
+                    <FormControl
+                      variant="standard"
+                      sx={{ m: 1, minWidth: 250 }}
+                    >
+                      <InputLabel id="demo-controlled-open-select-label">
+                        {" "}
+                        Profile{" "}
+                      </InputLabel>
+                      <Select
+                        labelId="demo-controlled-open-select-label"
+                        id="demo-controlled-open-select"
+                        open={openMode}
+                        onClose={() => setOpenMode(false)}
+                        onOpen={() => setOpenMode(true)}
+                        onChange={handleChange}
+                        value={pcfId}
+                        variant="outlined"
+                        required={true}
+                      >
+                        {config?.map((con) => (
+                          <MenuItem
+                            onChange={formik.handleChange}
+                            value={con.id}
+                          >
+                            {con.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
                   <TextField
-                    id="outlined-basic"
-                    name="profile"
-                    type="text"
-                    label="Profile"
-                    multiline
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    value={formik.values.profile}
-                  />
-                  <TextField
+                    required={true}
                     id="outlined-basic"
                     label="Order"
                     name="order"
@@ -84,6 +201,18 @@ function AddModal() {
                     placeholder="0"
                     onChange={formik.handleChange}
                     value={formik.values.order}
+                  />
+                </div>
+                <div className="scndCol">
+                  <TextField
+                    id="outlined-basic"
+                    label="Category"
+                    name="category"
+                    type="text"
+                    multiline
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    value={formik.values.category}
                   />
                   <TextField
                     id="outlined-basic"
@@ -97,16 +226,16 @@ function AddModal() {
                   />
                 </div>
                 <div className="scndCol">
-                {/* <ButtonGroup variant="contained" color="primary" fullWidth={true}> */}
                   <TextField
+                    required={true}
                     id="outlined-basic"
-                    name="shortName"
+                    name="short_name"
                     type="text"
                     label="Short Name"
                     multiline
                     variant="outlined"
                     onChange={formik.handleChange}
-                    value={formik.values.shortName}
+                    value={formik.values.short_name}
                   />
                   <TextField
                     id="outlined-basic"
@@ -118,8 +247,8 @@ function AddModal() {
                     onChange={formik.handleChange}
                     value={formik.values.description}
                   />
-                  {/* </ButtonGroup> */}
                 </div>
+                {/* </ButtonGroup> */}
                 <div className="frstCol">
                   <label htmlFor="contained-button-file">
                     <input
@@ -141,13 +270,13 @@ function AddModal() {
                     </Button>
                   </label>
                   <label htmlFor="contained-button-file">
-                  <input
+                    <input
                       accept="image/*"
                       className="uploadBtn"
                       id="contained-button-file"
                       multiple
                       type="file"
-                      name="full"
+                      name="full_image"
                       onChange={formik.handleChange}
                     />
                     <Button
@@ -162,6 +291,7 @@ function AddModal() {
                 </div>
                 <div className="scndCol">
                   <TextField
+                    required={true}
                     id="outlined-basic"
                     name="price"
                     type="text"
@@ -183,27 +313,66 @@ function AddModal() {
                     value={formik.values.tax}
                     placeholder="0.00"
                   />
+                </div>
+                <div className="frstCol">
                   <TextField
                     id="outlined-basic"
                     label="Other Amount"
-                    name="otherAmount"
+                    name="other_amt"
                     type="text"
                     multiline
                     variant="outlined"
                     onChange={formik.handleChange}
                     placeholder="0.00"
-                    value={formik.values.otherAmount}
+                    value={formik.values.other_amt}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={formik.values.price_override_allowed}
+                        onChange={formik.handleChange}
+                        name="price_override_allowed"
+                        color="primary"
+                      />
+                    }
+                    label="Allow Price/Amount Override"
+                  />
+                </div>
+                <div className="frstCol">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={formik.values.is_deleted}
+                        onChange={formik.handleChange}
+                        name="is_deleted"
+                        color="primary"
+                      />
+                    }
+                    label="Active"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={formik.values.exclude_from_tips}
+                        onChange={formik.handleChange}
+                        name="exclude_from_tips"
+                        color="primary"
+                      />
+                    }
+                    label="Exclude from tips"
                   />
                 </div>
                 <div className="profileSubmitBtn">
-                <Button variant="contained" color="default" type="submit">Submit</Button>
+                  <Button variant="contained" color="default" type="submit">
+                    Submit
+                  </Button>
                 </div>
               </form>
             </div>
           </div>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }
 
