@@ -60,7 +60,7 @@ function ImportFile() {
   );
 
   return (
-    <div>
+    <>
       <Button type="button" onClick={handleOpen}>
         Import CSV/XLSX
       </Button>
@@ -72,7 +72,7 @@ function ImportFile() {
       >
         {body}
       </Modal>
-    </div>
+    </>
   );
 }
 

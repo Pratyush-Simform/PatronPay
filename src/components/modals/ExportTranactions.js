@@ -128,7 +128,7 @@ function ExportTransactions({ data }) {
   ];
 
   return (
-    <div>
+    <>
       <span type="button" onClick={handleOpen}>
         <Button variant="contained">Export</Button>
       </span>
@@ -193,7 +193,7 @@ function ExportTransactions({ data }) {
           </div>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }
 
