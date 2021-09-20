@@ -530,3 +530,13 @@
   display: flex;
   justify-content: center;
 }
+
+.footToolBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.white {
+  color: #fff !important;
+}
+

@@ -19,6 +19,14 @@ export const subdomainUrl = async (email) => {
   return response;
 }
 
+export const passwordReset = async (email) => {
+  const api = `https://tenant3.mypatronpay.us/api/forgot_password/`
+  const response = await Axios.post(api, {
+    email: email
+  })
+  return response;
+}
+
 export const getConfigApi = async () => {
     const api = "https://tenant3.mypatronpay.us/api/patron_configuration/";
     const token = localStorage.getItem("token");
