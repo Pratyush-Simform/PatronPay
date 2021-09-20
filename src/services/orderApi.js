@@ -11,6 +11,14 @@ export const login = async (email, password) => {
     localStorage.setItem("token", token)
 }
 
+export const subdomainUrl = async (email) => {
+  const api = `https://tenant3.mypatronpay.us/api/tenant_domain/`
+  const response = await Axios.post(api, {
+    email: email
+  })
+  return response;
+}
+
 export const getConfigApi = async () => {
     const api = "https://tenant3.mypatronpay.us/api/patron_configuration/";
     const token = localStorage.getItem("token");

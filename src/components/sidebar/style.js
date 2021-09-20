@@ -44,6 +44,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   footRoot: {
     flexGrow: 1,
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
   },
   footMenuButton: {
     marginRight: theme.spacing(2),
