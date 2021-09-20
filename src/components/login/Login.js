@@ -16,10 +16,10 @@ function Login() {
   const [submitted, setSubmitted] = useState(false);
   const [loginInterface, setLoginInterface] = useState(false);
   const [domain, setDomain] = useState("");
-  const [snackState, setsnackState] = useState({
+  const snackState = {
     vertical: "top",
     horizontal: "center",
-  });
+  };
   const [snackMsg, setSnackMsg] = useState("");
   const [snackbar, setSnackbar] = useState(false);
 
@@ -30,17 +30,29 @@ function Login() {
     setLoginInterface(true);
   };
 
-  useEffect(() => {
-    if (loginInterface) {
+  const loginFunction = () => {
+    if (loginInterface && password.length > 0) {
       login(email, password)
-        .then(() => history.push("/orders"))
+        .then(() => {
+          history.push("/orders");
+          setSnackMsg("Logged in");
+          setSnackbar(true);
+        })
         .catch(() => setSnackMsg("Login Failed"), setSnackbar(true));
     }
-    subdomainUrl(email)
-      .then((res) => {
-        setDomain(res.data.data.domain);
-      })
-      .catch(() => setSnackMsg("Incorrect email"), setSnackbar(true));
+    if (email.length > 0) {
+      subdomainUrl(email)
+        .then((res) => {
+          setDomain(res.data.data.domain);
+          setSnackMsg("Subdomain Logged in");
+          setSnackbar(true);
+        })
+        .catch(() => setSnackMsg("Incorrect email"), setSnackbar(true));
+    }
+  };
+  
+  useEffect(() => {
+    loginFunction();
     setEmail("");
     setPassword("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,7 +66,7 @@ function Login() {
   };
 
   const handleSnackClose = () => {
-    setsnackState({ ...snackState, open: false });
+    setSnackbar(false);
   };
 
   return (
