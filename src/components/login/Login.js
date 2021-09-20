@@ -6,6 +6,7 @@ import "../../App.css";
 import TextField from "@material-ui/core/TextField";
 import { useStyles } from "./styles";
 import Box from "@material-ui/core/Box";
+import Snackbar from "@material-ui/core/Snackbar";
 
 function Login() {
   const classes = useStyles();
@@ -15,6 +16,14 @@ function Login() {
   const [submitted, setSubmitted] = useState(false);
   const [loginInterface, setLoginInterface] = useState(false);
   const [domain, setDomain] = useState("");
+  const [snackState, setsnackState] = useState({
+    vertical: "top",
+    horizontal: "center",
+  });
+  const [snackMsg, setSnackMsg] = useState("");
+  const [snackbar, setSnackbar] = useState(false);
+
+  const { vertical, horizontal } = snackState;
 
   const handleSubmit = () => {
     setSubmitted(!submitted);
@@ -23,11 +32,15 @@ function Login() {
 
   useEffect(() => {
     if (loginInterface) {
-      login(email, password).then(() => history.push("/orders"));
+      login(email, password)
+        .then(() => history.push("/orders"))
+        .catch(() => setSnackMsg("Login Failed"), setSnackbar(true));
     }
-    subdomainUrl(email).then((res) => {
-      setDomain(res.data.data.domain);
-    });
+    subdomainUrl(email)
+      .then((res) => {
+        setDomain(res.data.data.domain);
+      })
+      .catch(() => setSnackMsg("Incorrect email"), setSnackbar(true));
     setEmail("");
     setPassword("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,8 +52,20 @@ function Login() {
   const onPasswordChnage = (value) => {
     setPassword(value);
   };
+
+  const handleSnackClose = () => {
+    setsnackState({ ...snackState, open: false });
+  };
+
   return (
     <div className={classes.root}>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={snackbar}
+        onClose={handleSnackClose}
+        message={snackMsg}
+        key={vertical + horizontal}
+      />
       <div className="login">
         {!domain ? (
           <h2 className="loginHead">Please enter email to get sub domain</h2>
