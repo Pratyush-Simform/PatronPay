@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
-import Input from "../input/input";
 import { login, subdomainUrl } from "../../services/orderApi";
 import { useHistory } from "react-router-dom";
 import "../../App.css";
@@ -19,15 +18,18 @@ function Login() {
 
   const handleSubmit = () => {
     setSubmitted(!submitted);
-    setLoginInterface(true)
+    setLoginInterface(true);
   };
 
   useEffect(() => {
-    if(loginInterface) login(email, password).then(() => history.push('/orders'))
+    if (loginInterface) {
+      login(email, password).then(() => history.push("/orders"));
+    }
     subdomainUrl(email).then((res) => {
       setDomain(res.data.data.domain);
     });
     setEmail("");
+    setPassword("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
 
@@ -41,12 +43,12 @@ function Login() {
     <div className={classes.root}>
       <div className="login">
         {!domain ? (
-          <h3 className="loginHead">Please enter email to get sub domain</h3>
+          <h2 className="loginHead">Please enter email to get sub domain</h2>
         ) : (
-          <h3 className="loginHead">Please login details</h3>
+          <h2 className="loginHead">Please enter login details</h2>
         )}
         {domain ? (
-          <p>{`You have logged in for the sub domain ${domain}`}</p>
+          <h3 className="loginHead">{`You have logged in for the sub domain ${domain.toLocaleUpperCase()}`}</h3>
         ) : null}
         <Box
           component="form"
@@ -56,10 +58,10 @@ function Login() {
           noValidate
           autoComplete="off"
           onSubmit={handleSubmit}
+          className="loginHead"
         >
           <>
             <TextField
-              required
               id="standard-required"
               label="Email"
               variant="standard"
@@ -74,11 +76,16 @@ function Login() {
                 autoComplete="current-password"
                 variant="standard"
                 onChange={(e) => onPasswordChnage(e.target.value)}
+                value={password}
               />
             ) : null}
-            <Button variant="contained" onClick={handleSubmit}>Submit</Button>
           </>
         </Box>
+        <div className="loginHead">
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </div>
       </div>
     </div>
   );
