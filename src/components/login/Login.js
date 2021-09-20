@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
-import { login, subdomainUrl } from "../../services/orderApi";
+import { login, subdomainUrl, passwordReset } from "../../services/orderApi";
 import { useHistory } from "react-router-dom";
 import "../../App.css";
 import TextField from "@material-ui/core/TextField";
@@ -15,6 +15,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loginInterface, setLoginInterface] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
   const [domain, setDomain] = useState("");
   const snackState = {
     vertical: "top",
@@ -40,7 +41,7 @@ function Login() {
         })
         .catch(() => setSnackMsg("Login Failed"), setSnackbar(true));
     }
-    if (email.length > 0) {
+    if (email.length > 0 && !forgotPassword) {
       subdomainUrl(email)
         .then((res) => {
           setDomain(res.data.data.domain);
@@ -49,8 +50,16 @@ function Login() {
         })
         .catch(() => setSnackMsg("Incorrect email"), setSnackbar(true));
     }
+    if (email.length > 0 && forgotPassword) {
+      passwordReset(email)
+        .then(() => {
+          setSnackMsg(`Mail sent to ${email}`);
+          setSnackbar(true);
+        })
+        .catch(() => setSnackMsg("Incorrect email"), setSnackbar(true));
+    }
   };
-  
+
   useEffect(() => {
     loginFunction();
     setEmail("");
@@ -69,6 +78,11 @@ function Login() {
     setSnackbar(false);
   };
 
+  const handleForgotPassword = () => {
+    setForgotPassword(true);
+    loginFunction()
+  };
+
   return (
     <div className={classes.root}>
       <Snackbar
@@ -78,14 +92,27 @@ function Login() {
         message={snackMsg}
         key={vertical + horizontal}
       />
+      <h1 className="loginHead">Welcome!</h1>
       <div className="login">
         {!domain ? (
-          <h2 className="loginHead">Please enter email to get sub domain</h2>
+          forgotPassword ? (
+            <h2 className="loginHead">Password Reset</h2>
+          ) : (
+            <h2 className="loginHead">Please enter email to get sub domain</h2>
+          )
+        ) : forgotPassword ? (
+          <h2 className="loginHead">Password Reset</h2>
         ) : (
           <h2 className="loginHead">Please enter login details</h2>
         )}
-        {domain ? (
+        {domain && !forgotPassword ? (
           <h3 className="loginHead">{`You have logged in for the sub domain ${domain.toLocaleUpperCase()}`}</h3>
+        ) : null}
+        {forgotPassword ? (
+          <p className="loginHead">
+            Forgotten your password? Enter your email address below, <br /> and
+            we’ll email instructions for setting a new one.
+          </p>
         ) : null}
         <Box
           component="form"
@@ -105,7 +132,7 @@ function Login() {
               onChange={(e) => onInputChnage(e.target.value)}
               value={email}
             />
-            {domain ? (
+            {domain && !forgotPassword ? (
               <TextField
                 id="standard-password-input"
                 label="Password"
@@ -120,9 +147,10 @@ function Login() {
         </Box>
         <div className="loginHead">
           <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Submit
+            Sign in
           </Button>
         </div>
+        <Button onClick={handleForgotPassword}>Forgot Password?</Button>
       </div>
     </div>
   );

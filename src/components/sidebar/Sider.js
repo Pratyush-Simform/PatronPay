@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -19,44 +19,60 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Context } from "../../store/Context";
 import Icon from "../../assets/images/Icon.png";
+import Snackbar from "@material-ui/core/Snackbar";
+
 
 export default function TemporaryDrawer() {
   const [state, dispatch] = useContext(Context);
   const history = useHistory();
-  console.log(history);
   const classes = useStyles();
-  const [leftState, setState] = React.useState({
+  const [leftState, setState] = useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
-  
+  const snackState = {
+    vertical: "top",
+    horizontal: "center",
+  };
+  const [snackMsg, setSnackMsg] = useState("");
+  const [snackbar, setSnackbar] = useState(false);
+  const { vertical, horizontal } = snackState;
+  const handleSnackClose = () => {
+    setSnackbar(false)
+  };
+
   const handleStatus = (sd, index) => {
-    state.doneArray.splice(index, 1)
-    dispatch({ type: "ORDERARRAY", payload: sd})
-  }
+    state.doneArray.splice(index, 1);
+    dispatch({ type: "ORDERARRAY", payload: sd });
+  };
 
   const siderButton = (text, index) => {
-    if (index === 0) {
-      history.push("/orders");
-    } else if (index === 1) {
-      history.push("/transaction");
-    } else if (index === 2) {
-      history.push("/profile");
-    } else if (index === 3) {
-      history.push("/paymentProfile");
-    } else if (index === 4) {
-      history.push("/memberPayments")
-    } else if (index === 5){
-      history.push("/cashlessPayments")
-    } else if ( index === 6) {
-      history.push("/cashPayments")
-    } else if ( index === 7) {
-      history.push("/users")
-    } else if (index === 8) {
-      localStorage.setItem("token", "")
-      history.push("/");
+    if (localStorage.getItem("token").length === 0) {
+      setSnackbar(true)
+      setSnackMsg(`Login to redirect on ${text}`);
+    } else {
+      if (index === 0) {
+        history.push("/orders");
+      } else if (index === 1) {
+        history.push("/transaction");
+      } else if (index === 2) {
+        history.push("/profile");
+      } else if (index === 3) {
+        history.push("/paymentProfile");
+      } else if (index === 4) {
+        history.push("/memberPayments");
+      } else if (index === 5) {
+        history.push("/cashlessPayments");
+      } else if (index === 6) {
+        history.push("/cashPayments");
+      } else if (index === 7) {
+        history.push("/users");
+      } else if (index === 8) {
+        localStorage.setItem("token", "");
+        history.push("/");
+      }
     }
   };
 
@@ -114,7 +130,14 @@ export default function TemporaryDrawer() {
   );
 
   return (
-    <div>
+    <>
+    <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={snackbar}
+        onClose={handleSnackClose}
+        message={snackMsg}
+        key={vertical + horizontal}
+      />
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>
@@ -138,12 +161,13 @@ export default function TemporaryDrawer() {
                         <Typography gutterBottom variant="h5" component="h2">
                           ORDER #{sd?.order_id}
                         </Typography>
-                        {sd?.trs_items?.map(dt => (
+                        {sd?.trs_items?.map((dt) => (
                           <h3>
-                          {dt.date_created.toString().slice(0, 10)} {dt.date_created.toString().slice(27, 32)}
-                        </h3>
+                            {dt.date_created.toString().slice(0, 10)}{" "}
+                            {dt.date_created.toString().slice(27, 32)}
+                          </h3>
                         ))}
-                        </div>
+                      </div>
                       <List dense className="listItems">
                         <Typography
                           variant="body2"
@@ -182,6 +206,6 @@ export default function TemporaryDrawer() {
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
+    </>
   );
 }
