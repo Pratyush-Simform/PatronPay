@@ -62,8 +62,9 @@ function Login() {
 
   useEffect(() => {
     loginFunction();
-    setEmail("");
+    // setEmail("");
     setPassword("");
+    // return () => localStorage.setItem("subDomain", "")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
 
@@ -83,6 +84,9 @@ function Login() {
     loginFunction()
   };
 
+  localStorage.setItem("subDomain", domain)
+  
+
   return (
     <div className={classes.root}>
       <Snackbar
@@ -98,7 +102,7 @@ function Login() {
           forgotPassword ? (
             <h2 className="loginHead">Password Reset</h2>
           ) : (
-            <h2 className="loginHead">Please enter email to get sub domain</h2>
+            <h2 className="loginHead">Please enter email</h2>
           )
         ) : forgotPassword ? (
           <h2 className="loginHead">Password Reset</h2>
@@ -106,7 +110,7 @@ function Login() {
           <h2 className="loginHead">Please enter login details</h2>
         )}
         {domain && !forgotPassword ? (
-          <h3 className="loginHead">{`You have logged in for the sub domain ${domain.toLocaleUpperCase()}`}</h3>
+          <h3 className="loginHead">{`You have logged in for the sub domain ${domain}`}</h3>
         ) : null}
         {forgotPassword ? (
           <p className="loginHead">

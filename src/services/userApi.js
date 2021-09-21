@@ -1,7 +1,8 @@
 import Axios from "axios"
 
 export const getUsers = async () => {
-    const api = `https://tenant3.mypatronpay.us/api/user/`;
+  let subDom = localStorage.getItem("subDomain");
+    const api = `https://${subDom}/api/user/`;
     const token = localStorage.getItem("token");
     const response = await Axios.get(api, {
         headers: {
@@ -12,7 +13,8 @@ export const getUsers = async () => {
 }
 
 export const addUsers = async (payload) => {
-    const api = `https://tenant3.mypatronpay.us/api/user/`;
+  let subDom = localStorage.getItem("subDomain");
+    const api = `https://${subDom}/api/user/`;
     const token = localStorage.getItem("token");
     const response = await Axios.post(api, payload, {
         headers: {
@@ -23,7 +25,8 @@ export const addUsers = async (payload) => {
 }
 
 export const editUsers = async (id, payload) => {
-    const api = `https://tenant3.mypatronpay.us/api/user/${id}/`;
+  let subDom = localStorage.getItem("subDomain");
+    const api = `https://${subDom}/api/user/${id}/`;
     const token = localStorage.getItem("token");
     const response = await Axios.put(api, payload, {
         headers: {
@@ -34,7 +37,8 @@ export const editUsers = async (id, payload) => {
 }
 
 export const deleteUsers = async (id) => {
-    const api = `https://tenant3.mypatronpay.us/api/user/${id}/`;
+  let subDom = localStorage.getItem("subDomain");
+    const api = `https://${subDom}/api/user/${id}/`;
     const token = localStorage.getItem("token");
     const response = await Axios.delete(api, {
         headers: {
