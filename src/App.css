@@ -313,7 +313,7 @@
 }
 
 .transHead {
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
   max-height: 56em;
   overflow: auto;
   height: 88vh;
@@ -346,9 +346,9 @@
   }
 }
 
-.profile {
+/* .profile {
   background-color: blueviolet;
-}
+} */
 
 .spinner {
   display: flex;

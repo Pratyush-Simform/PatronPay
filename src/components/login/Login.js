@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import { useStyles } from "./styles";
 import Box from "@material-ui/core/Box";
 import Snackbar from "@material-ui/core/Snackbar";
+import { privateLogin } from "../../utils/Index";
 
 function Login() {
   const classes = useStyles();
@@ -30,21 +31,25 @@ function Login() {
     setSubmitted(!submitted);
     setLoginInterface(true);
   };
-
+console.log(loginInterface,45)
   const loginFunction = () => {
     if (loginInterface && password.length > 0) {
       login(email, password)
         .then(() => {
+          console.log("login",history);
           history.push("/orders");
           setSnackMsg("Logged in");
           setSnackbar(true);
+          privateLogin()
         })
         .catch(() => setSnackMsg("Login Failed"), setSnackbar(true));
-    }
-    if (email.length > 0 && !forgotPassword) {
-      subdomainUrl(email)
+      }
+      if (email.length > 0 && !forgotPassword && password.length === 0) {
+        subdomainUrl(email)
         .then((res) => {
+          console.log("sub");
           setDomain(res.data.data.domain);
+          localStorage.setItem("subDomain", res.data.data.domain)
           setSnackMsg("Subdomain Logged in");
           setSnackbar(true);
         })
@@ -62,9 +67,7 @@ function Login() {
 
   useEffect(() => {
     loginFunction();
-    // setEmail("");
     setPassword("");
-    // return () => localStorage.setItem("subDomain", "")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
 
@@ -83,9 +86,6 @@ function Login() {
     setForgotPassword(true);
     loginFunction()
   };
-
-  localStorage.setItem("subDomain", domain)
-  
 
   return (
     <div className={classes.root}>
@@ -125,7 +125,7 @@ function Login() {
           }}
           noValidate
           autoComplete="off"
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
           className="loginHead"
         >
           <>
