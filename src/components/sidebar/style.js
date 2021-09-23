@@ -44,7 +44,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   footRoot: {
     flexGrow: 1,
-    position: "absolute",
+    position: "fixed",
     bottom: 0,
     width: "100%",
   },

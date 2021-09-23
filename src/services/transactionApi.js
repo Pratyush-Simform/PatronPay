@@ -1,7 +1,8 @@
 import Axios from "axios"
 
 export const getTransactions = async () => {
-    const api = `https://tenant3.mypatronpay.us/api/transaction/`;
+   let subDom = localStorage.getItem("subDomain");
+    const api = `https://${subDom}/api/transaction/`;
     const token = localStorage.getItem("token");
     const response = await Axios.get(api, {
       headers: {

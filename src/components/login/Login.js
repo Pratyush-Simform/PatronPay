@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import { useStyles } from "./styles";
 import Box from "@material-ui/core/Box";
 import Snackbar from "@material-ui/core/Snackbar";
+import { privateLogin } from "../../utils/Index";
 
 function Login() {
   const classes = useStyles();
@@ -30,21 +31,25 @@ function Login() {
     setSubmitted(!submitted);
     setLoginInterface(true);
   };
-
+console.log(loginInterface,45)
   const loginFunction = () => {
     if (loginInterface && password.length > 0) {
       login(email, password)
         .then(() => {
+          console.log("login",history);
           history.push("/orders");
           setSnackMsg("Logged in");
           setSnackbar(true);
+          privateLogin()
         })
         .catch(() => setSnackMsg("Login Failed"), setSnackbar(true));
-    }
-    if (email.length > 0 && !forgotPassword) {
-      subdomainUrl(email)
+      }
+      if (email.length > 0 && !forgotPassword && password.length === 0) {
+        subdomainUrl(email)
         .then((res) => {
+          console.log("sub");
           setDomain(res.data.data.domain);
+          localStorage.setItem("subDomain", res.data.data.domain)
           setSnackMsg("Subdomain Logged in");
           setSnackbar(true);
         })
@@ -62,7 +67,6 @@ function Login() {
 
   useEffect(() => {
     loginFunction();
-    setEmail("");
     setPassword("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
@@ -98,7 +102,7 @@ function Login() {
           forgotPassword ? (
             <h2 className="loginHead">Password Reset</h2>
           ) : (
-            <h2 className="loginHead">Please enter email to get sub domain</h2>
+            <h2 className="loginHead">Please enter email</h2>
           )
         ) : forgotPassword ? (
           <h2 className="loginHead">Password Reset</h2>
@@ -106,7 +110,7 @@ function Login() {
           <h2 className="loginHead">Please enter login details</h2>
         )}
         {domain && !forgotPassword ? (
-          <h3 className="loginHead">{`You have logged in for the sub domain ${domain.toLocaleUpperCase()}`}</h3>
+          <h3 className="loginHead">{`You have logged in for the sub domain ${domain}`}</h3>
         ) : null}
         {forgotPassword ? (
           <p className="loginHead">
@@ -121,7 +125,7 @@ function Login() {
           }}
           noValidate
           autoComplete="off"
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
           className="loginHead"
         >
           <>

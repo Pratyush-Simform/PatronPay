@@ -20,6 +20,7 @@ import Typography from "@material-ui/core/Typography";
 import { Context } from "../../store/Context";
 import Icon from "../../assets/images/Icon.png";
 import Snackbar from "@material-ui/core/Snackbar";
+import { privateLogout } from "../../utils/Index";
 
 
 export default function TemporaryDrawer() {
@@ -51,7 +52,7 @@ export default function TemporaryDrawer() {
   const siderButton = (text, index) => {
     if (localStorage.getItem("token").length === 0) {
       setSnackbar(true)
-      setSnackMsg(`Login to redirect on ${text}`);
+      setSnackMsg(`Cannot redirect to ${text}`);
     } else {
       if (index === 0) {
         history.push("/orders");
@@ -71,6 +72,8 @@ export default function TemporaryDrawer() {
         history.push("/users");
       } else if (index === 8) {
         localStorage.setItem("token", "");
+        privateLogout();
+        localStorage.removeItem("subDomain");
         history.push("/");
       }
     }
