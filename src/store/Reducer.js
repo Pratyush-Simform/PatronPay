@@ -10,7 +10,8 @@ const initialState = {
   transaction: [],
   memberTime: "",
   userData: [],
-  profileItems: []
+  profileItems: [],
+  paymentProfiles: [],
 };
 
 const reducer = (state, action) => {
@@ -86,26 +87,31 @@ const reducer = (state, action) => {
         orderArray: action.payload,
       };
 
-      case "TRANSACTION":
-        return {
-          ...state,
-          transaction: action.payload
-        }
-      case "MEMBERTIME":
-        return {
-          ...state,
-          memberTime: action.payload
-        }
-      case "USER_DATA":
-        return {
-          ...state,
-          userData: action.payload
-        }  
-      case "PROFILE_ITEMS":
-        return {
-          ...state,
-          profileItems: action.payload
-        }  
+    case "TRANSACTION":
+      return {
+        ...state,
+        transaction: action.payload,
+      };
+    case "MEMBERTIME":
+      return {
+        ...state,
+        memberTime: action.payload,
+      };
+    case "USER_DATA":
+      return {
+        ...state,
+        userData: action.payload,
+      };
+    case "PROFILE_ITEMS":
+      return {
+        ...state,
+        profileItems: action.payload,
+      };
+    case "PAYMENT_PROFILES":
+      return {
+        ...state,
+        paymentProfiles: action.payload,
+      };
     default:
       return;
   }

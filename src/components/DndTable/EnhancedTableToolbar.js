@@ -14,6 +14,7 @@ import EditUserModal from "../modals/EditUserModal";
 import { toolbarStyles } from "./styles";
 import "../../App.css";
 import { Constants } from "./Constants"
+import PaymentProfileModal from "../modals/PaymentProfileModal";
 
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData, updatedUsers} = props;
@@ -100,6 +101,7 @@ console.log(updatedUsers, 59);
                 <Search onClick={() => setSearch(true)} />
                 {title === "Profile Items" ? <AddModal name={Constants.ADD} /> : null}
                 {title === "Users" ? <EditUserModal name={Constants.ADD} /> : null}
+                {title === "Payment Profiles" && <PaymentProfileModal />}
                 <MoreVert />
               </IconButton>
             </Tooltip>

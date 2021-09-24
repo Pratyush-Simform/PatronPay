@@ -27,6 +27,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import { Context } from "../../store/Context";
 
 function AddModal({ row, name }) {
+  console.log(row, 33);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState([]);
@@ -52,7 +53,7 @@ function AddModal({ row, name }) {
 
   const formik = useFormik({
     initialValues: {
-      pcf_id: row?.pcf_id || "",
+      pcf_id: row?.paymentProfile || "",
       order: row?.order || "",
       barcode: row?.barcode || "",
       short_name: row?.short_name || "",
@@ -118,11 +119,6 @@ function AddModal({ row, name }) {
       .catch(() => setSnackMsg("Cannot load profile configurations"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-// const configutaions = [
-//   {id: "4f00afc4-3a40-4e6e-bfcb-9225e203b320", name: "WGSM Baseball Profile"},
-//   {id: "a03e7396-541d-4ae3-829b-91552da1ec0c", name: "shoppingcart profile"},
-//   {id: "a42a5b65-c91f-4bf0-8b5e-53ac9210dbc2", name: "quickpay profile"},
-// ]
 
   const handleSnackClose = () => {
     setsnackState({ ...snackState, open: false });
@@ -182,6 +178,7 @@ function AddModal({ row, name }) {
                         onChange={handleChange}
                         value={pcfId}
                         variant="outlined"
+                        placeholder={row?.paymentProfile}
                         required={true}
                       >
                         {config?.map((con) => (

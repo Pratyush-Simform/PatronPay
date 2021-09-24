@@ -62,4 +62,11 @@ export let cols = [
     label: "Allow Amount Override",
     width: 300,
   },
+  {
+    id: "paymentProfile",
+    numeric: false,
+    disablePadding: true,
+    label: "Payment Profile",
+    width: 300,
+  },
 ];
