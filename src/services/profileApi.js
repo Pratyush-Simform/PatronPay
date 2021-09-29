@@ -24,6 +24,33 @@ export const getPaymentProfiles = async () => {
   return response;
 };
 
+export const deletePaymentProfiles = async (id) => {
+  alert(id)
+  // let subDom = localStorage.getItem("subDomain");
+  // const api = `https://${subDom}/api/patron_configuration/${id}`;
+  // const token = localStorage.getItem("token");
+  // const response = await Axios.delete(api, {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
+  // return response;
+};
+
+
+export const addPaymentProfles = async (payload) => {
+  let subDom = localStorage.getItem("subDomain");
+  const api = `https://${subDom}/api/patron_configuration/`;
+  console.log(api);
+  const token = localStorage.getItem("token");
+  const response = await Axios.post(api, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response
+}
+
 export const addProfileItems = async (payload) => {
   let subDom = localStorage.getItem("subDomain");
   const api = `https://${subDom}/api/patron_configuration_item/`;
@@ -59,3 +86,4 @@ export const deleteProfileItems = async (id) => {
   });
   return response;
 };
+

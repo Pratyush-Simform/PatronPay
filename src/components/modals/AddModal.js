@@ -109,7 +109,6 @@ function AddModal({ row, name }) {
   });
 
   const handleChange = (event) => {
-    alert(event.target.value);
     setPcfId(event.target.value);
   };
 

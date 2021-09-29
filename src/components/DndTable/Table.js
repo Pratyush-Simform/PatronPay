@@ -27,6 +27,7 @@ import { styles } from "./styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteUsers, getUsers } from "../../services/userApi";
+import { deletePaymentProfiles } from "../../services/profileApi"
 import { withContext } from "../../store/WithContext";
 import Snackbar from "@material-ui/core/Snackbar";
 import ExportTransactions from "../modals/ExportTranactions";
@@ -664,6 +665,22 @@ class EnhancedTable extends React.Component {
     );
   };
 
+  handleProfileItemsDelete = (row) => {
+    deletePaymentProfiles(row.id).then(() =>
+    getUsers()
+      .then((res) =>
+        this.setState({
+          renderer: res.data.data.results,
+          snackbar: true,
+          snackMsg: "Payment Profile Deleted Succesfully",
+        })
+      )
+      .catch(() =>
+        this.setState({ snackbar: true, snackMsg: "Could not Delete Payment Profile" })
+      )
+  );
+  }
+
   handleClose = () => {
     this.setState({ snackbar: false });
   };
@@ -1076,6 +1093,8 @@ class EnhancedTable extends React.Component {
                                         <AddModal row={n} />
                                         <DeleteIcon />
                                       </div>
+                                    ) : name === "Payment Profiles" ? (
+                                      <DeleteIcon onClick={() => this.handleProfileItemsDelete(n)} />
                                     ) : null}
                                   </TableRow>
                                 </TableBody>
