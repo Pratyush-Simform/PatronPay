@@ -27,11 +27,13 @@ import { styles } from "./styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteUsers, getUsers } from "../../services/userApi";
+import { deletePaymentProfiles } from "../../services/profileApi"
 import { withContext } from "../../store/WithContext";
 import Snackbar from "@material-ui/core/Snackbar";
 import ExportTransactions from "../modals/ExportTranactions";
 import AddModal from "../modals/AddModal";
 import ImportFile from "../modals/ImportFile";
+import Stack from '@mui/material/Stack';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -663,6 +665,22 @@ class EnhancedTable extends React.Component {
     );
   };
 
+  handleProfileItemsDelete = (row) => {
+    deletePaymentProfiles(row.id).then(() =>
+    getUsers()
+      .then((res) =>
+        this.setState({
+          renderer: res.data.data.results,
+          snackbar: true,
+          snackMsg: "Payment Profile Deleted Succesfully",
+        })
+      )
+      .catch(() =>
+        this.setState({ snackbar: true, snackMsg: "Could not Delete Payment Profile" })
+      )
+  );
+  }
+
   handleClose = () => {
     this.setState({ snackbar: false });
   };
@@ -730,18 +748,22 @@ class EnhancedTable extends React.Component {
               selectedData={(data) => this.selectedData(data)}
             />
           </span>
-          <div className="buttonGrp">
+          <div >
             {name === "Transction" ? <ExportTransactions data={data} /> : null}
-            <ImportFile />
-            <span className="btnMargin">
+            {/* <span className="btnMargin"> */}
+            <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-end">
               {name === "Profile Items" ? (
-                <CSVLink
-                  data={this.props.data}
-                  headers={this.state.profileItemsHeader}
-                >
-                  <Button variant="contained">Export All</Button>
-                </CSVLink>
+                <>
+                  <ImportFile />
+                  <CSVLink
+                    data={this.props.data}
+                    headers={this.state.profileItemsHeader}
+                    >
+                    <Button variant="contained">Export All</Button>
+                  </CSVLink>
+                </>
               ) : null}
+              {/* </span> */}
               <ExcelFile
                 element={<Button variant="contained">Download Execl</Button>}
               >
@@ -766,7 +788,7 @@ class EnhancedTable extends React.Component {
                     <ExcelColumn
                       label="Configuration Type"
                       value="config_type"
-                    />
+                      />
                   </ExcelSheet>
                 ) : name === "Membership Payments" ? (
                   <ExcelSheet data={this.props.data} name="Membership Payments">
@@ -807,63 +829,62 @@ class EnhancedTable extends React.Component {
                   </ExcelSheet>
                 ) : null}
               </ExcelFile>
-            </span>
-            <Button
-              className="btnMargin"
-              onClick={() => this.exportPDF()}
-              variant="contained"
-            >
-              Generate pdf
-            </Button>
-            <span className="btnMargin">
-              {name === "Transaction" ? (
-                <CSVLink
-                  data={this.props.data}
-                  headers={this.state.transactionHeader}
-                >
-                  <Button variant="contained">Download csv</Button>
-                </CSVLink>
-              ) : name === "Profile Items" ? (
-                <CSVLink
-                  data={this.props.data}
-                  headers={this.state.profileItemsHeader}
-                >
-                  <Button variant="contained">Download csv</Button>
-                </CSVLink>
-              ) : name === "Payment Profiles" ? (
-                <CSVLink
-                  data={this.props.data}
-                  headers={this.state.paymentProfileHeader}
-                >
-                  <Button variant="contained">Download csv</Button>
-                </CSVLink>
-              ) : name === "Membership Payments" ? (
-                <CSVLink
-                  data={this.props.data}
-                  headers={this.state.memberPaymentsHeader}
-                >
-                  <Button variant="contained">Download csv</Button>
-                </CSVLink>
-              ) : name === "Cash Payments" ? (
-                <CSVLink
-                  data={this.props.data}
-                  headers={this.state.cashPaymentsHeader}
-                >
-                  <Button variant="contained">Download csv</Button>
-                </CSVLink>
-              ) : name === "Cashless Payments" ? (
-                <CSVLink
-                  data={this.props.data}
-                  headers={this.state.cashlessPaymentsHeader}
-                >
-                  <Button variant="contained">Download csv</Button>
-                </CSVLink>
-              ) : name === "Users" ? (
-                <CSVLink data={this.props.data} headers={this.state.users}>
-                  <Button variant="contained">Download csv</Button>
-                </CSVLink>
-              ) : null}
-            </span>
+              <Button
+                onClick={() => this.exportPDF()}
+                variant="contained"
+              >
+                Generate pdf
+              </Button>
+              {/* <span className="btnMargin"> */}
+                {name === "Transaction" ? (
+                  <CSVLink
+                    data={this.props.data}
+                    headers={this.state.transactionHeader}
+                  >
+                    <Button variant="contained">Download csv</Button>
+                  </CSVLink>
+                ) : name === "Profile Items" ? (
+                  <CSVLink
+                    data={this.props.data}
+                    headers={this.state.profileItemsHeader}
+                  >
+                    <Button variant="contained">Download csv</Button>
+                  </CSVLink>
+                ) : name === "Payment Profiles" ? (
+                  <CSVLink
+                    data={this.props.data}
+                    headers={this.state.paymentProfileHeader}
+                  >
+                    <Button variant="contained">Download csv</Button>
+                  </CSVLink>
+                ) : name === "Membership Payments" ? (
+                  <CSVLink
+                    data={this.props.data}
+                    headers={this.state.memberPaymentsHeader}
+                  >
+                    <Button variant="contained">Download csv</Button>
+                  </CSVLink>
+                ) : name === "Cash Payments" ? (
+                  <CSVLink
+                    data={this.props.data}
+                    headers={this.state.cashPaymentsHeader}
+                  >
+                    <Button variant="contained">Download csv</Button>
+                  </CSVLink>
+                ) : name === "Cashless Payments" ? (
+                  <CSVLink
+                    data={this.props.data}
+                    headers={this.state.cashlessPaymentsHeader}
+                  >
+                    <Button variant="contained">Download csv</Button>
+                  </CSVLink>
+                ) : name === "Users" ? (
+                  <CSVLink data={this.props.data} headers={this.state.users}>
+                    <Button variant="contained">Download csv</Button>
+                  </CSVLink>
+                ) : null}
+            {/* </span> */}
+            </Stack>
           </div>
           <Table
             table-layout="fixed"
@@ -1072,6 +1093,8 @@ class EnhancedTable extends React.Component {
                                         <AddModal row={n} />
                                         <DeleteIcon />
                                       </div>
+                                    ) : name === "Payment Profiles" ? (
+                                      <DeleteIcon onClick={() => this.handleProfileItemsDelete(n)} />
                                     ) : null}
                                   </TableRow>
                                 </TableBody>

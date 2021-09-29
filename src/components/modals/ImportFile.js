@@ -61,7 +61,7 @@ function ImportFile() {
 
   return (
     <>
-      <Button type="button" onClick={handleOpen}>
+      <Button variant="contained" type="button" onClick={handleOpen}>
         Import CSV/XLSX
       </Button>
       <Modal
