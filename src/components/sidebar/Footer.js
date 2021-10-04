@@ -16,12 +16,10 @@ function Footer() {
           <Typography variant="h6" color="inherit">
           © 2021 <Link href="https://patronpay.us/" target="_blank" underline="hover" className="white">PatronPay</Link>
           </Typography>
-          <Typography>
             <div style={{display: 'flex', justifyContent: "space-between", width: "12em"}}>
             <Link href="https://patronpay.us/" target="_blank" underline="hover" className="white">PatronPay</Link>
             <Link href="https://patronpay.us/about/" target="_blank" underline="hover" className="white">About Us</Link>
             </div>
-          </Typography>
         </Toolbar>
       </AppBar>
     </div>

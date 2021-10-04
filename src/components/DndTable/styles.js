@@ -3,7 +3,7 @@ import { lighten } from "@material-ui/core/styles/colorManipulator";
 export const styles = (theme) => ({
     root: {
       // width: "100%",
-      marginTop: theme.spacing.unit * 3,
+      marginTop: theme.spacing(3),
     },
     table: {
       minWidth: 1020,
@@ -17,13 +17,13 @@ export const styles = (theme) => ({
     root: {
       flexShrink: 0,
       color: theme.palette.text.secondary,
-      marginLeft: theme.spacing.unit * 2.5
+      marginLeft: theme.spacing(2.5)
     }
   });
 
   export const toolbarStyles = (theme) => ({
     root: {
-      paddingRight: theme.spacing.unit,
+      paddingRight: theme.spacing(0),
     },
     highlight:
       theme.palette.type === "light"

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "@material-ui/core/Modal";
 import ReactFileReader from "react-file-reader";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { useStyles, getImportModalStyle } from "./styles"
 
 function ImportFile() {
@@ -48,13 +48,13 @@ function ImportFile() {
           <span>{fileName ? fileName : null}</span>
         </div>
       </ReactFileReader>
-      <p>
+      <Typography component={'span'} variant={'body2'}>
         Supported files- .csv and .xlsx To download a sample import file <Button>click
         here.</Button> <br />
         Order of profile item will be set based upon the order in which it
         appears in import file. Profile item images should be uploaded
         individually for each item in edit screen.
-      </p>
+      </Typography>
       <Button variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
     </div>
   );

@@ -6,13 +6,13 @@ export class ComponentToPrint extends React.Component {
     return (
       <div className="allTables">
         <table className="printTable">
-          <h1>Open Orders</h1>
+        <thead><tr><td>Open Orders</td></tr></thead>
           <thead>
-            <th>Order Id</th>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>name</th>
+            <tr><td>Order Id</td></tr>
+            <tr><td>Name</td></tr>
+            <tr><td>Quantity</td></tr>
+            <tr><td>Price</td></tr>
+            <tr><td>name</td></tr>
           </thead>
           <tbody>
             {this.props?.otherData?.map((data) => (
@@ -32,13 +32,13 @@ export class ComponentToPrint extends React.Component {
         </table>
 
         <table className="printTable">
-          <h1>Done Orders</h1>
+          <thead><tr><td>Done Orders</td></tr></thead>
           <thead>
-            <th>Order Id</th>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>name</th>
+            <tr><td>Order Id</td></tr>
+            <tr><td>Name</td></tr>
+            <tr><td>Quantity</td></tr>
+            <tr><td>Price</td></tr>
+            <tr><td>name</td></tr>
           </thead>
           <tbody>
             {this.props?.data?.map((data) => (

@@ -67,11 +67,11 @@ console.log(updatedUsers, 59);
     >
       <div className={classes.title}>
         {numSelected > 0 ? (
-          <Typography color="inherit" variant="subheading">
+          <Typography color="inherit" variant="subtitle1">
             {numSelected} selected
           </Typography>
         ) : (
-          <Typography variant="title" id="tableTitle">
+          <Typography variant="subtitle1" id="tableTitle">
             {title.toUpperCase()}
           </Typography>
         )}
@@ -95,10 +95,10 @@ console.log(updatedUsers, 59);
             <CancelIcon onClick={() => setSearch(false)} />
           </div>
         ) : (
-          <div>
+          <div onClick={() => setSearch(true)}>
             <Tooltip title="Filter list">
               <IconButton aria-label="Filter list">
-                <Search onClick={() => setSearch(true)} />
+                <Search />
                 {title === "Profile Items" ? <AddModal name={Constants.ADD} /> : null}
                 {title === "Users" ? <EditUserModal name={Constants.ADD} /> : null}
                 {title === "Payment Profiles" && <PaymentProfileModal />}
