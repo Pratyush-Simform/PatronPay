@@ -51,7 +51,7 @@ class EnhancedTableHead extends React.Component {
             style={{ padding: 0 }}
           >
             {(provided, snapshot) => (
-              <tr
+              <TableRow
                 key={snapshot.toString()}
                 ref={provided.innerRef}
                 style={{
@@ -140,7 +140,7 @@ class EnhancedTableHead extends React.Component {
                   </TableCell>
                 ))}
                 {provided.placeholder}
-              </tr>
+              </TableRow>
             )}
           </TableRow>
         </TableHead>

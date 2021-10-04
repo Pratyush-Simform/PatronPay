@@ -184,6 +184,7 @@ function AddModal({ row, name }) {
                           <MenuItem
                             onChange={formik.handleChange}
                             value={con.id}
+                            key={con.id}
                           >
                             {con.name}
                           </MenuItem>

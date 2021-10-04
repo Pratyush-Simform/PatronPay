@@ -6,13 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { ContextProvider } from "./store/Context"
 
 ReactDOM.render(
-  <React.StrictMode>
     <Suspense fallback={"Loading"}>
       <ContextProvider>
     <App />
     </ContextProvider>
-    </Suspense>
-  </React.StrictMode>,
+    </Suspense>,
   document.getElementById('root')
 );
 

@@ -101,7 +101,7 @@ function Order() {
   return (
     <div className="order">
       {/* <h2 style={{ display: "flex", justifyContent: "center" }}>Open Orders</h2> */}
-      <Button onClick={handleOpen}></Button>
+      <Button onClick={handleOpen} />
       <div className="orderDrpdwn">
         <FormControl>
           <InputLabel id="demo-controlled-open-select-label">
@@ -118,7 +118,7 @@ function Order() {
             value={pcfId}
           >
             {config?.map((con) => (
-              <MenuItem value={con.id}>{con.name}</MenuItem>
+              <MenuItem value={con.id} key={con.id}>{con.name}</MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -147,7 +147,7 @@ function Order() {
                     </h3>
                   ))}
                 </div>
-                <List dense className="listItems">
+                <List dense className="listItems" key={index}>
                   <h3>
                     {td?.receipt_receiver}
                   </h3>
@@ -169,9 +169,9 @@ function Order() {
                       component="p"
                     >
                       <ListItem className="lists" key={index}>
-                        <div>{od.tri_id_name}</div>
-                        <div className="marg">{od.quantity}</div>
-                        <div className="marg">${od.amount}</div>
+                        <span>{od.tri_id_name}</span>
+                        <span className="marg">{od.quantity}</span>
+                        <span className="marg">${od.amount}</span>
                       </ListItem>
                       <Divider />
                     </Typography>

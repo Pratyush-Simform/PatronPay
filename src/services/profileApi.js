@@ -25,16 +25,15 @@ export const getPaymentProfiles = async () => {
 };
 
 export const deletePaymentProfiles = async (id) => {
-  alert(id)
-  // let subDom = localStorage.getItem("subDomain");
-  // const api = `https://${subDom}/api/patron_configuration/${id}`;
-  // const token = localStorage.getItem("token");
-  // const response = await Axios.delete(api, {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
-  // return response;
+  let subDom = localStorage.getItem("subDomain");
+  const api = `https://${subDom}/api/patron_configuration/${id}`;
+  const token = localStorage.getItem("token");
+  const response = await Axios.delete(api, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
 

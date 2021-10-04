@@ -27,7 +27,7 @@ import { styles } from "./styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteUsers, getUsers } from "../../services/userApi";
-import { deletePaymentProfiles } from "../../services/profileApi"
+import { deletePaymentProfiles, getPaymentProfiles } from "../../services/profileApi"
 import { withContext } from "../../store/WithContext";
 import Snackbar from "@material-ui/core/Snackbar";
 import ExportTransactions from "../modals/ExportTranactions";
@@ -667,7 +667,7 @@ class EnhancedTable extends React.Component {
 
   handleProfileItemsDelete = (row) => {
     deletePaymentProfiles(row.id).then(() =>
-    getUsers()
+    getPaymentProfiles()
       .then((res) =>
         this.setState({
           renderer: res.data.data.results,
@@ -894,7 +894,7 @@ class EnhancedTable extends React.Component {
             <TableHead>
               <TableRow>
                 <TablePagination
-                  component="div"
+                  // component="div"
                   count={this.props.data.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
@@ -904,7 +904,7 @@ class EnhancedTable extends React.Component {
                   nextIconButtonProps={{
                     "aria-label": "Next Page",
                   }}
-                  rowsPerPageOptions={[15, 25, 50]}
+                  rowsPerPageOptions={[6, 12, 18]}
                   onChangePage={this.handleChangePage}
                   onChangeRowsPerPage={this.handleChangeRowsPerPage}
                   ActionsComponent={TablePaginationActions}
@@ -1008,6 +1008,8 @@ class EnhancedTable extends React.Component {
                                           <AddModal row={n} />
                                           <DeleteIcon />
                                         </div>
+                                      ) : name === "Payment Profiles" ? (
+                                        <DeleteIcon onClick={() => this.handleProfileItemsDelete(n)} />
                                       ) : null}
                                     </div>
                                   </TableRow>

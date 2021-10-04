@@ -4,11 +4,11 @@ import Footer from "../components/sidebar/Footer";
 
 function Layout({children}) {
   return (
-    <div>
+    <>
       <Header />
       {children}
       <Footer />
-    </div>
+    </>
   );
 }
 
