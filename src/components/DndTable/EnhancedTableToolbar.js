@@ -13,11 +13,12 @@ import AddModal from "../modals/AddModal";
 import EditUserModal from "../modals/EditUserModal";
 import { toolbarStyles } from "./styles";
 import "../../App.css";
-import { Constants } from "./Constants"
+import { Constants } from "./Constants";
 import PaymentProfileModal from "../modals/PaymentProfileModal";
 
 let EnhancedTableToolbar = (props) => {
-  const { numSelected, classes, title, items, searchedData, updatedUsers} = props;
+  const { numSelected, classes, title, items, searchedData, updatedUsers } =
+    props;
   console.log(props);
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -46,10 +47,14 @@ let EnhancedTableToolbar = (props) => {
             let filData = itemCopy.filter((k) => k.name.includes(searchInput));
             searchedData(filData);
           } else if (props.title === "Membership Payments") {
-            let filData = itemCopy.filter((k) => k.first_name.includes(searchInput));
+            let filData = itemCopy.filter((k) =>
+              k.first_name.includes(searchInput)
+            );
             searchedData(filData);
           } else if (props.title === "Users") {
-            let filData = itemCopy.filter((k) => k.first_name.includes(searchInput));
+            let filData = itemCopy.filter((k) =>
+              k.first_name.includes(searchInput)
+            );
             searchedData(filData);
           }
         } else {
@@ -58,7 +63,7 @@ let EnhancedTableToolbar = (props) => {
       };
     }
   });
-console.log(updatedUsers, 59);
+  console.log(updatedUsers, 59);
   return (
     <Toolbar
       className={classNames(classes.root, {
@@ -95,12 +100,16 @@ console.log(updatedUsers, 59);
             <CancelIcon onClick={() => setSearch(false)} />
           </div>
         ) : (
-          <div onClick={() => setSearch(true)}>
+          <div>
             <Tooltip title="Filter list">
               <IconButton aria-label="Filter list">
-                <Search />
-                {title === "Profile Items" ? <AddModal name={Constants.ADD} /> : null}
-                {title === "Users" ? <EditUserModal name={Constants.ADD} /> : null}
+                <Search onClick={() => setSearch(true)} />
+                {title === "Profile Items" ? (
+                  <AddModal name={Constants.ADD} />
+                ) : null}
+                {title === "Users" ? (
+                  <EditUserModal name={Constants.ADD} />
+                ) : null}
                 {title === "Payment Profiles" && <PaymentProfileModal />}
                 <MoreVert />
               </IconButton>

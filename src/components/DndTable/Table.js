@@ -704,7 +704,7 @@ class EnhancedTable extends React.Component {
       snackMsg,
     } = this.state;
     const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+      rowsPerPage - Math.min(rowsPerPage, data?.length - page * rowsPerPage);
     return (
       <Paper className="searchBox">
         <Snackbar
@@ -895,7 +895,7 @@ class EnhancedTable extends React.Component {
               <TableRow>
                 <TablePagination
                   // component="div"
-                  count={this.props.data.length}
+                  count={this.props.data?.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   backIconButtonProps={{
@@ -915,12 +915,12 @@ class EnhancedTable extends React.Component {
               handleReorderColumnData={this.onDragEnd}
               handleResizeColumn={this.handleWidthChange}
               columnData={this.columnRender()}
-              numSelected={selected.length}
+              numSelected={selected?.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
+              rowCount={data?.length}
             />
             {data.length > 0 ? (
               <TableBody>

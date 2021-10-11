@@ -58,6 +58,12 @@ export const routes = {
     component: lazy(() => import("../../components/users/Users")),
     type: PrivateRoute,
   },
+  myorganisation: {
+    name: "My Organisation",
+    path: "/myorganisation",
+    component: lazy(() => import("../../components/organisation/MyOrganisation")),
+    type: PrivateRoute,
+  },
   emptyRoute: {
     name: "DefautlRoute",
     path: "/",
