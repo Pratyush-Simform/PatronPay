@@ -50,7 +50,7 @@ export default function TemporaryDrawer() {
   };
 
   const siderButton = (text, index) => {
-    if (localStorage.getItem("token").length === 0) {
+    if (localStorage.getItem("token")?.length === 0) {
       setSnackbar(true)
       setSnackMsg(`Cannot redirect to ${text}`);
     } else {
@@ -71,6 +71,8 @@ export default function TemporaryDrawer() {
       } else if (index === 7) {
         history.push("/users");
       } else if (index === 8) {
+        history.push("/myorganisation");
+      } else if (index === 9) {
         localStorage.setItem("token", "");
         privateLogout();
         localStorage.removeItem("subDomain");
@@ -110,6 +112,7 @@ export default function TemporaryDrawer() {
           "Cashless Payments",
           "Cash Payments",
           "users",
+          "My Organisation",
           "Log Out",
         ].map((text, index) => (
           <ListItem button key={text} onClick={() => siderButton(text, index)}>
