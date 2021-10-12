@@ -34,6 +34,9 @@ import ExportTransactions from "../modals/ExportTranactions";
 import AddModal from "../modals/AddModal";
 import ImportFile from "../modals/ImportFile";
 import Stack from '@mui/material/Stack';
+import PictureAsPdfOutlined from '@material-ui/icons/PictureAsPdfOutlined';
+import DescriptionOutlined from '@material-ui/icons/DescriptionOutlined';
+import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -719,7 +722,189 @@ class EnhancedTable extends React.Component {
           numSelected={selected.length}
           items={data}
           searchedData={this.searchedFunc}
-        />
+        >
+        <div className="pDownloads">
+          {name === "Transction" ? <ExportTransactions data={data} /> : null}
+          {/* <span className="btnMargin"> */}
+          <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-end">
+            {name === "Profile Items" ? (
+              <>
+                <ImportFile />
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.profileItemsHeader}
+                  >
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<CloudUploadOutlined />}>Export All</Button>
+                </CSVLink>
+              </>
+            ) : null}
+            {/* </span> */}
+            <ExcelFile
+              element={<Button variant="outlined" color="primary" size="large" startIcon={<DescriptionOutlined />}>Execl</Button>}
+            >
+              {name === "Transction" ? (
+                <ExcelSheet data={this.props.data} name="Transction">
+                  <ExcelColumn label="Date/time" value="newDate" />
+                  <ExcelColumn label="Payment Url" value="payment_url" />
+                  <ExcelColumn label="Transaction type" value="trs_type" />
+                  <ExcelColumn label="Settled" value="settled" />
+                  <ExcelColumn label="No of Items" value="noOfItems" />
+                </ExcelSheet>
+              ) : name === "Profile Items" ? (
+                <ExcelSheet data={this.props.data} name="Profile Items">
+                  <ExcelColumn label="Barcode" value="barcode" />
+                  <ExcelColumn label="Description" value="description" />
+                  <ExcelColumn label="Short Name" value="short_name" />
+                  <ExcelColumn label="Price" value="price" />
+                </ExcelSheet>
+              ) : name === "Payment Profiles" ? (
+                <ExcelSheet data={this.props.data} name="Payment Profile">
+                  <ExcelColumn label="Name" value="name" />
+                  <ExcelColumn
+                    label="Configuration Type"
+                    value="config_type"
+                    />
+                </ExcelSheet>
+              ) : name === "Membership Payments" ? (
+                <ExcelSheet data={this.props.data} name="Membership Payments">
+                  <ExcelColumn label="Amount" value="amount" />
+                  <ExcelColumn label="Card number" value="card_number" />
+                  <ExcelColumn label="Currency" value="currency" />
+                  <ExcelColumn label="Name" value="first_name" />
+                  <ExcelColumn label="Tip" value="tip" />
+                  <ExcelColumn label="Tax" value="tax" />
+                  <ExcelColumn label="Tip Tax" value="tip_tax" />
+                  <ExcelColumn label="Transaction Type" value="txn_type" />
+                </ExcelSheet>
+              ) : name === "Cash Payments" ? (
+                <ExcelSheet data={this.props.data} name="Cash Payments">
+                  <ExcelColumn label="Amount" value="amount" />
+                  <ExcelColumn label="Currency" value="currency" />
+                  <ExcelColumn label="Tip" value="tip" />
+                  <ExcelColumn label="Tax" value="tax" />
+                  <ExcelColumn label="Tip Tax" value="tip_tax" />
+                  <ExcelColumn label="Transaction Type" value="txn_type" />
+                </ExcelSheet>
+              ) : name === "Cashless Payments" ? (
+                <ExcelSheet data={this.props.data} name="Cashless Payments">
+                  <ExcelColumn label="Amount" value="amount_auth" />
+                  <ExcelColumn label="Card Type" value="card_type" />
+                  <ExcelColumn label="Currency" value="currency" />
+                  <ExcelColumn label="Name" value="first_name" />
+                  <ExcelColumn label="Tip" value="tip" />
+                  <ExcelColumn label="Tax" value="tax" />
+                  <ExcelColumn label="Tip Tax" value="tip_tax" />
+                  <ExcelColumn label="Transaction Type" value="txn_type" />
+                </ExcelSheet>
+              ) : name === "Users" ? (
+                <ExcelSheet data={this.props.data} name="Users">
+                  <ExcelColumn label="Email" value="email" />
+                  <ExcelColumn label="First Name" value="first_name" />
+                  <ExcelColumn label="Last Name" value="last_name" />
+                </ExcelSheet>
+              ) : null}
+            </ExcelFile>
+            <Button
+              onClick={() => this.exportPDF()}
+              variant="outlined"
+              size="large"
+              startIcon={<PictureAsPdfOutlined/>}
+              color="primary"
+            >
+              Pdf
+            </Button>
+            {/* <span className="btnMargin"> */}
+              {name === "Transaction" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.transactionHeader}
+                >
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<DescriptionOutlined />}
+                  >
+                    csv</Button>
+                </CSVLink>
+              ) : name === "Profile Items" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.profileItemsHeader}
+                >
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<DescriptionOutlined />}
+                  > csv</Button>
+                </CSVLink>
+              ) : name === "Payment Profiles" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.paymentProfileHeader}
+                >
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<DescriptionOutlined />}
+                  > csv</Button>
+                </CSVLink>
+              ) : name === "Membership Payments" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.memberPaymentsHeader}
+                >
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<DescriptionOutlined />}
+                  > csv</Button>
+                </CSVLink>
+              ) : name === "Cash Payments" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.cashPaymentsHeader}
+                >
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<DescriptionOutlined />}
+                  > csv</Button>
+                </CSVLink>
+              ) : name === "Cashless Payments" ? (
+                <CSVLink
+                  data={this.props.data}
+                  headers={this.state.cashlessPaymentsHeader}
+                >
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<DescriptionOutlined />}
+                  > csv</Button>
+                </CSVLink>
+              ) : name === "Users" ? (
+                <CSVLink data={this.props.data} headers={this.state.users}>
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<DescriptionOutlined />}
+                  > csv</Button>
+                </CSVLink>
+              ) : null}
+          {/* </span> */}
+          </Stack>
+        </div>
+        </EnhancedTableToolbar>
         {name === "Transaction" ? (
           <DatePicker
             setEndDate={this.setEndDate}
@@ -742,149 +927,11 @@ class EnhancedTable extends React.Component {
           />
         ) : null}
         <div className={classes.tableWrapper}>
-          <span className="drpDwn">
+          <div className="drpDwn">
             <Dropdown
               data={data}
               selectedData={(data) => this.selectedData(data)}
             />
-          </span>
-          <div >
-            {name === "Transction" ? <ExportTransactions data={data} /> : null}
-            {/* <span className="btnMargin"> */}
-            <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-end">
-              {name === "Profile Items" ? (
-                <>
-                  <ImportFile />
-                  <CSVLink
-                    data={this.props.data}
-                    headers={this.state.profileItemsHeader}
-                    >
-                    <Button variant="contained">Export All</Button>
-                  </CSVLink>
-                </>
-              ) : null}
-              {/* </span> */}
-              <ExcelFile
-                element={<Button variant="contained">Download Execl</Button>}
-              >
-                {name === "Transction" ? (
-                  <ExcelSheet data={this.props.data} name="Transction">
-                    <ExcelColumn label="Date/time" value="newDate" />
-                    <ExcelColumn label="Payment Url" value="payment_url" />
-                    <ExcelColumn label="Transaction type" value="trs_type" />
-                    <ExcelColumn label="Settled" value="settled" />
-                    <ExcelColumn label="No of Items" value="noOfItems" />
-                  </ExcelSheet>
-                ) : name === "Profile Items" ? (
-                  <ExcelSheet data={this.props.data} name="Profile Items">
-                    <ExcelColumn label="Barcode" value="barcode" />
-                    <ExcelColumn label="Description" value="description" />
-                    <ExcelColumn label="Short Name" value="short_name" />
-                    <ExcelColumn label="Price" value="price" />
-                  </ExcelSheet>
-                ) : name === "Payment Profiles" ? (
-                  <ExcelSheet data={this.props.data} name="Payment Profile">
-                    <ExcelColumn label="Name" value="name" />
-                    <ExcelColumn
-                      label="Configuration Type"
-                      value="config_type"
-                      />
-                  </ExcelSheet>
-                ) : name === "Membership Payments" ? (
-                  <ExcelSheet data={this.props.data} name="Membership Payments">
-                    <ExcelColumn label="Amount" value="amount" />
-                    <ExcelColumn label="Card number" value="card_number" />
-                    <ExcelColumn label="Currency" value="currency" />
-                    <ExcelColumn label="Name" value="first_name" />
-                    <ExcelColumn label="Tip" value="tip" />
-                    <ExcelColumn label="Tax" value="tax" />
-                    <ExcelColumn label="Tip Tax" value="tip_tax" />
-                    <ExcelColumn label="Transaction Type" value="txn_type" />
-                  </ExcelSheet>
-                ) : name === "Cash Payments" ? (
-                  <ExcelSheet data={this.props.data} name="Cash Payments">
-                    <ExcelColumn label="Amount" value="amount" />
-                    <ExcelColumn label="Currency" value="currency" />
-                    <ExcelColumn label="Tip" value="tip" />
-                    <ExcelColumn label="Tax" value="tax" />
-                    <ExcelColumn label="Tip Tax" value="tip_tax" />
-                    <ExcelColumn label="Transaction Type" value="txn_type" />
-                  </ExcelSheet>
-                ) : name === "Cashless Payments" ? (
-                  <ExcelSheet data={this.props.data} name="Cashless Payments">
-                    <ExcelColumn label="Amount" value="amount_auth" />
-                    <ExcelColumn label="Card Type" value="card_type" />
-                    <ExcelColumn label="Currency" value="currency" />
-                    <ExcelColumn label="Name" value="first_name" />
-                    <ExcelColumn label="Tip" value="tip" />
-                    <ExcelColumn label="Tax" value="tax" />
-                    <ExcelColumn label="Tip Tax" value="tip_tax" />
-                    <ExcelColumn label="Transaction Type" value="txn_type" />
-                  </ExcelSheet>
-                ) : name === "Users" ? (
-                  <ExcelSheet data={this.props.data} name="Users">
-                    <ExcelColumn label="Email" value="email" />
-                    <ExcelColumn label="First Name" value="first_name" />
-                    <ExcelColumn label="Last Name" value="last_name" />
-                  </ExcelSheet>
-                ) : null}
-              </ExcelFile>
-              <Button
-                onClick={() => this.exportPDF()}
-                variant="contained"
-              >
-                Generate pdf
-              </Button>
-              {/* <span className="btnMargin"> */}
-                {name === "Transaction" ? (
-                  <CSVLink
-                    data={this.props.data}
-                    headers={this.state.transactionHeader}
-                  >
-                    <Button variant="contained">Download csv</Button>
-                  </CSVLink>
-                ) : name === "Profile Items" ? (
-                  <CSVLink
-                    data={this.props.data}
-                    headers={this.state.profileItemsHeader}
-                  >
-                    <Button variant="contained">Download csv</Button>
-                  </CSVLink>
-                ) : name === "Payment Profiles" ? (
-                  <CSVLink
-                    data={this.props.data}
-                    headers={this.state.paymentProfileHeader}
-                  >
-                    <Button variant="contained">Download csv</Button>
-                  </CSVLink>
-                ) : name === "Membership Payments" ? (
-                  <CSVLink
-                    data={this.props.data}
-                    headers={this.state.memberPaymentsHeader}
-                  >
-                    <Button variant="contained">Download csv</Button>
-                  </CSVLink>
-                ) : name === "Cash Payments" ? (
-                  <CSVLink
-                    data={this.props.data}
-                    headers={this.state.cashPaymentsHeader}
-                  >
-                    <Button variant="contained">Download csv</Button>
-                  </CSVLink>
-                ) : name === "Cashless Payments" ? (
-                  <CSVLink
-                    data={this.props.data}
-                    headers={this.state.cashlessPaymentsHeader}
-                  >
-                    <Button variant="contained">Download csv</Button>
-                  </CSVLink>
-                ) : name === "Users" ? (
-                  <CSVLink data={this.props.data} headers={this.state.users}>
-                    <Button variant="contained">Download csv</Button>
-                  </CSVLink>
-                ) : null}
-            {/* </span> */}
-            </Stack>
           </div>
           <Table
             table-layout="fixed"

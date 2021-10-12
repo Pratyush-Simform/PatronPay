@@ -1,0 +1,30 @@
+// Adding/Overriding existing CSS
+.drpDwn {
+    justify-content: flex-end;
+}
+.MuiToolbar-root {
+    .MuiTypography-subtitle1 {
+        color: blueviolet;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+}
+
+// Searchbar
+.pSearchbar {
+    width: 225px;
+    .MuiFormControl-root {
+        width: auto !important;
+    }
+}
+
+// Download Options
+.pDownloads {
+    a {
+        text-decoration: none;
+    }
+    .MuiButtonBase-root {
+        white-space: nowrap;
+    }
+}
+

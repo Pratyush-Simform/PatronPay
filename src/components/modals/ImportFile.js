@@ -3,6 +3,7 @@ import Modal from "@material-ui/core/Modal";
 import ReactFileReader from "react-file-reader";
 import { Button, Typography } from "@material-ui/core";
 import { useStyles, getImportModalStyle } from "./styles"
+import CloudDownloadOutlined from '@material-ui/icons/CloudDownloadOutlined';
 
 function ImportFile() {
   const classes = useStyles();
@@ -61,7 +62,11 @@ function ImportFile() {
 
   return (
     <>
-      <Button variant="contained" type="button" onClick={handleOpen}>
+      <Button 
+      variant="outlined"
+      size="large"
+      color="primary"
+      type="button" startIcon={<CloudDownloadOutlined />} onClick={handleOpen}>
         Import CSV/XLSX
       </Button>
       <Modal

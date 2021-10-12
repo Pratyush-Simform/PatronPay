@@ -41,6 +41,10 @@ export const styles = (theme) => ({
     actions: {
       color: theme.palette.text.secondary,
     },
+    actionsInner: {
+      display: "flex",
+      alignItems: "center"
+    },
     title: {
       flex: "0 0 auto",
     },

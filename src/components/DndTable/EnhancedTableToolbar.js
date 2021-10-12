@@ -15,6 +15,7 @@ import { toolbarStyles } from "./styles";
 import "../../App.css";
 import { Constants } from "./Constants";
 import PaymentProfileModal from "../modals/PaymentProfileModal";
+import TextField from '@mui/material/TextField';
 
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData, updatedUsers } =
@@ -100,7 +101,17 @@ let EnhancedTableToolbar = (props) => {
             <CancelIcon onClick={() => setSearch(false)} />
           </div>
         ) : (
-          <div>
+          <div className={classes.actionsInner}>
+            <div className="pSearchbar">
+              <TextField
+                margin="normal"
+                label={'Search'}
+                variant="outlined"
+                size="small"
+                fullWidth
+               />
+            </div>
+            {props.children}
             <Tooltip title="Filter list">
               <IconButton aria-label="Filter list">
                 <Search onClick={() => setSearch(true)} />
