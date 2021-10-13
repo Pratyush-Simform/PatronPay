@@ -73,6 +73,8 @@ export default function TemporaryDrawer() {
       } else if (index === 8) {
         history.push("/myorganisation");
       } else if (index === 9) {
+        history.push("/debuglogs");
+      } else if (index === 10) {
         localStorage.setItem("token", "");
         privateLogout();
         localStorage.removeItem("subDomain");
@@ -113,6 +115,7 @@ export default function TemporaryDrawer() {
           "Cash Payments",
           "users",
           "My Organisation",
+          "Debug Logs",
           "Log Out",
         ].map((text, index) => (
           <ListItem button key={text} onClick={() => siderButton(text, index)}>

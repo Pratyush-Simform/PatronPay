@@ -1,0 +1,51 @@
+export let logCols = [
+  {
+    id: "logDates",
+    numeric: true,
+    disablePadding: false,
+    label: "Date/Time",
+    width: 200,
+  },
+  {
+    id: "new_or_all",
+    numeric: false,
+    disablePadding: false,
+    label: "New Or All",
+    width: 200,
+  },
+  {
+    id: "debug_log_transactions",
+    numeric: false,
+    disablePadding: false,
+    label: "Debug Log Transactions",
+    width: 200,
+  },
+  {
+    id: "transDates",
+    numeric: false,
+    disablePadding: false,
+    label: "Transaction Date/Time",
+    width: 200,
+  },
+  {
+    id: "level",
+    numeric: true,
+    disablePadding: false,
+    label: "Level",
+    width: 200,
+  },
+  {
+    id: "log_type",
+    numeric: false,
+    disablePadding: false,
+    label: "Log Type",
+    width: 200,
+  },
+  {
+    id: "message",
+    numeric: false,
+    disablePadding: false,
+    label: "Message",
+    width: 200,
+  },
+];
