@@ -905,6 +905,7 @@ class EnhancedTable extends React.Component {
           </Stack>
         </div>
         </EnhancedTableToolbar>
+        <div className="pFilterPanel">
         {name === "Transaction" ? (
           <DatePicker
             setEndDate={this.setEndDate}
@@ -926,16 +927,31 @@ class EnhancedTable extends React.Component {
             setStartDate={this.setCashStartDate}
           />
         ) : null}
-        <div className={classes.tableWrapper}>
           <div className="drpDwn">
             <Dropdown
               data={data}
               selectedData={(data) => this.selectedData(data)}
             />
           </div>
+        </div>
+        {name === "Transaction" ||
+        name === "Payment Profiles" ||
+        name === "Profile Items" ||
+        name === "Users" ? null : (
+          <div className="totals">
+            {name === "Cashless Payments" ? (
+              <div className="totals__item">Amount <span>{amount_auth_total}</span></div>
+            ) : (
+              <div className="totals__item">Amount Total <span>{amount_total}</span></div>
+            )}
+            <div className="totals__item">Tip <span>{tip_total}</span></div>
+            <div className="totals__item">Tip Tax <span>{tip_tax_total}</span></div>
+          </div>
+        )}
+        <div className={classes.tableWrapper}>
           <Table
             table-layout="fixed"
-            className={classes.table}
+            className="pTable"
             aria-labelledby="tableTitle"
           >
             <TableHead>
@@ -1164,20 +1180,6 @@ class EnhancedTable extends React.Component {
               </div>
             )}
           </Table>
-          {name === "Transaction" ||
-          name === "Payment Profiles" ||
-          name === "Profile Items" ||
-          name === "Users" ? null : (
-            <div className="totals">
-              {name === "Cashless Payments" ? (
-                <h3>Amount: {amount_auth_total}</h3>
-              ) : (
-                <h3>Amount Total: {amount_total} </h3>
-              )}
-              <h3>Tip: {tip_total}</h3>
-              <h3>Tip Tax: {tip_tax_total}</h3>
-            </div>
-          )}
         </div>
       </Paper>
     );

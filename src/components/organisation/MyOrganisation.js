@@ -4,7 +4,7 @@ import { orgCols } from "./OrgCols"
 
 function MyOrganisation() {
     return (
-        <div>
+        <div className="pMainContainer">
              <EnhancedTable data={[]} columnData={orgCols} name="My Organisation" />
         </div>
     )

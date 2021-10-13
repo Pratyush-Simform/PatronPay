@@ -25,7 +25,7 @@ function PaymentProfiles() {
     }, [dispatch, history])
 
     return (
-        <div>
+        <div className="pMainContainer">
             <EnhancedTable data={state.paymentProfiles} columnData={cols} name="Payment Profiles" />
         </div>
     )

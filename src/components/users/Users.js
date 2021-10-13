@@ -18,7 +18,11 @@ function Users() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <EnhancedTable data={state.userData} columnData={cols} name="Users" />;
-}
+  return (
+      <div className="pMainContainer">
+        <EnhancedTable data={state.userData} columnData={cols} name="Users" />;
+      </div>
+    )
+  }
 
 export default Users;

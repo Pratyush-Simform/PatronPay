@@ -32,7 +32,7 @@ function ProfileItems() {
   }, [id]);
 
   return (
-    <div className="profile">
+    <div className="profile pMainContainer">
       <EnhancedTable
         data={state.profileItems}
         columnData={cols}

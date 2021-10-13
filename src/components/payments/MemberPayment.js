@@ -11,7 +11,9 @@ function MemberPayment() {
  
 
     return (
-          <EnhancedTable data={data} columnData={cols} name="Membership Payments" />
+      <div className="pMainContainer">
+        <EnhancedTable data={data} columnData={cols} name="Membership Payments" />
+      </div>
     )
 }
 

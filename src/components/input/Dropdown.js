@@ -1,13 +1,15 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
-// import Input from '@material-ui/core/Input';
+import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+// import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+// import Select from '@material-ui/core/Select';
+import Select from '@mui/material/Select';
 import Chip from '@material-ui/core/Chip';
 import { useStyles } from './styles';
-import { OutlinedInput } from '@material-ui/core';
+// import { OutlinedInput } from '@material-ui/core';
 
 
 const ITEM_HEIGHT = 48;
@@ -17,6 +19,7 @@ const MenuProps = {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250,
+      maxWidth: 250,
     },
   },
 };
@@ -61,8 +64,8 @@ function Dropdown({data, selectedData}) {
           multiple
           value={personName}
           onChange={handleChange}
-          // input={<Input id="select-multiple-chip" />}
-          input={<OutlinedInput id="select-multiple-chip"/>}
+          input={<Input id="select-multiple-chip" />}
+          // input={<OutlinedInput id="select-multiple-chip" label="Columns" />}
           renderValue={(selected) => (
             <div className={classes.chips}>
               {selected.map((value) => (

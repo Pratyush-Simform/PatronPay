@@ -148,18 +148,18 @@ function AddModal({ row, name }) {
         }}
       >
         <Fade in={open}>
-          <div className="paper">
-            {name === Constants.ADD ? (
-              <h2 id="transition-modal-title">Add Modal</h2>
-            ) : (
-              <h2 id="transition-modal-title">Edit Modal</h2>
-            )}
-            <div className="addMod">
+          <div className="paper pModal">
+            <div className="pModal__header">
+              {name === Constants.ADD ? (
+                <h2 id="transition-modal-title">Add Modal</h2>
+              ) : (
+                <h2 id="transition-modal-title">Edit Modal</h2>
+              )}
+            </div>
+            <div className="pModal__body">
               <form onSubmit={formik.handleSubmit}>
-                <div className="frstCol">
-                  <div
-                    style={{ width: "55%", marginLeft: "4%", marginTop: "4%" }}
-                  >
+                <div className="pRow">
+                  <div className="pCol pCol--col6">
                     <FormControl
                       variant="standard"
                       sx={{ m: 1, minWidth: 250 }}
@@ -192,20 +192,23 @@ function AddModal({ row, name }) {
                       </Select>
                     </FormControl>
                   </div>
-                  <TextField
-                    required={true}
-                    id="outlined-basic"
-                    label="Order"
-                    name="order"
-                    type="number"
-                    multiline
-                    variant="outlined"
-                    placeholder="0"
-                    onChange={formik.handleChange}
-                    value={formik.values.order}
-                  />
+                  <div className="pCol pCol--col6">
+                    <TextField
+                      required={true}
+                      id="outlined-basic"
+                      label="Order"
+                      name="order"
+                      type="number"
+                      multiline
+                      variant="outlined"
+                      placeholder="0"
+                      onChange={formik.handleChange}
+                      value={formik.values.order}
+                    />
+                  </div>
                 </div>
-                <div className="scndCol">
+                <div className="pRow">
+                <div className="pCol pCol--col6">
                   <TextField
                     id="outlined-basic"
                     label="Category"
@@ -216,6 +219,8 @@ function AddModal({ row, name }) {
                     onChange={formik.handleChange}
                     value={formik.values.category}
                   />
+                  </div>
+                  <div className="pCol pCol--col6">
                   <TextField
                     id="outlined-basic"
                     label="Barcode"
@@ -226,8 +231,10 @@ function AddModal({ row, name }) {
                     onChange={formik.handleChange}
                     value={formik.values.barcode}
                   />
+                  </div>
                 </div>
-                <div className="scndCol">
+                <div className="pRow">
+                <div className="pCol pCol--col6">
                   <TextField
                     required={true}
                     id="outlined-basic"
@@ -239,6 +246,8 @@ function AddModal({ row, name }) {
                     onChange={formik.handleChange}
                     value={formik.values.short_name}
                   />
+                </div>
+                <div className="pCol pCol--col6">
                   <TextField
                     id="outlined-basic"
                     label="Description"
@@ -249,10 +258,12 @@ function AddModal({ row, name }) {
                     onChange={formik.handleChange}
                     value={formik.values.description}
                   />
+                  </div>
                 </div>
                 {/* </ButtonGroup> */}
-                <div className="frstCol">
-                  <label htmlFor="contained-button-file">
+                <div className="pRow">
+                <div className="pCol pCol--col6">
+                  <label className="pBtn pBtn--upload" htmlFor="contained-button-file">
                     <input
                       accept="image/*"
                       className="uploadBtn"
@@ -263,15 +274,18 @@ function AddModal({ row, name }) {
                       onChange={formik.handleChange}
                     />
                     <Button
-                      variant="contained"
-                      color="default"
+                      variant="outlined"
+                      color="primary"
                       component="span"
+                      size="large"
                       startIcon={<CloudUploadIcon />}
                     >
                       Upload Icon
                     </Button>
                   </label>
-                  <label htmlFor="contained-button-file">
+                  </div>
+                  <div className="pCol pCol--col6">
+                  <label className="pBtn pBtn--upload" htmlFor="contained-button-file">
                     <input
                       accept="image/*"
                       className="uploadBtn"
@@ -282,16 +296,19 @@ function AddModal({ row, name }) {
                       onChange={formik.handleChange}
                     />
                     <Button
-                      variant="contained"
-                      color="default"
+                      variant="outlined"
+                      color="primary"
                       component="span"
+                      size="large"
                       startIcon={<CloudUploadIcon />}
                     >
                       Upload Full Image
                     </Button>
                   </label>
+                  </div>
                 </div>
-                <div className="scndCol">
+                <div className="pRow">
+                <div className="pCol pCol--col6">
                   <TextField
                     required={true}
                     id="outlined-basic"
@@ -304,6 +321,8 @@ function AddModal({ row, name }) {
                     value={formik.values.price}
                     placeholder="0.00"
                   />
+                  </div>
+                  <div className="pCol pCol--col6">
                   <TextField
                     id="outlined-basic"
                     label="Tax %"
@@ -315,8 +334,10 @@ function AddModal({ row, name }) {
                     value={formik.values.tax}
                     placeholder="0.00"
                   />
+                  </div>
                 </div>
-                <div className="frstCol">
+                <div className="pRow">
+                <div className="pCol pCol--col6">
                   <TextField
                     id="outlined-basic"
                     label="Other Amount"
@@ -328,6 +349,8 @@ function AddModal({ row, name }) {
                     placeholder="0.00"
                     value={formik.values.other_amt}
                   />
+                  </div>
+                  <div className="pCol pCol--col6">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -339,8 +362,10 @@ function AddModal({ row, name }) {
                     }
                     label="Allow Price/Amount Override"
                   />
+                  </div>
                 </div>
-                <div className="frstCol">
+                <div className="pRow">
+                <div className="pCol pCol--col6">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -352,6 +377,8 @@ function AddModal({ row, name }) {
                     }
                     label="Active"
                   />
+                  </div>
+                  <div className="pCol pCol--col6">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -363,9 +390,10 @@ function AddModal({ row, name }) {
                     }
                     label="Exclude from tips"
                   />
+                  </div>
                 </div>
                 <div className="profileSubmitBtn">
-                  <Button variant="contained" color="default" type="submit">
+                  <Button variant="contained" color="primary" size="large" type="submit">
                     Submit
                   </Button>
                 </div>

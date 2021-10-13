@@ -5,9 +5,6 @@ export const styles = (theme) => ({
       // width: "100%",
       marginTop: theme.spacing(3),
     },
-    table: {
-      minWidth: 1020,
-    },
     tableWrapper: {
       overflowX: "auto",
     },

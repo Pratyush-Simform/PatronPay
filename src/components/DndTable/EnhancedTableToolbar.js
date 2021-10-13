@@ -78,7 +78,7 @@ let EnhancedTableToolbar = (props) => {
           </Typography>
         ) : (
           <Typography variant="subtitle1" id="tableTitle">
-            {title.toUpperCase()}
+            {title}
           </Typography>
         )}
       </div>
