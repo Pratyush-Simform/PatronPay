@@ -31,21 +31,21 @@ function DatePicker({setEndDate, setStartDate}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStartDate])
 
-  const handleAddDate = () => {
-    setNewDate(newDate + 1)
-  }
+  // const handleAddDate = () => {
+  //   setNewDate(newDate + 1)
+  // }
 
-  const handleAddEndDate = () => {
-    setNewEndDate(newEndDate + 1)
-  }
+  // const handleAddEndDate = () => {
+  //   setNewEndDate(newEndDate + 1)
+  // }
 
-  const handleSubtractDate = () => {
-    setNewDate(newDate - 1);
-  }
+  // const handleSubtractDate = () => {
+  //   setNewDate(newDate - 1);
+  // }
 
-  const handleSubEndDate = () => {
-    setNewEndDate(newEndDate - 1);
-  }
+  // const handleSubEndDate = () => {
+  //   setNewEndDate(newEndDate - 1);
+  // }
 
   useEffect(() => {
     selectedStartDate.setDate(selectedStartDate.getDate() + newDate)
