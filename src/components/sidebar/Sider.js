@@ -104,7 +104,9 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        <img src={Icon} alt="icon" />
+        <div className={classes.logo}>
+          <img src={Icon} alt="icon" />
+        </div>
         {[
           "Order",
           "Transaction",
@@ -119,7 +121,7 @@ export default function TemporaryDrawer() {
           "Log Out",
         ].map((text, index) => (
           <ListItem button key={text} onClick={() => siderButton(text, index)}>
-            <ListItemIcon>
+            <ListItemIcon className={classes.listItemIcon}>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>
             <ListItemText primary={text} />
@@ -149,8 +151,8 @@ export default function TemporaryDrawer() {
       />
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>
-            <ListRoundedIcon fontSize="large" color="action" />
+          <Button onClick={toggleDrawer(anchor, true)} className="pBtn pBtn--navToggle">
+            <ListRoundedIcon fontSize="large" color="inherit" />
           </Button>
           <Drawer
             anchor={anchor}

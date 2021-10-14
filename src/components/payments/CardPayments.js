@@ -12,7 +12,9 @@ function CardPayment() {
  console.log(data);
 
     return (
+        <div className="pMainContainer">
           <EnhancedTable data={data} columnData={cashlessCols} name="Cashless Payments" />
+        </div>
     )
 }
 

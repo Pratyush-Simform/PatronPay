@@ -1,0 +1,153 @@
+// Adding/Overriding existing CSS
+.pFontW600 {
+    font-weight: 600 !important; 
+}
+.pMainContainer {
+    height: calc(100vh - 113px);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    max-height: unset;
+    overflow: auto;
+    .searchBox {
+        min-height: calc(100vh - 155px);
+    }
+}
+.drpDwn {
+    justify-content: flex-end;
+    margin-left: auto;
+    .MuiFormControl-root {
+        width: auto !important;
+        max-width: 570px;
+    }
+}
+.MuiToolbar-root {
+    .MuiTypography-subtitle1 {
+        color: blueviolet;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+}
+.totals {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    &__item {
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        span {
+            border-radius: 5px;
+            border: 1px solid #f50057;
+            margin-left: 8px;
+            padding: 10px 20px;
+            font-weight: normal;
+        }
+    }
+}
+
+// Searchbar
+.pSearchbar {
+    width: 225px;
+    .MuiFormControl-root {
+        width: auto !important;
+    }
+}
+
+// Download Options
+.pDownloads {
+    a {
+        text-decoration: none;
+    }
+    .MuiButtonBase-root {
+        white-space: nowrap;
+    }
+}
+
+// Date Filter
+.pDateFilter {
+    display: flex;
+    flex-wrap: wrap;
+    .MuiFormControl-root {
+        width: auto !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    .MuiButton-contained {
+        margin-top: 0 !important;
+    }
+    &__item {
+        display: flex;
+        align-items: center;
+    }
+}
+
+// Filter Panel 
+.pFilterPanel {
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pBtn {
+    &--navToggle {
+        color: #FFFFFF !important;
+    }
+    &--upload {
+        display: inline-flex;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        
+    }
+}
+
+// Modal
+.pModal {
+    border: none;
+    padding: 0;
+    &__header {
+        border-bottom: 1px solid #e0e0e0;
+        padding: 20px;
+        h2 {
+            margin: 0;
+            font-weight: 600;
+        }
+    }
+    &__body {
+        padding: 20px;
+
+        .MuiFormControl-root {
+            width: 100% !important;
+            margin: 10px 0 !important;
+        }
+    }
+    .profileSubmitBtn {
+        border-top: 1px solid #e0e0e0;
+        margin-left: -20px;
+        margin-right: -20px;
+        margin-top: 20px;
+        justify-content: flex-end;
+        padding: 0 20px;
+    }
+}
+
+// Row & Columns
+.pRow {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.pCol {
+    padding-left: 15px;
+    padding-right: 15px;
+    &--col6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    &--col12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

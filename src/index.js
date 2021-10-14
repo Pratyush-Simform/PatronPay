@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ContextProvider } from "./store/Context"
 
+import './assets/scss/main.scss';
+
 ReactDOM.render(
     <Suspense fallback={"Loading"}>
       <ContextProvider>

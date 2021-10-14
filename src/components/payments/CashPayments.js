@@ -12,7 +12,9 @@ function CashPayment() {
  console.log(data);
 
     return (
+        <div className="pMainContainer">
           <EnhancedTable data={data} columnData={cashCols} name="Cash Payments" />
+        </div>
     )
 }
 

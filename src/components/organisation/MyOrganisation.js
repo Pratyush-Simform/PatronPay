@@ -9,7 +9,13 @@ function MyOrganisation() {
     getTenantInfo().then((res) => setTenents(res.data.data.results));
   }, []);
   return (
-    <EnhancedTable data={tenants} columnData={orgCols} name="My Organisation" />
+    <div className="pMainContainer">
+      <EnhancedTable
+        data={tenants}
+        columnData={orgCols}
+        name="My Organisation"
+      />
+    </div>
   );
 }
 
