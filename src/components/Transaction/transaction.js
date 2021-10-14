@@ -34,7 +34,7 @@ const Transaction = () => {
   }, [data]);
 
   return (
-    <div className="transHead">
+    <div className="transHead pMainContainer">
       <EnhancedTable data={newData} columnData={cols} name="Transaction" />
     </div>
   );

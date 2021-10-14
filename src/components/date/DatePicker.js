@@ -65,38 +65,46 @@ function DatePicker({setEndDate, setStartDate}) {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid container justify="space-around">
-        <Button variant="contained" color="primary"  onClick={handleSubtractDate}>-1 day</Button>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Start Date"
-          value={selectedStartDate}
-          onChange={handleStartDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-        <Button variant="contained" color="primary"  onClick={handleAddDate}>+1 day</Button>
+      <Grid className="pDateFilter">
+        <div className="pDateFilter__item">
+          <Button variant="text" size="medium" className="pFontW600" color="info">Yesterday</Button>
+          <Button variant="text" size="medium" className="pFontW600" color="secondary">Today</Button>
+          <Button variant="text" size="medium" className="pFontW600" color="info">WTD</Button>
+          <Button variant="text" size="medium" className="pFontW600" color="info">MTD</Button>
+          <Button variant="text" size="medium" className="pFontW600" color="info">YTD</Button>
+          {/* <Button variant="contained" size="large" color="primary"  onClick={handleSubtractDate}>-1 day</Button> */}
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="normal"
+            id="date-picker-inline"
+            label="Start Date"
+            value={selectedStartDate}
+            onChange={handleStartDateChange}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+          {/* <Button variant="contained" size="large" color="primary"  onClick={handleAddDate}>+1 day</Button> */}
+    
 
-        <Button variant="contained" color="primary" onClick={handleSubEndDate}>-1 day</Button>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          margin="normal"
-          id="date-picker-dialog"
-          label="End Date"
-          format="MM/dd/yyyy"
-          value={selectedEndDate}
-          onChange={handleEndDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-        <Button variant="contained" color="primary" onClick={handleAddEndDate}>+1 day</Button>
+          {/* <Button variant="contained" size="large" color="primary" onClick={handleSubEndDate}>-1 day</Button> */}
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            margin="normal"
+            id="date-picker-dialog"
+            label="End Date"
+            format="MM/dd/yyyy"
+            value={selectedEndDate}
+            onChange={handleEndDateChange}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+          {/* <Button variant="contained" size="large" color="primary" onClick={handleAddEndDate}>+1 day</Button> */}
+          </div>
       </Grid>
     </MuiPickersUtilsProvider>
   );

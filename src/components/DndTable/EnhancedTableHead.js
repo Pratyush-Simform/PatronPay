@@ -60,7 +60,14 @@ class EnhancedTableHead extends React.Component {
                 }}
                 {...provided.droppableProps}
               >
-                <TableCell padding="checkbox">
+                <TableCell 
+                  style={{
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                    paddingTop: 6,
+                    paddingBottom: 6
+                  }}
+                >
                   <Checkbox
                     indeterminate={numSelected > 0 && numSelected < rowCount}
                     checked={numSelected === rowCount}
@@ -72,9 +79,11 @@ class EnhancedTableHead extends React.Component {
                     key={item.id}
                     style={{
                       overflow: "none",
-                      width: `${item.width}px`,
+                      // width: `${item.width}px`,
                       paddingLeft: 0,
-                      paddingRight: 0
+                      paddingRight: 0,
+                      paddingTop: 6,
+                      paddingBottom: 6
                     }}
                   >
                     <Draggable
@@ -128,8 +137,8 @@ class EnhancedTableHead extends React.Component {
                                 contentEditable={true}
                                 style={{
                                   fontSize: "1rem",
-                                  verticalAlign: "bottom",
-                                  paddingTop: "8px"
+                                  verticalAlign: "middle",
+                                  // paddingTop: "8px"
                                 }}
                               />
                             </ReactDraggable>

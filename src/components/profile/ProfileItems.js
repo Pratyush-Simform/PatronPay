@@ -31,8 +31,10 @@ function ProfileItems() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  console.log(state.profileItems);
+
   return (
-    <div className="profile">
+    <div className="profile pMainContainer">
       <EnhancedTable
         data={state.profileItems}
         columnData={cols}

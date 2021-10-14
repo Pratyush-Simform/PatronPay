@@ -54,6 +54,12 @@ export const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
+  listItemIcon: {
+    paddingLeft: 15
+  },
+  logo: {
+    paddingLeft: 8
+  },
   fullList: {
     width: 'auto',
   },

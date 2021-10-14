@@ -12,7 +12,8 @@ export const useStyles = makeStyles((theme) => ({
       },
       chips: {
         display: 'flex',
-        flexWrap: 'wrap',
+        // flexWrap: 'wrap',
+        overflowY: 'auto'
       },
       chip: {
         margin: 2,
