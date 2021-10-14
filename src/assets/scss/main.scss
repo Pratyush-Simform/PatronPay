@@ -151,3 +151,17 @@
         max-width: 100%;
     }
 }
+
+// Profile Status
+.pProfileStatus {
+    display: flex;
+    &__item {
+        display: flex;
+        align-items: center;
+        margin-right: 25px;
+
+        svg {
+            margin-right: 5px;
+        }
+    }
+}
