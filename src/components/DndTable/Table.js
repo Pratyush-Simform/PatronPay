@@ -40,6 +40,8 @@ import Stack from '@mui/material/Stack';
 import PictureAsPdfOutlined from '@material-ui/icons/PictureAsPdfOutlined';
 import DescriptionOutlined from '@material-ui/icons/DescriptionOutlined';
 import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -917,6 +919,21 @@ class EnhancedTable extends React.Component {
             setEndDate={this.setEndDate}
             setStartDate={this.setStartDate}
           />
+        ) : name === "Profile Items" ? (
+          <div className="pProfileStatus">
+            <div className="pProfileStatus__item">
+              <CheckCircleOutlineIcon fontSize="small" /> Active
+            </div>
+            <div className="pProfileStatus__item">
+              <CheckCircleOutlineIcon fontSize="small" /> Inactive
+            </div>
+            <div className="pProfileStatus__item">
+              <CheckCircleOutlineIcon fontSize="small" /> Shopping Cart
+            </div>
+            <div className="pProfileStatus__item">
+              <CheckCircleOutlineIcon fontSize="small" /> Quick Pay
+            </div>
+          </div> 
         ) : name === "Membership Payments" ? (
           <DatePicker
             setEndDate={this.setMemEndDate}
@@ -952,6 +969,15 @@ class EnhancedTable extends React.Component {
             )}
             <div className="totals__item">Tip <span>{tip_total}</span></div>
             <div className="totals__item">Tip Tax <span>{tip_tax_total}</span></div>
+          </div>
+        )}
+        {name === "Profile Items" && (
+          <div className="totals">
+            <div className="totals__item">Active <span>5</span></div>
+            <div className="totals__item">Inactive <span>2</span></div>
+            <div className="totals__item">Shopping Cart <span>20</span></div>
+            <div className="totals__item">Quick Pay <span>20</span></div>
+            <div className="totals__item">Total<span>100</span></div>
           </div>
         )}
         <div className={classes.tableWrapper}>
