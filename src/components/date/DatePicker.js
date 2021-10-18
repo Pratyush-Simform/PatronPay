@@ -1,35 +1,42 @@
-import 'date-fns';
-import React, { useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
+import React, { useState, useEffect } from "react";
+import "date-fns";
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
-import { Button } from '@material-ui/core';
+} from "@material-ui/pickers";
+import { Button } from "@material-ui/core";
 
-function DatePicker({setEndDate, setStartDate}) {
-  const [selectedStartDate, setSelecteStartDate] = React.useState(new Date());
-  const [selectedEndDate, setSelecteEndDate] = React.useState(new Date());
-  const [newDate, setNewDate] = React.useState(0)
-  const [newEndDate, setNewEndDate] = React.useState(0)
+function DatePicker({ setEndDate, setStartDate }) {
+  const [selectedStartDate, setSelecteStartDate] = useState(new Date());
+  const [selectedEndDate, setSelecteEndDate] = useState(new Date());
+  const [newDate, setNewDate] = useState(0);
+  const [newEndDate, setNewEndDate] = useState(0);
+  const [clicked, setClicked] = useState({
+    btn1: false,
+    btn2: false,
+    btn3: false,
+    btn4: false,
+    btn5: false,
+  });
 
   const handleStartDateChange = (date) => {
     setSelecteStartDate(date);
   };
 
   const handleEndDateChange = (date) => {
-      setSelecteEndDate(date);
-  }
+    setSelecteEndDate(date);
+  };
 
   useEffect(() => {
-    setEndDate(selectedEndDate)
-  }, [selectedEndDate, setEndDate])
+    setEndDate(selectedEndDate);
+  }, [selectedEndDate, setEndDate]);
 
   useEffect(() => {
-    setStartDate(selectedStartDate)
+    setStartDate(selectedStartDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedStartDate])
+  }, [selectedStartDate]);
 
   // const handleAddDate = () => {
   //   setNewDate(newDate + 1)
@@ -48,30 +55,74 @@ function DatePicker({setEndDate, setStartDate}) {
   // }
 
   useEffect(() => {
-    selectedStartDate.setDate(selectedStartDate.getDate() + newDate)
-    setSelecteStartDate(selectedStartDate)
-    setNewDate(0)
-    setStartDate(selectedStartDate)
+    selectedStartDate.setDate(selectedStartDate.getDate() + newDate);
+    setSelecteStartDate(selectedStartDate);
+    setNewDate(0);
+    setStartDate(selectedStartDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newDate])
+  }, [newDate]);
 
   useEffect(() => {
-    selectedEndDate.setDate(selectedEndDate.getDate() + newEndDate)
-    setSelecteEndDate(selectedEndDate)
-    setNewEndDate(0)
-    setEndDate(selectedEndDate)
+    selectedEndDate.setDate(selectedEndDate.getDate() + newEndDate);
+    setSelecteEndDate(selectedEndDate);
+    setNewEndDate(0);
+    setEndDate(selectedEndDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newEndDate])
+  }, [newEndDate]);
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid className="pDateFilter">
         <div className="pDateFilter__item">
-          <Button variant="text" size="medium" className="pFontW600" color="info">Yesterday</Button>
-          <Button variant="text" size="medium" className="pFontW600" color="secondary">Today</Button>
-          <Button variant="text" size="medium" className="pFontW600" color="info">WTD</Button>
-          <Button variant="text" size="medium" className="pFontW600" color="info">MTD</Button>
-          <Button variant="text" size="medium" className="pFontW600" color="info">YTD</Button>
+          <Button
+            variant="text"
+            size="medium"
+            className="pFontW600"
+            color={clicked.btn1 ? "secondary" : "info"}
+            onClick={(prev) => (
+              // eslint-disable-next-line
+              setClicked({ ...prev, btn1: !clicked.btn1, btn2: false }),
+              handleSubtractDate()
+            )}
+          >
+            Yesterday
+          </Button>
+          <Button
+            variant="text"
+            size="medium"
+            className="pFontW600"
+            color={clicked.btn2 ? "info" : "secondary"}
+            onClick={(prev) => setClicked({ ...prev, btn2: !clicked.btn2 })}
+          >
+            Today
+          </Button>
+          <Button
+            variant="text"
+            size="medium"
+            className="pFontW600"
+            color={clicked.btn3 ? "secondary" : "info"}
+            onClick={(prev) => setClicked({ ...prev, btn3: !clicked.btn3, btn2: false })}
+          >
+            WTD
+          </Button>
+          <Button
+            variant="text"
+            size="medium"
+            className="pFontW600"
+            color={clicked.btn4 ? "secondary" : "info"}
+            onClick={(prev) => setClicked({ ...prev, btn4: !clicked.btn4, btn2: false })}
+          >
+            MTD
+          </Button>
+          <Button
+            variant="text"
+            size="medium"
+            className="pFontW600"
+            color={clicked.btn5 ? "secondary" : "info"}
+            onClick={(prev) => setClicked({ ...prev, btn5: !clicked.btn5, btn2: false })}
+          >
+            YTD
+          </Button>
           {/* <Button variant="contained" size="large" color="primary"  onClick={handleSubtractDate}>-1 day</Button> */}
           <KeyboardDatePicker
             disableToolbar
@@ -83,11 +134,10 @@ function DatePicker({setEndDate, setStartDate}) {
             value={selectedStartDate}
             onChange={handleStartDateChange}
             KeyboardButtonProps={{
-              'aria-label': 'change date',
+              "aria-label": "change date",
             }}
           />
           {/* <Button variant="contained" size="large" color="primary"  onClick={handleAddDate}>+1 day</Button> */}
-    
 
           {/* <Button variant="contained" size="large" color="primary" onClick={handleSubEndDate}>-1 day</Button> */}
           <KeyboardDatePicker
@@ -100,11 +150,11 @@ function DatePicker({setEndDate, setStartDate}) {
             value={selectedEndDate}
             onChange={handleEndDateChange}
             KeyboardButtonProps={{
-              'aria-label': 'change date',
+              "aria-label": "change date",
             }}
           />
           {/* <Button variant="contained" size="large" color="primary" onClick={handleAddEndDate}>+1 day</Button> */}
-          </div>
+        </div>
       </Grid>
     </MuiPickersUtilsProvider>
   );

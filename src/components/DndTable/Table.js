@@ -129,6 +129,10 @@ class EnhancedTable extends React.Component {
       tip_total: 0,
       tip_tax_total: 0,
       amount_total: 0,
+      active: false,
+      inactive: false,
+      shoppingcart: false,
+      quickpay: false
     };
   }
 
@@ -696,8 +700,30 @@ class EnhancedTable extends React.Component {
     this.setState({ snackbar: false });
   };
 
+  handleFilters = (name) => {
+    let newData = []
+    if(name==="active"){
+     newData = this.props.data.filter((temp) => temp.is_deleted === false)
+    this.setState({ active: !this.props.active, renderer: newData})
+    }else if(name==="inactive"){
+      newData = this.props.data.filter((temp) => temp.is_deleted === false)
+      this.setState({ inactive: !this.props.inactive, renderer: newData})
+    }else if(name==="shopping"){
+      newData = this.props.data.filter((temp) => temp.paymentProfile === "Shopping Cart Profile")
+      this.setState({ shoppingcart: !this.props.shoppingcart, renderer: newData})
+    }else {
+      newData = this.props.data.filter((temp) => temp.paymentProfile === "QuickPay Profile")
+      this.setState({ quickpay: !this.props.quickpay, renderer: newData})
+    }
+  }
+
   render() {
     const { classes, data, name } = this.props;
+    console.log(data, 709);
+    const activeData = data.filter((temp) => temp.is_deleted === false)
+    const inactiveData = data.filter((temp) => temp.is_deleted === true)
+    const shoppingCart = data.filter(temp => temp.paymentProfile === "Shopping Cart Profile")
+    const quickPay = data.filter(temp => temp.paymentProfile === "QuickPay Profile")
     const {
       order,
       orderBy,
@@ -713,6 +739,10 @@ class EnhancedTable extends React.Component {
       horizontal,
       snackbar,
       snackMsg,
+      active,
+      inactive,
+      shoppingcart,
+      quickpay
     } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data?.length - page * rowsPerPage);
@@ -921,16 +951,16 @@ class EnhancedTable extends React.Component {
           />
         ) : name === "Profile Items" ? (
           <div className="pProfileStatus">
-            <div className="pProfileStatus__item">
+            <div className="pProfileStatus__item" style={active ? {color: "blue"} : {}} onClick={() => this.handleFilters("active")} >
               <CheckCircleOutlineIcon fontSize="small" /> Active
             </div>
-            <div className="pProfileStatus__item">
+            <div className="pProfileStatus__item" style={inactive ? {color: "blue"} : {}} onClick={() => this.handleFilters("inactive")}>
               <CheckCircleOutlineIcon fontSize="small" /> Inactive
             </div>
-            <div className="pProfileStatus__item">
+            <div className="pProfileStatus__item" style={shoppingcart ? {color: "blue"} : {}} onClick={() => this.handleFilters("shopping")}>
               <CheckCircleOutlineIcon fontSize="small" /> Shopping Cart
             </div>
-            <div className="pProfileStatus__item">
+            <div className="pProfileStatus__item" style={quickpay ? {color: "blue"} : {}} onClick={() => this.handleFilters()}>
               <CheckCircleOutlineIcon fontSize="small" /> Quick Pay
             </div>
           </div> 
@@ -973,11 +1003,11 @@ class EnhancedTable extends React.Component {
         )}
         {name === "Profile Items" && (
           <div className="totals">
-            <div className="totals__item">Active <span>5</span></div>
-            <div className="totals__item">Inactive <span>2</span></div>
-            <div className="totals__item">Shopping Cart <span>20</span></div>
-            <div className="totals__item">Quick Pay <span>20</span></div>
-            <div className="totals__item">Total<span>100</span></div>
+            <div className="totals__item">Active <span>{activeData.length}</span></div>
+            <div className="totals__item">Inactive <span>{inactiveData.length}</span></div>
+            <div className="totals__item">Shopping Cart <span>{shoppingCart.length}</span></div>
+            <div className="totals__item">Quick Pay <span>{quickPay.length}</span></div>
+            <div className="totals__item">Total<span>{data.length}</span></div>
           </div>
         )}
         <div className={classes.tableWrapper}>
