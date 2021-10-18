@@ -46,9 +46,9 @@ function DatePicker({ setEndDate, setStartDate }) {
   //   setNewEndDate(newEndDate + 1)
   // }
 
-  // const handleSubtractDate = () => {
-  //   setNewDate(newDate - 1);
-  // }
+  const handleSubtractDate = () => {
+    setNewDate(newDate - 1);
+  }
 
   // const handleSubEndDate = () => {
   //   setNewEndDate(newEndDate - 1);
