@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { MoreVert, Search } from "@material-ui/icons";
+// import { MoreVert, Search } from "@material-ui/icons";
 import CancelIcon from "@material-ui/icons/Cancel";
 import AddModal from "../modals/AddModal";
 import EditUserModal from "../modals/EditUserModal";
@@ -116,7 +116,7 @@ let EnhancedTableToolbar = (props) => {
             {props.children}
             <Tooltip title="Filter list">
               <IconButton aria-label="Filter list">
-                <Search onClick={() => setSearch(true)} />
+                {/* <Search onClick={() => setSearch(true)} /> */}
                 {title === "Profile Items" ? (
                   <AddModal name={Constants.ADD} />
                 ) : null}
@@ -124,7 +124,7 @@ let EnhancedTableToolbar = (props) => {
                   <EditUserModal name={Constants.ADD} />
                 ) : null}
                 {title === "Payment Profiles" && <PaymentProfileModal />}
-                <MoreVert />
+                {/* <MoreVert /> */}
               </IconButton>
             </Tooltip>
           </div>
