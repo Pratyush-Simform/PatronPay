@@ -38,29 +38,32 @@ function Order() {
     db.collection("orderArray").doc({ id: td.id }).delete();
   };
   async function pastOrders() {
-    const response = await getPastOrders(pcfId)
+    const response = await getPastOrders(pcfId);
     console.log(response.data.data.results);
-     response.data.data.results.forEach(order => {
+    response.data.data.results.forEach((order) => {
       if (order) dispatch({ type: "ORDERARRAY", payload: order });
-     });
-    }
+    });
+  }
   useEffect(() => {
     getConfigApi().then((res) => setConfig(res.data.data.results));
-    pastOrders()
+    pastOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(state.orderArray);
 
-
   const triggerSocket = () => {
-    const socket = new WebSocket(
-      `${process.env.REACT_APP_SOCKET_URL}/${pcfId}/`
-    );
-    socket.onmessage = async function (event) {
-      let data = JSON.parse(event.data);
-     if(data) dispatch({ type: "ORDERARRAY", payload: data.message });
-      setSoketdata(data.message);
-    };
+    try {
+      const socket = new WebSocket(
+        `${process.env.REACT_APP_SOCKET_URL}/${pcfId}/`
+      );
+      socket.onmessage = async function (event) {
+        let data = JSON.parse(event.data);
+        if (data) dispatch({ type: "ORDERARRAY", payload: data.message });
+        setSoketdata(data.message);
+      };
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -118,7 +121,9 @@ function Order() {
             value={pcfId}
           >
             {config?.map((con) => (
-              <MenuItem value={con.id} key={con.id}>{con.name}</MenuItem>
+              <MenuItem value={con.id} key={con.id}>
+                {con.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -148,9 +153,7 @@ function Order() {
                   ))}
                 </div>
                 <List dense className="listItems" key={index}>
-                  <h3>
-                    {td?.receipt_receiver}
-                  </h3>
+                  <h3>{td?.receipt_receiver}</h3>
                   <div style={{ display: "flex" }}>
                     <h3>
                       {td?.membership_payment?.txn_type ||
@@ -197,7 +200,11 @@ function Order() {
       )}
       <div className="printBtn">
         <div style={{ display: "none" }}>
-          <ComponentToPrint ref={componentRef} data={state.doneArray} otherData={state.orderArray}/>
+          <ComponentToPrint
+            ref={componentRef}
+            data={state.doneArray}
+            otherData={state.orderArray}
+          />
         </div>
         <Button
           size="medium"
