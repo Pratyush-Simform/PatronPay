@@ -40,7 +40,8 @@ import Stack from '@mui/material/Stack';
 import PictureAsPdfOutlined from '@material-ui/icons/PictureAsPdfOutlined';
 import DescriptionOutlined from '@material-ui/icons/DescriptionOutlined';
 import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { FormControlLabel } from "@material-ui/core";
+// import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -764,7 +765,7 @@ class EnhancedTable extends React.Component {
         <div className="pDownloads">
           {name === "Transction" ? <ExportTransactions data={data} /> : null}
           {/* <span className="btnMargin"> */}
-          <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-end">
+          <Stack direction="row" className="pDownloads__wrap" spacing={2} alignItems="center" justifyContent="flex-end">
             {name === "Profile Items" ? (
               <>
                 <ImportFile />
@@ -949,21 +950,41 @@ class EnhancedTable extends React.Component {
             setEndDate={this.setEndDate}
             setStartDate={this.setStartDate}
           />
-        ) : name === "Profile Items" ? (
-          <div className="pProfileStatus">
-            <div className="pProfileStatus__item" style={active ? {color: "blue"} : {}} onClick={() => this.handleFilters("active")} >
-              <CheckCircleOutlineIcon fontSize="small" /> Active
-            </div>
-            <div className="pProfileStatus__item" style={inactive ? {color: "blue"} : {}} onClick={() => this.handleFilters("inactive")}>
-              <CheckCircleOutlineIcon fontSize="small" /> Inactive
-            </div>
-            <div className="pProfileStatus__item" style={shoppingcart ? {color: "blue"} : {}} onClick={() => this.handleFilters("shopping")}>
-              <CheckCircleOutlineIcon fontSize="small" /> Shopping Cart
-            </div>
-            <div className="pProfileStatus__item" style={quickpay ? {color: "blue"} : {}} onClick={() => this.handleFilters()}>
-              <CheckCircleOutlineIcon fontSize="small" /> Quick Pay
-            </div>
-          </div> 
+        // ) : name === "Profile Items" ? (
+        //   <div className="pProfileStatus">
+        //     <div className="pProfileStatus__item" onClick={() => this.handleFilters("active")} >
+        //     <FormControlLabel
+        //       control={
+        //         <Checkbox name="active" />
+        //       }
+        //       label="Active"
+        //     />
+        //     </div>
+        //     <div className="pProfileStatus__item" onClick={() => this.handleFilters("inactive")}>
+        //       <FormControlLabel
+        //         control={
+        //           <Checkbox name="inactive" />
+        //         }
+        //         label="Inactive"
+        //       />
+        //     </div>
+        //     <div className="pProfileStatus__item" onClick={() => this.handleFilters("shopping")}>
+        //       <FormControlLabel
+        //         control={
+        //           <Checkbox name="shopping_cart" />
+        //         }
+        //         label="Shopping Cart"
+        //       />
+        //     </div>
+        //     <div className="pProfileStatus__item" onClick={() => this.handleFilters()}>
+        //       <FormControlLabel
+        //         control={
+        //           <Checkbox name="quick_pay" />
+        //         }
+        //         label="Quick Pay"
+        //       />
+        //     </div>
+        //   </div> 
         ) : name === "Membership Payments" ? (
           <DatePicker
             setEndDate={this.setMemEndDate}
@@ -1001,7 +1022,42 @@ class EnhancedTable extends React.Component {
             <div className="totals__item">Tip Tax <span>{tip_tax_total}</span></div>
           </div>
         )}
-        {name === "Profile Items" && (
+        {name === "Transaction" && (
+          <>
+          <div className="pProfileStatus">
+            <div className="pProfileStatus__item" onClick={() => this.handleFilters("active")} >
+            <FormControlLabel
+              control={
+                <Checkbox name="active" />
+              }
+              label="Active"
+            />
+            </div>
+            <div className="pProfileStatus__item" onClick={() => this.handleFilters("inactive")}>
+              <FormControlLabel
+                control={
+                  <Checkbox name="inactive" />
+                }
+                label="Inactive"
+              />
+            </div>
+            <div className="pProfileStatus__item" onClick={() => this.handleFilters("shopping")}>
+              <FormControlLabel
+                control={
+                  <Checkbox name="shopping_cart" />
+                }
+                label="Shopping Cart"
+              />
+            </div>
+            <div className="pProfileStatus__item" onClick={() => this.handleFilters()}>
+              <FormControlLabel
+                control={
+                  <Checkbox name="quick_pay" />
+                }
+                label="Quick Pay"
+              />
+            </div>
+          </div> 
           <div className="totals">
             <div className="totals__item">Active <span>{activeData.length}</span></div>
             <div className="totals__item">Inactive <span>{inactiveData.length}</span></div>
@@ -1009,6 +1065,7 @@ class EnhancedTable extends React.Component {
             <div className="totals__item">Quick Pay <span>{quickPay.length}</span></div>
             <div className="totals__item">Total<span>{data.length}</span></div>
           </div>
+          </>
         )}
         <div className={classes.tableWrapper}>
           <Table
