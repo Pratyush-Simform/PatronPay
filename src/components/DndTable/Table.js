@@ -41,7 +41,7 @@ import PictureAsPdfOutlined from '@material-ui/icons/PictureAsPdfOutlined';
 import DescriptionOutlined from '@material-ui/icons/DescriptionOutlined';
 import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
 import { FormControlLabel } from "@material-ui/core";
-// import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import {Context} from "../../store/Context";
 
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -136,6 +136,7 @@ class EnhancedTable extends React.Component {
       quickpay: false
     };
   }
+  static contextType = Context;
 
   onDragEnd = (result) => {
     if (!result.destination) {
@@ -707,7 +708,7 @@ class EnhancedTable extends React.Component {
      newData = this.props.data.filter((temp) => temp.is_deleted === false)
     this.setState({ active: !this.props.active, renderer: newData})
     }else if(name==="inactive"){
-      newData = this.props.data.filter((temp) => temp.is_deleted === false)
+      newData = this.props.data.filter((temp) => temp.is_deleted === true)
       this.setState({ inactive: !this.props.inactive, renderer: newData})
     }else if(name==="shopping"){
       newData = this.props.data.filter((temp) => temp.paymentProfile === "Shopping Cart Profile")
@@ -720,11 +721,11 @@ class EnhancedTable extends React.Component {
 
   render() {
     const { classes, data, name } = this.props;
-    console.log(data, 709);
     const activeData = data.filter((temp) => temp.is_deleted === false)
     const inactiveData = data.filter((temp) => temp.is_deleted === true)
     const shoppingCart = data.filter(temp => temp.paymentProfile === "Shopping Cart Profile")
     const quickPay = data.filter(temp => temp.paymentProfile === "QuickPay Profile")
+    const wgsmBaseball = data.filter(temp => temp.paymentProfile === "WGSM Baseball Profile")
     const {
       order,
       orderBy,
@@ -740,10 +741,10 @@ class EnhancedTable extends React.Component {
       horizontal,
       snackbar,
       snackMsg,
-      active,
-      inactive,
-      shoppingcart,
-      quickpay
+      // active,
+      // inactive,
+      // shoppingcart,
+      // quickpay
     } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data?.length - page * rowsPerPage);
@@ -950,41 +951,6 @@ class EnhancedTable extends React.Component {
             setEndDate={this.setEndDate}
             setStartDate={this.setStartDate}
           />
-        // ) : name === "Profile Items" ? (
-        //   <div className="pProfileStatus">
-        //     <div className="pProfileStatus__item" onClick={() => this.handleFilters("active")} >
-        //     <FormControlLabel
-        //       control={
-        //         <Checkbox name="active" />
-        //       }
-        //       label="Active"
-        //     />
-        //     </div>
-        //     <div className="pProfileStatus__item" onClick={() => this.handleFilters("inactive")}>
-        //       <FormControlLabel
-        //         control={
-        //           <Checkbox name="inactive" />
-        //         }
-        //         label="Inactive"
-        //       />
-        //     </div>
-        //     <div className="pProfileStatus__item" onClick={() => this.handleFilters("shopping")}>
-        //       <FormControlLabel
-        //         control={
-        //           <Checkbox name="shopping_cart" />
-        //         }
-        //         label="Shopping Cart"
-        //       />
-        //     </div>
-        //     <div className="pProfileStatus__item" onClick={() => this.handleFilters()}>
-        //       <FormControlLabel
-        //         control={
-        //           <Checkbox name="quick_pay" />
-        //         }
-        //         label="Quick Pay"
-        //       />
-        //     </div>
-        //   </div> 
         ) : name === "Membership Payments" ? (
           <DatePicker
             setEndDate={this.setMemEndDate}
@@ -1022,7 +988,7 @@ class EnhancedTable extends React.Component {
             <div className="totals__item">Tip Tax <span>{tip_tax_total}</span></div>
           </div>
         )}
-        {name === "Transaction" && (
+        {name === "Profile Items" && (
           <>
           <div className="pProfileStatus">
             <div className="pProfileStatus__item" onClick={() => this.handleFilters("active")} >
@@ -1058,6 +1024,9 @@ class EnhancedTable extends React.Component {
               />
             </div>
           </div> 
+          </>
+        )}
+          { name === "Transaction" && (
           <div className="totals">
             <div className="totals__item">Active <span>{activeData.length}</span></div>
             <div className="totals__item">Inactive <span>{inactiveData.length}</span></div>
@@ -1065,8 +1034,8 @@ class EnhancedTable extends React.Component {
             <div className="totals__item">Quick Pay <span>{quickPay.length}</span></div>
             <div className="totals__item">Total<span>{data.length}</span></div>
           </div>
-          </>
-        )}
+          )}
+          
         <div className={classes.tableWrapper}>
           <Table
             table-layout="fixed"
@@ -1148,7 +1117,6 @@ class EnhancedTable extends React.Component {
                                               }
                                               className="tableWidth"
                                             >
-                                              {console.log(n[column.id], 929)}
                                               {n[column.id]}
                                             </div>
                                           </TableCell>
@@ -1205,7 +1173,15 @@ class EnhancedTable extends React.Component {
                           </TableRow>
                         );
                       })
-                  : data
+                  : (name === "Profile Items" 
+                      ? this.context[0].paymentProfileName === "Shopping Cart Profile" 
+                        ? shoppingCart
+                        : this.context[0].paymentProfileName === "QuickPay Profile"
+                          ? quickPay
+                          : this.context[0].paymentProfileName === "WGSM Baseball Profile"
+                            ? wgsmBaseball
+                            : activeData
+                      : data)
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
