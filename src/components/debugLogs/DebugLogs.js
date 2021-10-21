@@ -20,7 +20,6 @@ function DebugLogs() {
       })
       setNewData(logs)
   }, [logs])
-  console.log(logs);
   return (
     <div className="pMainContainer">
       <EnhancedTable data={newData} columnData={logCols} name="Debug Logs" />

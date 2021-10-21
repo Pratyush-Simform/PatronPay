@@ -16,7 +16,6 @@ let subDom = localStorage.getItem("subDomain")
       email: email,
       password: password
   })
-    console.log(response);
     const token = response.data.data.access
     localStorage.setItem("token", token)
 }

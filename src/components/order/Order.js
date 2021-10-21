@@ -39,7 +39,6 @@ function Order() {
   };
   async function pastOrders() {
     const response = await getPastOrders(pcfId);
-    console.log(response.data.data.results);
     response.data.data.results.forEach((order) => {
       if (order) dispatch({ type: "ORDERARRAY", payload: order });
     });
@@ -49,7 +48,6 @@ function Order() {
     pastOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(state.orderArray);
 
   const triggerSocket = () => {
     try {

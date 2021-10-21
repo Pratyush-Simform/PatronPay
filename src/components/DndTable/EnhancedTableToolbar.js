@@ -20,7 +20,6 @@ import TextField from '@mui/material/TextField';
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData, updatedUsers } =
     props;
-  console.log(props);
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
@@ -28,7 +27,6 @@ let EnhancedTableToolbar = (props) => {
     setSearchInput(e.target.value);
   };
   let itemCopy = items;
-  console.log(itemCopy);
   useEffect(() => {
     var input = document.getElementById("myInput");
     if (input) {
@@ -64,7 +62,7 @@ let EnhancedTableToolbar = (props) => {
       };
     }
   });
-  console.log(updatedUsers, 59);
+  console.log(updatedUsers);
   return (
     <Toolbar
       className={`${classNames(classes.root, {

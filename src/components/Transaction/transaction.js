@@ -29,7 +29,6 @@ const Transaction = () => {
       temp["cardNumber"] = temp.membership_payment.card_number
     });
 
-    console.log(data);
     setNewData(data);
   }, [data]);
 

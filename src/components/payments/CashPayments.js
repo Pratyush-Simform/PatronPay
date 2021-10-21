@@ -8,8 +8,6 @@ function CashPayment() {
     const data = state.transaction.filter(
         obj => !(obj && Object.keys(obj.cash_payment).length === 0)
       ).map(td => td.cash_payment);
- 
- console.log(data);
 
     return (
         <div className="pMainContainer">

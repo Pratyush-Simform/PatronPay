@@ -31,7 +31,6 @@ function ImportFile() {
     const reader = new FileReader();
     reader.readAsText(file)
     reader.onload = () => {
-      console.log(reader.result); 
     }
   }
 

@@ -31,12 +31,10 @@ function Login() {
     setSubmitted(!submitted);
     setLoginInterface(true);
   };
-console.log(loginInterface,45)
   const loginFunction = () => {
     if (loginInterface && password.length > 0) {
       login(email, password)
         .then(() => {
-          console.log("login",history);
           history.push("/orders");
           setSnackMsg("Logged in");
           setSnackbar(true);
@@ -47,7 +45,6 @@ console.log(loginInterface,45)
       if (email.length > 0 && !forgotPassword && password.length === 0) {
         subdomainUrl(email)
         .then((res) => {
-          console.log("sub");
           setDomain(res.data.data.domain);
           localStorage.setItem("subDomain", res.data.data.domain)
           setSnackMsg("Subdomain Logged in");

@@ -27,7 +27,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import { Context } from "../../store/Context";
 
 function AddModal({ row, name }) {
-  console.log(row, 33);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState([]);
