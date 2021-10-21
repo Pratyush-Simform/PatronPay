@@ -14,6 +14,7 @@ import { addUsers, editUsers, getUsers } from "../../services/userApi"
 import { Context } from "../../store/Context";
 import {Constants} from "../DndTable/Constants"
 import Snackbar from '@material-ui/core/Snackbar';
+import { Button } from "@mui/material";
 
 
 function EditUserModal({ row, name }) {
@@ -91,15 +92,18 @@ function EditUserModal({ row, name }) {
         }}
       >
         <Fade in={open}>
-          <div className="paper">
-            {name === Constants.ADD ? (
-              <h2 id="transition-modal-title">Add Users</h2>
-            ) : (
-              <h2 id="transition-modal-title">Edit Users</h2>
-            )}
-            <div className="addMod">
+          <div className="paper pModal">
+            <div className="pModal__header">
+              {name === Constants.ADD ? (
+                <h2 id="transition-modal-title">Add Users</h2>
+              ) : (
+                <h2 id="transition-modal-title">Edit Users</h2>
+              )}
+            </div>
+            <div className="pModal__body">
               <form onSubmit={formik.handleSubmit}>
-                <div style={{ display: "block" }}>
+              <div className="pRow">
+                <div className="pCol pCol--col12">
                   <TextField
                     id="outlined-basic"
                     name="email"
@@ -111,26 +115,36 @@ function EditUserModal({ row, name }) {
                     value={formik.values.email}
                     className="text"
                   />
-                  <TextField
-                    id="outlined-basic"
-                    name="first_name"
-                    type="text"
-                    label="First Name"
-                    multiline
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    value={formik.values.first_name}
-                  />
-                  <TextField
-                    lid="outlined-basic"
-                    name="last_name"
-                    type="text"
-                    label="Last Name"
-                    multiline
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    value={formik.values.last_name}
-                  />
+                </div>
+              </div>
+                  <div className="pRow">
+                    <div className="pCol pCol--col6 pCol--col-md-12">
+                    <TextField
+                      id="outlined-basic"
+                      name="first_name"
+                      type="text"
+                      label="First Name"
+                      multiline
+                      variant="outlined"
+                      onChange={formik.handleChange}
+                      value={formik.values.first_name}
+                    />
+                    </div>
+                    <div className="pCol pCol--col6 pCol--col-md-12">
+                    <TextField
+                      lid="outlined-basic"
+                      name="last_name"
+                      type="text"
+                      label="Last Name"
+                      multiline
+                      variant="outlined"
+                      onChange={formik.handleChange}
+                      value={formik.values.last_name}
+                    />
+                    </div>
+                  </div>
+                  <div className="pRow">
+              <div className="pCol pCol--col12">
                   <TextField
                     lid="outlined-basic"
                     name="password"
@@ -141,9 +155,13 @@ function EditUserModal({ row, name }) {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                   />
-                </div>
+                  </div>
+                  </div>
                 <div className="profileSubmitBtn">
-                  <button className="btn" type="submit">Submit</button>
+                  {/* <button className="btn" type="submit">Submit</button> */}
+                  <Button variant="contained" color="primary" size="large" type="submit">
+                    Submit
+                  </Button>
                 </div>
               </form>
             </div>

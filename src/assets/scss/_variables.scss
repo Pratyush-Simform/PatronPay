@@ -1,0 +1,35 @@
+$desktop-lg: 1399.98px;
+$desktop: 1199.98px;
+$tablet: 991.98px;
+$phone-landscape: 767.98px;
+$phone: 575.98px;
+
+@mixin desktop-lg {
+    @media (max-width: $desktop-lg) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (max-width: $desktop) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: $tablet) {
+        @content;
+    }
+}
+
+@mixin phone-landscape {
+    @media (max-width: $phone-landscape) {
+        @content;
+    }
+}
+
+@mixin phone {
+    @media (max-width: $phone) {
+        @content;
+    }
+}

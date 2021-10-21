@@ -40,7 +40,6 @@ export const deletePaymentProfiles = async (id) => {
 export const addPaymentProfles = async (payload) => {
   let subDom = localStorage.getItem("subDomain");
   const api = `https://${subDom}/api/patron_configuration/`;
-  console.log(api);
   const token = localStorage.getItem("token");
   const response = await Axios.post(api, payload, {
     headers: {

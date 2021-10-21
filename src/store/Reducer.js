@@ -12,6 +12,7 @@ const initialState = {
   userData: [],
   profileItems: [],
   paymentProfiles: [],
+  paymentProfileName: "",
 };
 
 const reducer = (state, action) => {
@@ -111,6 +112,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         paymentProfiles: action.payload,
+      };
+    case "PAYMENT_PROFILE_NAME":
+      return {
+        ...state,
+        paymentProfileName: action.payload,
       };
     default:
       return;

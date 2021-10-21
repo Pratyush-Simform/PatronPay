@@ -27,7 +27,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import { Context } from "../../store/Context";
 
 function AddModal({ row, name }) {
-  console.log(row, 33);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState([]);
@@ -159,7 +158,7 @@ function AddModal({ row, name }) {
             <div className="pModal__body">
               <form onSubmit={formik.handleSubmit}>
                 <div className="pRow">
-                  <div className="pCol pCol--col6">
+                  <div className="pCol pCol--col6 pCol--col-md-12">
                     <FormControl
                       variant="standard"
                       sx={{ m: 1, minWidth: 250 }}
@@ -192,7 +191,7 @@ function AddModal({ row, name }) {
                       </Select>
                     </FormControl>
                   </div>
-                  <div className="pCol pCol--col6">
+                  <div className="pCol pCol--col6 pCol--col-md-12">
                     <TextField
                       required={true}
                       id="outlined-basic"
@@ -208,7 +207,7 @@ function AddModal({ row, name }) {
                   </div>
                 </div>
                 <div className="pRow">
-                <div className="pCol pCol--col6">
+                <div className="pCol pCol--col6 pCol--col-md-12">
                   <TextField
                     id="outlined-basic"
                     label="Category"
@@ -220,7 +219,7 @@ function AddModal({ row, name }) {
                     value={formik.values.category}
                   />
                   </div>
-                  <div className="pCol pCol--col6">
+                  <div className="pCol pCol--col6 pCol--col-md-12">
                   <TextField
                     id="outlined-basic"
                     label="Barcode"
@@ -234,7 +233,7 @@ function AddModal({ row, name }) {
                   </div>
                 </div>
                 <div className="pRow">
-                <div className="pCol pCol--col6">
+                <div className="pCol pCol--col6 pCol--col-md-12">
                   <TextField
                     required={true}
                     id="outlined-basic"
@@ -247,7 +246,7 @@ function AddModal({ row, name }) {
                     value={formik.values.short_name}
                   />
                 </div>
-                <div className="pCol pCol--col6">
+                <div className="pCol pCol--col6 pCol--col-md-12">
                   <TextField
                     id="outlined-basic"
                     label="Description"
@@ -262,7 +261,7 @@ function AddModal({ row, name }) {
                 </div>
                 {/* </ButtonGroup> */}
                 <div className="pRow">
-                <div className="pCol pCol--col6">
+                <div className="pCol pCol--col6 pCol--col-md-12">
                   <label className="pBtn pBtn--upload" htmlFor="contained-button-file">
                     <input
                       accept="image/*"
@@ -284,7 +283,7 @@ function AddModal({ row, name }) {
                     </Button>
                   </label>
                   </div>
-                  <div className="pCol pCol--col6">
+                  <div className="pCol pCol--col6 pCol--col-md-12">
                   <label className="pBtn pBtn--upload" htmlFor="contained-button-file">
                     <input
                       accept="image/*"
@@ -308,7 +307,7 @@ function AddModal({ row, name }) {
                   </div>
                 </div>
                 <div className="pRow">
-                <div className="pCol pCol--col6">
+                <div className="pCol pCol--col6 pCol--col-md-12">
                   <TextField
                     required={true}
                     id="outlined-basic"
@@ -322,7 +321,7 @@ function AddModal({ row, name }) {
                     placeholder="0.00"
                   />
                   </div>
-                  <div className="pCol pCol--col6">
+                  <div className="pCol pCol--col6 pCol--col-md-12">
                   <TextField
                     id="outlined-basic"
                     label="Tax %"
@@ -337,7 +336,7 @@ function AddModal({ row, name }) {
                   </div>
                 </div>
                 <div className="pRow">
-                <div className="pCol pCol--col6">
+                <div className="pCol pCol--col6 pCol--col-md-12">
                   <TextField
                     id="outlined-basic"
                     label="Other Amount"
@@ -350,7 +349,7 @@ function AddModal({ row, name }) {
                     value={formik.values.other_amt}
                   />
                   </div>
-                  <div className="pCol pCol--col6">
+                  <div className="pCol pCol--col6 pCol--col-md-12">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -365,7 +364,7 @@ function AddModal({ row, name }) {
                   </div>
                 </div>
                 <div className="pRow">
-                <div className="pCol pCol--col6">
+                <div className="pCol pCol--col6 pCol--col-md-12">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -378,7 +377,7 @@ function AddModal({ row, name }) {
                     label="Active"
                   />
                   </div>
-                  <div className="pCol pCol--col6">
+                  <div className="pCol pCol--col6 pCol--col-md-12">
                   <FormControlLabel
                     control={
                       <Checkbox

@@ -20,7 +20,6 @@ import TextField from '@mui/material/TextField';
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData, updatedUsers } =
     props;
-  console.log(props);
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
@@ -28,7 +27,6 @@ let EnhancedTableToolbar = (props) => {
     setSearchInput(e.target.value);
   };
   let itemCopy = items;
-  console.log(itemCopy);
   useEffect(() => {
     var input = document.getElementById("myInput");
     if (input) {
@@ -64,12 +62,12 @@ let EnhancedTableToolbar = (props) => {
       };
     }
   });
-  console.log(updatedUsers, 59);
+  console.log(updatedUsers);
   return (
     <Toolbar
-      className={classNames(classes.root, {
+      className={`${classNames(classes.root, {
         [classes.highlight]: numSelected > 0,
-      })}
+      })} pMainToolbar`}
     >
       <div className={classes.title}>
         {numSelected > 0 ? (
@@ -101,7 +99,7 @@ let EnhancedTableToolbar = (props) => {
             <CancelIcon onClick={() => setSearch(false)} />
           </div>
         ) : (
-          <div className={classes.actionsInner}>
+          <div className={classes.actionsInner + " searchButtonBar"}>
             <div className="pSearchbar">
               <TextField
               id="myInput"
@@ -115,7 +113,7 @@ let EnhancedTableToolbar = (props) => {
             </div>
             {props.children}
             <Tooltip title="Filter list">
-              <IconButton aria-label="Filter list">
+              <IconButton aria-label="Filter list" className="pBtn pBtn--addNewItem">
                 {/* <Search onClick={() => setSearch(true)} /> */}
                 {title === "Profile Items" ? (
                   <AddModal name={Constants.ADD} />

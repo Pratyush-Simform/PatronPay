@@ -254,9 +254,9 @@
     width: 96% !important;
     margin-left: 2% !important;
   }
-  .MuiToolbar-gutters {
+  /* .MuiToolbar-gutters {
     padding-left: 13px !important;
-  }
+  } */
 }
 
 .toolHead {

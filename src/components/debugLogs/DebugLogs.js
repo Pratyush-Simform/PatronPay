@@ -20,8 +20,11 @@ function DebugLogs() {
       })
       setNewData(logs)
   }, [logs])
-  console.log(logs);
-  return <EnhancedTable data={newData} columnData={logCols} name="Debug Logs" />;
+  return (
+    <div className="pMainContainer">
+      <EnhancedTable data={newData} columnData={logCols} name="Debug Logs" />
+    </div>
+  )
 }
 
 export default DebugLogs;

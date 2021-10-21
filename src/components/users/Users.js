@@ -20,7 +20,7 @@ function Users() {
 
   return (
       <div className="pMainContainer">
-        <EnhancedTable data={state.userData} columnData={cols} name="Users" />;
+        <EnhancedTable data={state.userData} columnData={cols} name="Users" />
       </div>
     )
   }
