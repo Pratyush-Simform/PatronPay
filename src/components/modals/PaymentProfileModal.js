@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 import Modal from "@mui/material/Modal";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@mui/material/TextField";
@@ -15,22 +15,20 @@ import { useFormik } from "formik";
 import { getConfigApi } from "../../services/orderApi";
 import { addPaymentProfles, getPaymentProfiles } from "../../services/profileApi";
 import { Context } from "../../store/Context"
+import { useStyles } from "./styles";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "70%",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxWidth: 250,
+    },
+  },
 };
 
 // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function PaymentProfileModal() {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState([]);
   const [tip1, setTip1] = useState(0);
@@ -128,13 +126,22 @@ function PaymentProfileModal() {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        className={classes.modal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h5" component="h2">
-            Add new Profle
-          </Typography>
+        <Fade in={open}>
+         <div className="paper pModal">
+          <div className="pModal__header">
+            <h2>Add New Profle</h2>
+          </div>
+          <div className="pModal__body">
           <form onSubmit={formik.handleSubmit}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="pRow">
+            <div className="pCol pCol--col6 pCol--col-md-12">
               <TextField
                 id="outlined-basic"
                 label="Description"
@@ -143,7 +150,9 @@ function PaymentProfileModal() {
                 onChange={formik.handleChange}
                 value={formik.values.description}
               />
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
+            </div>
+            <div className="pCol pCol--col6 pCol--col-md-12">
+              <FormControl>
                 <InputLabel id="demo-simple-select-helper-label">
                   Profile Mode
                 </InputLabel>
@@ -153,6 +162,7 @@ function PaymentProfileModal() {
                   value={name}
                   label="Profile Mode"
                   onChange={(event) => handleChange(event, "name")}
+                  MenuProps={MenuProps}
                 >
                   {config?.map((con) => (
                     <MenuItem value={con.name} onChange={formik.handleChange}>
@@ -161,8 +171,10 @@ function PaymentProfileModal() {
                   ))}
                 </Select>
               </FormControl>
+              </div>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="pRow">
+            <div className="pCol pCol--col12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -193,6 +205,10 @@ function PaymentProfileModal() {
                 }
                 label="Enable Tips"
               />
+                </div>
+            </div>
+            <div className="pRow">
+              <div className="pCol pCol--col6 pCol--col-md-12">
               <TextField
                 type="number"
                 id="outlined-basic"
@@ -201,9 +217,11 @@ function PaymentProfileModal() {
                 name="custom_payment_tax"
                 onChange={formik.handleChange}
                 value={formik.values.custom_payment_tax}
-              />
+                />
+              </div>
             </div>
-            <div style={{ display: "flex" }}>
+            <div className="pRow">
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <TextField
                 id="outlined-basic"
                 label="Tip Button #1 (%)"
@@ -212,6 +230,8 @@ function PaymentProfileModal() {
                 onChange={(e) => handleTipChange(e, "1")}
                 value={tip1}
               />
+              </div>
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <TextField
                 id="outlined-basic"
                 label="Tip Button #2 (%)"
@@ -220,6 +240,8 @@ function PaymentProfileModal() {
                 onChange={(e) => handleTipChange(e, "2")}
                 value={tip2}
               />
+              </div>
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <TextField
                 id="outlined-basic"
                 label="Tip Button #3 (%)"
@@ -229,8 +251,10 @@ function PaymentProfileModal() {
                 value={tip3}
               />
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
+            </div>
+            <div className="pRow">
+            <div className="pCol pCol--col6 pCol--col-md-12">
+              <FormControl>
                 <InputLabel id="demo-simple-select-helper-label">
                   Default Tip
                 </InputLabel>
@@ -240,6 +264,7 @@ function PaymentProfileModal() {
                   value={defaulTip}
                   label="Default Tip"
                   onChange={(event) => handleChange(event, "defaultTip")}
+                  MenuProps={MenuProps}
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -249,6 +274,8 @@ function PaymentProfileModal() {
                   <MenuItem value="TP3">Tip Button #3</MenuItem>
                 </Select>
               </FormControl>
+              </div>
+              <div className="pCol pCol--col6 pCol--col-md-12">
               <TextField
                 id="outlined-basic"
                 label="Tip Tax"
@@ -259,7 +286,9 @@ function PaymentProfileModal() {
                 value={formik.values.tip_tax}
               />
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            </div>
+            <div className="pRow">
+              <div className="pCol pCol--col6 pCol--col-md-12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -270,6 +299,8 @@ function PaymentProfileModal() {
                 }
                 label="Prompt for receipt"
               />
+              </div>
+              <div className="pCol pCol--col6 pCol--col-md-12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -281,8 +312,10 @@ function PaymentProfileModal() {
                 label="Ask for customer name?"
               />
             </div>
+            </div>
             <h3>CLUB MEMBER PAYMENTS</h3>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="pRow">
+              <div className="pCol pCol--col12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -313,11 +346,10 @@ function PaymentProfileModal() {
                 }
                 label="Require last name"
               />
+              </div>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Button variant="contained" type="submit">
-                Submit
-              </Button>
+            <div className="pRow">
+              <div className="pCol pCol--col12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -328,9 +360,11 @@ function PaymentProfileModal() {
                 }
                 label="is_deleted"
               />
+              </div>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <div className="pRow">
+            <div className="pCol pCol--col6 pCol--col-md-12">
+              <FormControl>
                 <InputLabel id="demo-simple-select-helper-label">
                   Dbg upl log lvl:
                 </InputLabel>
@@ -340,6 +374,7 @@ function PaymentProfileModal() {
                   value={dbg}
                   label="Dbg upl log lvl:"
                   onChange={(event) => handleChange(event, "dbg")}
+                  MenuProps={MenuProps}
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -351,7 +386,9 @@ function PaymentProfileModal() {
                   <MenuItem value={5}>WARN</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
+              </div>
+              <div className="pCol pCol--col6 pCol--col-md-12">
+              <FormControl>
                 <InputLabel id="demo-simple-select-helper-label">
                   Dbg upl scheme:
                 </InputLabel>
@@ -361,6 +398,7 @@ function PaymentProfileModal() {
                   value={dbgupl}
                   label="Dbg upl scheme:"
                   onChange={(event) => handleChange(event, "dbgupl")}
+                  MenuProps={MenuProps}
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -372,9 +410,17 @@ function PaymentProfileModal() {
                   </MenuItem>
                 </Select>
               </FormControl>
+              </div>
+            </div>
+            <div className="profileSubmitBtn">
+              <Button variant="contained" color="primary" size="large" type="submit">
+                Submit
+              </Button>
             </div>
           </form>
-        </Box>
+          </div>
+        </div>
+        </Fade>
       </Modal>
     </div>
   );
