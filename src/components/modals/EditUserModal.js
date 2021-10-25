@@ -26,11 +26,12 @@ function EditUserModal({ row, name }) {
   const [snackMsg, setSnackMsg] = React.useState("")
   const { vertical, horizontal } = snackState;
   const [open, setOpen] = React.useState(false);
-  const [dispatch] = useContext(Context)
+  const [state, dispatch] = useContext(Context)
   const [snackbar, setSnackbar] = React.useState(false)
 
   const handleOpen = () => {
     setOpen(true);
+    console.log(state);
   };
 
   const handleClose = () => {
