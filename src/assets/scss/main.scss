@@ -4,6 +4,9 @@
 .pFontW600 {
   font-weight: 600 !important;
 }
+.pMLAuto {
+  margin-left: auto !important;
+}
 .pMainContainer {
   height: calc(100vh - 113px);
   padding-top: 20px;
@@ -196,6 +199,19 @@
     }
     @include desktop {
       position: absolute !important;
+      top: 0;
+      right: 0;
+    }
+  }
+  &--item {
+    margin-top: 0 !important;
+  }
+  &--deleteRow {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1;
+    @include desktop {
       top: 0;
       right: 0;
     }
