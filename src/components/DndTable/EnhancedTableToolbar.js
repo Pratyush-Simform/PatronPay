@@ -18,7 +18,7 @@ import PaymentProfileModal from "../modals/PaymentProfileModal";
 import TextField from '@mui/material/TextField';
 
 let EnhancedTableToolbar = (props) => {
-  const { numSelected, classes, title, items, searchedData, updatedUsers } =
+  const { numSelected, classes, title, items, searchedData } =
     props;
   const [search, setSearch] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -62,7 +62,7 @@ let EnhancedTableToolbar = (props) => {
       };
     }
   });
-  console.log(updatedUsers);
+
   return (
     <Toolbar
       className={`${classNames(classes.root, {

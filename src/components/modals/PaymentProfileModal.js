@@ -39,7 +39,7 @@ function PaymentProfileModal() {
   const [dbg, setDbg] = useState(0);
   const [dbgupl, setDbgupl] = useState("");
   const handleOpen = () => setOpen(true);
-  const [state, dispatch] = useContext(Context);
+  const [dispatch] = useContext(Context);
   const handleClose = () => setOpen(false);
 
   const formik = useFormik({
@@ -81,7 +81,7 @@ function PaymentProfileModal() {
           },
         ],
       };
-      console.log(state);
+      // console.log(state);
       addPaymentProfles(newPcf)
         .then(() => {
          getPaymentProfiles().then((res) => dispatch({

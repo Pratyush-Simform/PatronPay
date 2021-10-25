@@ -43,7 +43,6 @@ import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
 import { FormControlLabel } from "@material-ui/core";
 import {Context} from "../../store/Context";
 
-
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -702,20 +701,24 @@ class EnhancedTable extends React.Component {
     this.setState({ snackbar: false });
   };
 
-  handleFilters = (name) => {
+  handlechecked = (event, name) => {
+    this.setState({active: false,inactive: false, shoppingcart: false, quickpay: false});
     let newData = []
-    if(name==="active"){
-     newData = this.props.data.filter((temp) => temp.is_deleted === false)
-    this.setState({ active: !this.props.active, renderer: newData})
-    }else if(name==="inactive"){
+    if(name==="active" && event.target.checked){
+      newData = this.props.data.filter((temp) => temp.is_deleted === false)
+      this.setState({active: event.target.checked, renderer: newData})
+    }else if(name==="inactive" && event.target.checked){
       newData = this.props.data.filter((temp) => temp.is_deleted === true)
-      this.setState({ inactive: !this.props.inactive, renderer: newData})
-    }else if(name==="shopping"){
+      this.setState({inactive: event.target.checked, renderer: newData})
+    }else if(name==="shopping" && event.target.checked){
       newData = this.props.data.filter((temp) => temp.paymentProfile === "Shopping Cart Profile")
-      this.setState({ shoppingcart: !this.props.shoppingcart, renderer: newData})
-    }else {
+      this.setState({shoppingcart: event.target.checked, renderer: newData})
+    }else if(name==="quickpay" && event.target.checked){
       newData = this.props.data.filter((temp) => temp.paymentProfile === "QuickPay Profile")
-      this.setState({ quickpay: !this.props.quickpay, renderer: newData})
+      this.setState({quickpay: event.target.checked, renderer: newData})
+    }else {
+      newData = this.props.data.filter((temp) => temp.is_deleted === false)
+      this.setState({renderer: newData})
     }
   }
 
@@ -741,10 +744,10 @@ class EnhancedTable extends React.Component {
       horizontal,
       snackbar,
       snackMsg,
-      // active,
-      // inactive,
-      // shoppingcart,
-      // quickpay
+      active,
+      inactive,
+      shoppingcart,
+      quickpay
     } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data?.length - page * rowsPerPage);
@@ -991,34 +994,34 @@ class EnhancedTable extends React.Component {
         {name === "Profile Items" && (
           <>
           <div className="pProfileStatus">
-            <div className="pProfileStatus__item" onClick={() => this.handleFilters("active")} >
+            <div className="pProfileStatus__item" >
             <FormControlLabel
               control={
-                <Checkbox name="active" />
+                <Checkbox name="active" checked={active} onChange={(event) => this.handlechecked(event, "active")}/>
               }
               label="Active"
             />
             </div>
-            <div className="pProfileStatus__item" onClick={() => this.handleFilters("inactive")}>
+            <div className="pProfileStatus__item">
               <FormControlLabel
                 control={
-                  <Checkbox name="inactive" />
+                  <Checkbox name="inactive" checked={inactive} onChange={(event) => this.handlechecked(event, "inactive")}/>
                 }
                 label="Inactive"
               />
             </div>
-            <div className="pProfileStatus__item" onClick={() => this.handleFilters("shopping")}>
+            <div className="pProfileStatus__item">
               <FormControlLabel
                 control={
-                  <Checkbox name="shopping_cart" />
+                  <Checkbox name="shopping_cart" checked={shoppingcart} onChange={(event) => this.handlechecked(event, "shopping")}/>
                 }
                 label="Shopping Cart"
               />
             </div>
-            <div className="pProfileStatus__item" onClick={() => this.handleFilters()}>
+            <div className="pProfileStatus__item">
               <FormControlLabel
                 control={
-                  <Checkbox name="quick_pay" />
+                  <Checkbox name="quick_pay" checked={quickpay} onChange={(event) => this.handlechecked(event, "quickpay")}/>
                 }
                 label="Quick Pay"
               />
@@ -1076,7 +1079,15 @@ class EnhancedTable extends React.Component {
             {data.length > 0 ? (
               <TableBody>
                 {renderer.length
-                  ? renderer
+                  ? (name === "Profile Items" 
+                  ? this.context[0].paymentProfileName === "Shopping Cart Profile" 
+                    ? shoppingCart
+                    : this.context[0].paymentProfileName === "QuickPay Profile"
+                      ? quickPay
+                      : this.context[0].paymentProfileName === "WGSM Baseball Profile"
+                        ? wgsmBaseball
+                        : renderer
+                  : renderer)
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage

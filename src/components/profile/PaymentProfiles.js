@@ -21,6 +21,9 @@ function PaymentProfiles() {
             if(name === "WGSM Baseball Profile") {
                 dispatch({ type: "PAYMENT_PROFILE_NAME", payload: "WGSM Baseball Profile"})
             }
+            if(name === "") {
+                dispatch({ type: "PAYMENT_PROFILE_NAME", payload: ""})
+            }
         }
 
         getPaymentProfiles().then(response => {
