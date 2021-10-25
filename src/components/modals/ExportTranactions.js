@@ -91,7 +91,6 @@ function ExportTransactions({ data }) {
     setSelectedFromDate(filteredDates);
   };
 
-  // console.log(selectedFromDate, selectedToDate, 87);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -99,8 +98,6 @@ function ExportTransactions({ data }) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  // console.log(trsItems);
 
   const headers = [
     { label: "date", key: "date" },

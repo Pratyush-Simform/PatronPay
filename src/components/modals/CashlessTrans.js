@@ -24,7 +24,6 @@ function CashlessTrans(props) {
       return abc[obj]
   })
   const tub = ijk.filter(i => Object.keys(i).length !== 0)
-  // console.log(tub);
 
   const body = (
     <div style={modalStyle} className={classes.cashlessPaper}>

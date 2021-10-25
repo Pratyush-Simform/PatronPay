@@ -29,7 +29,6 @@ function Order() {
   const [socketData, setSoketdata] = useState({});
 
   const handleStatus = (td, index) => {
-    // console.log(td, index);
     // const newData = [...pastData]
     // newData.splice(index, 1)
     // setPastData(newData)
