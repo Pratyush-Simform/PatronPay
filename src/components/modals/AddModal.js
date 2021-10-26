@@ -20,11 +20,20 @@ import {
 import { Constants } from "../DndTable/Constants";
 import { getConfigApi } from "../../services/orderApi";
 import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
+// import MenuItem from "@material-ui/core/MenuItem";
+import MenuItem from "@mui/material/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import Snackbar from "@material-ui/core/Snackbar";
 import { Context } from "../../store/Context";
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxWidth: 250,
+    },
+  },
+};
 
 function AddModal({ row, name }) {
   const classes = useStyles();
@@ -159,6 +168,7 @@ function AddModal({ row, name }) {
                 <div className="pRow">
                   <div className="pCol pCol--col6 pCol--col-md-12">
                     <FormControl
+                      className="pFormControlCustom"
                       variant="standard"
                       sx={{ m: 1, minWidth: 250 }}
                     >
@@ -177,6 +187,8 @@ function AddModal({ row, name }) {
                         variant="outlined"
                         placeholder={row?.paymentProfile}
                         required={true}
+                        label="Profile"
+                        MenuProps={MenuProps}
                       >
                         {config?.map((con) => (
                           <MenuItem

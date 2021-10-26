@@ -39,6 +39,7 @@ class EnhancedTableHead extends React.Component {
       order,
       handleResizeColumn,
       handleReorderColumnData,
+      name
     } = this.props;
 
     return (
@@ -148,6 +149,13 @@ class EnhancedTableHead extends React.Component {
                     </Draggable>
                   </TableCell>
                 ))}
+                {name === "Transactions" || name === "Profile Items" || name === "Payment Profiles" || name === "Users" ? (
+                  <TableCell
+                    padding="none"
+                    width={"100px"}
+                  >
+                  </TableCell>
+                ) : null}
                 {provided.placeholder}
               </TableRow>
             )}
