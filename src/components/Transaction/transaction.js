@@ -8,14 +8,13 @@ import { getTransactions } from "../../services/transactionApi"
 const Transaction = () => {
   const [data, setData] = useState([]);
   const [newData, setNewData] = useState([]);
-  const [state, dispatch] = useContext(Context);
+  const [, dispatch] = useContext(Context);
 
   useEffect(() => {
     getTransactions().then(response => {
       setData(response.data.data.results);
       dispatch({ type: "TRANSACTION", payload: response.data.data.results });
     })
-    console.log(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

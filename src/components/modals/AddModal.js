@@ -38,12 +38,11 @@ function AddModal({ row, name }) {
   });
   const [snackMsg, setSnackMsg] = useState("");
   const [snackbar, setSnackbar] = useState(false);
-  const [state, dispatch] = useContext(Context);
+  const [, dispatch] = useContext(Context);
   const { vertical, horizontal } = snackState;
 
   const handleOpen = () => {
     setOpen(true);
-    console.log(state);
   };
 
   const handleClose = () => {
