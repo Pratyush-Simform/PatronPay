@@ -312,3 +312,13 @@
     align-items: stretch !important;
   }
 }
+
+.pFormControlCustom {
+  .MuiFormLabel-root {
+    transform: translate(14px, 20px) scale(1);
+    &.Mui-focused,
+    &.MuiInputLabel-shrink {
+      transform: translate(14px, -6px) scale(0.75);
+    }
+  }
+}
