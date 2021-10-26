@@ -115,7 +115,7 @@ export default function TemporaryDrawer() {
           "Member Payments",
           "Cashless Payments",
           "Cash Payments",
-          "users",
+          "Users",
           "My Organisation",
           "Debug Logs",
           "Log Out",

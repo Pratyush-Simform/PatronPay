@@ -1075,6 +1075,7 @@ class EnhancedTable extends React.Component {
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
               rowCount={data?.length}
+              name={name}
             />
             {data.length > 0 ? (
               <TableBody>
@@ -1155,28 +1156,43 @@ class EnhancedTable extends React.Component {
                                         </TableCell>
                                       );
                                     })}
-                                    <div className="toolHead">
+                                    {/* <div className="toolHead"> */}
                                       {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
                                       {name === "Transactions" ? (
+	                                      <TableCell
+                                          padding="none"
+                                          width={"100px"}
+                                        >
                                         <div className="toolHead">
                                           <EditUserModal row={n} />
                                           <DeleteIcon
                                             onClick={() => this.handleDelete(n)}
                                           />
                                         </div>
+                                        </TableCell>
                                       ) : name === "Profile Items" ? (
+                                        <TableCell
+                                          padding="none"
+                                          width={"100px"}
+                                        >
                                         <div className="toolHead">
                                           <AddModal row={n} />
                                           <DeleteIcon />
                                         </div>
+                                        </TableCell>
                                       ) : name === "Payment Profiles" ? (
+                                        <TableCell
+                                          padding="none"
+                                          width={"100px"}
+                                        >
                                         <DeleteIcon
                                           onClick={() =>
                                             this.handleProfileItemsDelete(n)
                                           }
                                         />
+                                        </TableCell>
                                       ) : null}
-                                    </div>
+                                    {/* </div> */}
                                   </TableRow>
                                 </TableBody>
                               </Table>
@@ -1256,6 +1272,10 @@ class EnhancedTable extends React.Component {
                                       );
                                     })}
                                     {name === "Users" ? (
+                                      <TableCell
+                                        padding="none"
+                                        width={"100px"}
+                                      >
                                       <div className="toolHead">
                                         {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
                                         <EditUserModal row={n} />
@@ -1263,17 +1283,28 @@ class EnhancedTable extends React.Component {
                                           onClick={() => this.handleDelete(n)}
                                         />
                                       </div>
+                                      </TableCell>
                                     ) : name === "Profile Items" ? (
+                                      <TableCell
+                                        padding="none"
+                                        width={"100px"}
+                                      >
                                       <div className="toolHead">
                                         <AddModal row={n} />
                                         <DeleteIcon />
                                       </div>
+                                      </TableCell>
                                     ) : name === "Payment Profiles" ? (
+                                      <TableCell
+                                        padding="none"
+                                        width={"100px"}
+                                      >
                                       <DeleteIcon
                                         onClick={() =>
                                           this.handleProfileItemsDelete(n)
                                         }
                                       />
+                                      </TableCell>
                                     ) : null}
                                   </TableRow>
                                 </TableBody>

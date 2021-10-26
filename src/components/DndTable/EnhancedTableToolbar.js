@@ -83,11 +83,13 @@ let EnhancedTableToolbar = (props) => {
       <div className={classes.spacer} />
       <div className={classes.actions}>
         {numSelected > 0 ? (
+          <div className="pBtn pBtn--deleteRow">
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
               <DeleteIcon />
             </IconButton>
           </Tooltip>
+          </div>
         ) : search ? (
           <div className="toolHead">
             <input

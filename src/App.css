@@ -261,6 +261,7 @@
 
 .toolHead {
   display: flex;
+  justify-content: space-around;
 }
 
 .btnMargin {
@@ -353,6 +354,8 @@
 .spinner {
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 100px;
 }
 
 .EnhancedTable-tableWrapper-16 {

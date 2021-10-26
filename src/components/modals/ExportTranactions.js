@@ -17,7 +17,7 @@ function ExportTransactions({ data }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [selectedFromDate, setSelectedFromDate] = React.useState([]);
-  const [selectedToDate, setSelectedToDate] = React.useState(new Date());
+  const [, setSelectedToDate] = React.useState(new Date());
   const [showFromDate, setShowFromDate] = React.useState(new Date());
   const [showToDate, setShowToDate] = React.useState(new Date());
   // const [trsItems, setTrsItems] = React.useState([])
@@ -54,7 +54,6 @@ function ExportTransactions({ data }) {
       return fd.date > date.getDate();
     });
     setSelectedToDate(filteredDates);
-    console.log(selectedToDate);
   };
 
   const handleToDateChange = (date) => {

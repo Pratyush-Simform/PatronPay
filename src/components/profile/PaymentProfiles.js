@@ -32,7 +32,7 @@ function PaymentProfiles() {
                 temp["enableTip"] = temp.enable_tip ? "Yes" : "No";
                 temp["payByAccountNumber"] = temp.pay_by_account_number ? "Yes" : "No";
                 temp["Active"] = temp.is_deleted ? "Yes" : "No"   
-                temp["actions"] = <Button onClick={() => { onClickHandler(temp.name); history.push("/profile"); }} variant="contained">Items</Button>
+                temp["actions"] = <Button onClick={() => { onClickHandler(temp.name); history.push("/profile"); }} className="pBtn pBtn--item" variant="contained">Items</Button>
                 return temp
             }); 
             dispatch({ type: "PAYMENT_PROFILES", payload: newDataSource})
