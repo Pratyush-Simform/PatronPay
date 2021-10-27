@@ -1,0 +1,30 @@
+version: 0.2
+phases:
+  #  install:
+  # runtime-versions:
+  #   nodejs: 10
+  pre_build:
+    commands:
+      # - export NODE_OPTIONS=--max-old-space-size=8096
+      # - npm cache clean --force
+      - rm -rf .env
+      - touch .env
+      - echo REACT_APP_SOCKET_URL=${REACT_APP_SOCKET_URL}​ >> .env
+      - echo ORDER_URL=${ORDER_URL}​ >> .env
+      - npm install
+      - ls -la
+
+  build:
+    commands:
+      - echo " BUILD STAGE"
+      - npm run build
+  post_build:
+    commands:
+      - echo "POST BUILD STAGE"
+      - aws s3 cp --recursive --acl public-read ./build s3://pwa.devpatronpay.us/
+      - aws cloudfront create-invalidation --distribution-id=EM148EM1U9SXS --paths '/*'
+artifacts:
+  base-directory: build
+  files:
+    - "**/*"
+  discard-paths: no
