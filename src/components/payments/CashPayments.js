@@ -1,17 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import EnhancedTable from '../DndTable/Table'
 import { Context } from "../../store/Context"
 import { cashCols } from "./PaymentCols"
+import { getTransactions } from "../../services/transactionApi"
 
 function CashPayment() {
-    const [state] = useContext(Context)
-    const data = state.transaction.filter(
-        obj => !(obj && Object.keys(obj.cash_payment).length === 0)
-      ).map(td => td.cash_payment);
+    const [state, dispatch] = useContext(Context)
+
+    useEffect(() => {
+      getTransactions().then(response => {
+        const newDataSource = response.data.data.results.filter(
+          obj => !(obj && Object.keys(obj.cash_payment).length === 0)
+        ).map(td => td.cash_payment);
+        dispatch({ type: "CASH_PAYMENTS", payload: newDataSource });
+      })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="pMainContainer">
-          <EnhancedTable data={data} columnData={cashCols} name="Cash Payments" />
+          <EnhancedTable data={state.cashPayments} columnData={cashCols} name="Cash Payments" />
         </div>
     )
 }
