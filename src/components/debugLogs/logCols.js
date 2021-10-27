@@ -45,7 +45,7 @@ export let logCols = [
     id: "message",
     numeric: false,
     disablePadding: false,
-    label: "Message",
+    label: "Messages",
     width: 200,
   },
 ];
