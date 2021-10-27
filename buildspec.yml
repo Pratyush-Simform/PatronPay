@@ -21,8 +21,8 @@ phases:
   post_build:
     commands:
       - echo "POST BUILD STAGE"
-      - aws s3 cp --recursive --acl public-read ./build s3://pwa.mypatronpay.us/
-      - aws cloudfront create-invalidation --distribution-id=E3LUW3I3BM5IGY --paths '/*'
+      - aws s3 cp --recursive --acl public-read ./build s3://pwa.devpatronpay.us/
+      - aws cloudfront create-invalidation --distribution-id=EM148EM1U9SXS --paths '/*'
 artifacts:
   base-directory: build
   files:
