@@ -3,11 +3,23 @@ import "./App.css";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Layout from "./layout/Layout";
 import { renderRoutes } from "./components/config/routes"
+import { CircularProgress } from "@material-ui/core";
+
+const Spinner = () => {
+  return (
+    <div className="spinner-main">
+      <div className="spinner">
+        <CircularProgress />
+        <div className="spinner__text">Loading...</div>
+      </div>
+    </div>
+  )
+}
 
 function App() {
   return (
     <Router>
-       <Suspense fallback={"...loading"}>
+       <Suspense fallback={<Spinner />}>
          <Layout>
           <Switch>
             {renderRoutes.map(([key, route]) => {

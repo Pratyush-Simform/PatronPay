@@ -18,14 +18,14 @@ export let logCols = [
     numeric: false,
     disablePadding: false,
     label: "Debug Log Transactions",
-    width: 200,
+    width: 300,
   },
   {
     id: "transDates",
     numeric: false,
     disablePadding: false,
     label: "Transaction Date/Time",
-    width: 200,
+    width: 300,
   },
   {
     id: "level",
@@ -45,7 +45,7 @@ export let logCols = [
     id: "message",
     numeric: false,
     disablePadding: false,
-    label: "Messages",
-    width: 200,
+    label: "Message",
+    width: 400,
   },
 ];

@@ -11,7 +11,7 @@ export let cols = [
         numeric: false,
         disablePadding: false,
         label: "Card number",
-        width: 200,
+        width: 300,
       },
       {
         id: "currency",
@@ -32,7 +32,7 @@ export let cols = [
         numeric: true,
         disablePadding: true,
         label: "Tip",
-        width: 200,
+        width: 300,
       },
       {
         id: "tax",
@@ -46,14 +46,14 @@ export let cols = [
         numeric: true,
         disablePadding: true,
         label: "Tip Tax",
-        width: 200,
+        width: 300,
       },
       {
         id: "txn_type",
         numeric: true,
         disablePadding: true,
         label: "Transaction Type",
-        width: 200,
+        width: 300,
       }
 ]
 
@@ -84,28 +84,28 @@ export let cashlessCols = [
       numeric: true,
       disablePadding: true,
       label: "Name",
-      width: 200,
+      width: 300,
     },
     {
       id: "tip",
       numeric: true,
       disablePadding: true,
       label: "Tip",
-      width: 200,
+      width: 300,
     },
     {
       id: "tip_tax",
       numeric: true,
       disablePadding: true,
       label: "Tip Tax",
-      width: 200,
+      width: 300,
     },
     {
       id: "txn_type",
       numeric: true,
       disablePadding: true,
       label: "Transaction Type",
-      width: 200,
+      width: 300,
     }
 ]
 
@@ -115,34 +115,34 @@ export let cashCols = [
     numeric: true,
     disablePadding: true,
     label: "Amount",
-    width: 200,
+    width: 300,
   },
   {
     id: "currency",
     numeric: true,
     disablePadding: true,
     label: "Currency",
-    width: 200,
+    width: 300,
   },
   {
     id: "tip",
     numeric: true,
     disablePadding: true,
     label: "Tip",
-    width: 200,
+    width: 400,
   },
   {
     id: "tip_tax",
     numeric: true,
     disablePadding: true,
     label: "Tip Tax",
-    width: 200,
+    width: 400,
   },
   {
     id: "txn_type",
     numeric: true,
     disablePadding: true,
     label: "Transaction Type",
-    width: 200,
+    width: 400,
   }
 ]
