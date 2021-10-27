@@ -4,13 +4,13 @@ import { login, subdomainUrl, passwordReset } from "../../services/orderApi";
 import { useHistory } from "react-router-dom";
 import "../../App.css";
 import TextField from "@material-ui/core/TextField";
-import { useStyles } from "./styles";
+// import { useStyles } from "./styles";
 import Box from "@material-ui/core/Box";
 import Snackbar from "@material-ui/core/Snackbar";
 import { privateLogin } from "../../utils/Index";
 
 function Login() {
-  const classes = useStyles();
+  // const classes = useStyles();
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -85,7 +85,7 @@ function Login() {
   };
 
   return (
-    <div className={classes.root}>
+    <div className="pMainContainer pMainContainer--login">
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={snackbar}
@@ -99,19 +99,20 @@ function Login() {
           forgotPassword ? (
             <h2 className="loginHead">Password Reset</h2>
           ) : (
-            <h2 className="loginHead">Please enter email</h2>
+            <h2 className="loginHead">Sign In</h2>
           )
         ) : forgotPassword ? (
           <h2 className="loginHead">Password Reset</h2>
         ) : (
-          <h2 className="loginHead">Please enter login details</h2>
+          <h2 className="loginHead">Sign In</h2>
         )}
         {domain && !forgotPassword ? (
-          <h3 className="loginHead">{`You have logged in for the sub domain ${domain}`}</h3>
+          <p className="pTextCenter">{`You have logged in for the sub domain ${domain}`}</p>
         ) : null}
         {forgotPassword ? (
-          <p className="loginHead">
-            Forgotten your password? Enter your email address below, <br /> and
+          <p className="pTextCenter">
+            {/* Forgotten your password?<br /> */}
+            Enter your email address below, and
             we’ll email instructions for setting a new one.
           </p>
         ) : null}
@@ -123,35 +124,39 @@ function Login() {
           noValidate
           autoComplete="off"
           // onSubmit={handleSubmit}
-          className="loginHead"
+          // className="loginHead"
         >
-          <>
+          <div>
             <TextField
               id="standard-required"
               label="Email"
-              variant="standard"
+              variant="outlined"
               onChange={(e) => onInputChnage(e.target.value)}
               value={email}
             />
-            {domain && !forgotPassword ? (
+          </div>
+          {domain && !forgotPassword ? (
+            <div>
               <TextField
                 id="standard-password-input"
                 label="Password"
                 type="password"
                 autoComplete="current-password"
-                variant="standard"
+                variant="outlined"
                 onChange={(e) => onPasswordChnage(e.target.value)}
                 value={password}
               />
-            ) : null}
-          </>
+            </div>
+          ) : null} 
         </Box>
         <div className="loginHead">
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
+          <Button variant="contained" size="large" color="primary" onClick={handleSubmit}>
             Sign in
           </Button>
         </div>
-        <Button onClick={handleForgotPassword}>Forgot Password?</Button>
+        <div className="pForgotPassword">
+        <Button size="large" onClick={handleForgotPassword}>Forgot Password?</Button>
+        </div>
       </div>
     </div>
   );

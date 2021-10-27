@@ -4,27 +4,27 @@ export let orgCols = [
       numeric: false,
       disablePadding: false,
       label: "Name",
-      width: 200,
+      width: 400,
     },
     {
       id: "email",
       numeric: false,
       disablePadding: false,
       label: "Contact Email",
-      width: 200,
+      width: 500,
     },
     {
       id: "address",
       numeric: false,
       disablePadding: false,
       label: "Contact Address",
-      width: 200,
+      width: 600,
     },
     {
       id: "number",
       numeric: false,
       disablePadding: false,
       label: "Contact Number",
-      width: 200,
+      width: 300,
     }
   ];

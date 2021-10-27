@@ -4,20 +4,20 @@ export let cols = [
       numeric: false,
       disablePadding: false,
       label: "Email Id",
-      width: 200,
+      width: 700,
     },
     {
       id: "first_name",
       numeric: false,
       disablePadding: false,
       label: "First Name",
-      width: 200,
+      width: 500,
     },
     {
       id: "last_name",
       numeric: false,
       disablePadding: false,
       label: "Last Name",
-      width: 200,
+      width: 500,
     },
   ];
