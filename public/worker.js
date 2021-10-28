@@ -1,17 +1,6 @@
 var CACHE_NAME = 'pwa-task-manager';
 var urlsToCache = [
-  '/',
-  '/Login',
-  '/transaction',
-  '/profile',
-  '/paymentProfile',
-  '/memberPayments',
-  '/cashlessPayments',
-  '/cashPayments',
-  '/orders',
-  '/users',
-  '/myorganisation',
-  '/debuglogs',
+  '/'
 ];
 
 // Install a service worker
