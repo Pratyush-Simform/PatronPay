@@ -16,6 +16,7 @@ const initialState = {
   cardPayments: [],
   cashPayments: [],
   memberPayments: [],
+  gridViewLists: [],
 };
 
 const reducer = (state, action) => {
@@ -135,6 +136,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         memberPayments: action.payload,
+      };
+      case "GRIDVIEW_LISTS":
+      return {
+        ...state,
+        gridViewLists: action.payload,
       };
     default:
       return;
