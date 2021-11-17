@@ -68,6 +68,7 @@ class EnhancedTableHead extends React.Component {
                     paddingTop: 6,
                     paddingBottom: 6
                   }}
+                  width={"48px"}
                 >
                   <Checkbox
                     indeterminate={numSelected > 0 && numSelected < rowCount}

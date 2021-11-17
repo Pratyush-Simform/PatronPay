@@ -763,6 +763,7 @@ class EnhancedTable extends React.Component {
   }
 
   render() {
+    const columnLength = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.length : this.state.columnData.length;
     const { classes, data, name } = this.props;
     const activeData = data.filter((temp) => temp.is_deleted === false)
     const inactiveData = data.filter((temp) => temp.is_deleted === true)
@@ -1010,7 +1011,7 @@ class EnhancedTable extends React.Component {
             setStartDate={this.setCashStartDate}
           />
         ) : null}
-          <div className="drpDwn">
+          <div className="drpDwn drpDwn-responsive">
             <Dropdown
               data={this.props.columnData}
               selectedData={(data) => this.selectedData(data)}
@@ -1084,7 +1085,7 @@ class EnhancedTable extends React.Component {
         <div className={classes.tableWrapper}>
           <Table
             table-layout="fixed"
-            className="pTable"
+            className={`pTable ${columnLength > 1 ? '' : 'oneCellAdded'}`}
             aria-labelledby="tableTitle"
           >
             <TableHead>
@@ -1147,10 +1148,10 @@ class EnhancedTable extends React.Component {
                             key={n.id}
                             selected={isSelected}
                           >
-                            <td className="tableDir">
-                              <Table className="table">
-                                <TableBody>
-                                  <TableRow>
+                            {/* <td className="tableDir"> */}
+                              {/* <Table className="table"> */}
+                                {/* <TableBody> */}
+                                  {/* <TableRow> */}
                                     <TableCell padding="checkbox">
                                       <Checkbox checked={isSelected} />
                                     </TableCell>
@@ -1227,18 +1228,20 @@ class EnhancedTable extends React.Component {
                                           padding="none"
                                           width={"100px"}
                                         >
+                                        <div className="toolHead">
                                         <DeleteIcon
                                           onClick={() =>
                                             this.handleProfileItemsDelete(n)
                                           }
                                         />
+                                        </div>
                                         </TableCell>
                                       ) : null}
                                     {/* </div> */}
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </td>
+                                  {/* </TableRow> */}
+                                {/* </TableBody> */}
+                              {/* </Table> */}
+                            {/* </td> */}
                           </TableRow>
                         );
                       })
@@ -1267,11 +1270,11 @@ class EnhancedTable extends React.Component {
                             key={n.id}
                             selected={isSelected}
                           >
-                            <td className="tableDir">
-                              <Table className="table">
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell padding="checkbox">
+                            {/* <td className="tableDir"> */}
+                              {/* <Table className="table"> */}
+                                {/* <TableBody> */}
+                                  {/* <TableRow> */}
+                                    <TableCell padding="checkbox" width={"48px"}>
                                       <Checkbox checked={isSelected} />
                                     </TableCell>
                                     {this.columnRender()?.map((column) => {
@@ -1341,17 +1344,19 @@ class EnhancedTable extends React.Component {
                                         padding="none"
                                         width={"100px"}
                                       >
+                                      <div className="toolHead">
                                       <DeleteIcon
                                         onClick={() =>
                                           this.handleProfileItemsDelete(n)
                                         }
                                       />
+                                      </div>
                                       </TableCell>
                                     ) : null}
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </td>
+                                  {/* </TableRow> */}
+                                {/* </TableBody> */}
+                              {/* </Table> */}
+                            {/* </td> */}
                           </TableRow>
                         );
                       })}
@@ -1362,9 +1367,17 @@ class EnhancedTable extends React.Component {
                 )}
               </TableBody>
             ) : (
-              <div className="spinner">
-                <CircularProgress />
-              </div>
+              <TableBody>
+                <TableCell
+                  colSpan={"30"}
+                >
+                  <div className="spinner-inner">
+                  <div className="spinner">
+                    <CircularProgress />
+                  </div>
+                  </div>
+                  </TableCell>
+              </TableBody>
             )}
           </Table>
         </div>

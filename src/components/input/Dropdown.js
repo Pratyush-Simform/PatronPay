@@ -20,7 +20,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
 import { addGridView, getGridView } from "../../services/saveGridViewApi";
-// import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { Context } from "../../store/Context"
 
 const ITEM_HEIGHT = 48;
@@ -233,7 +233,14 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
         >
           { gridview && gridview.map((name, index) => (
             <MenuItem key={index} value={name}>
-              {name.name}           
+              <div className="gridview-option">
+                <div className="gridview-option-name">
+                  {name.name}
+                </div>
+                <div className="gridview-option-delete">
+                  <DeleteIcon />
+                </div>
+              </div>
             </MenuItem>
           ))}
         </Select> 
