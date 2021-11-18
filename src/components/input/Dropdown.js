@@ -49,6 +49,12 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
 
+  const [open, setOpen] = React.useState(false);
+  const [gridname, setGridName] = React.useState();
+  const [check, setcheck] = React.useState(false);
+  const [gridview, setgridview] = React.useState()
+  const [dropName, setDropName] = React.useState('');
+  const [state, dispatch] = useContext(Context)
 
   // When drag any column
   const columnData = columnDataCopy.map(i => Object.values(i))
@@ -58,8 +64,6 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
   // By Column name
   const drpDwn = data?.map(i => Object.values(i))
   const drpDwnKey = drpDwn.map(i => i[3])
-
-  // const drpDwnid = drpDwn.map(i => i[0])
 
   // By Column ID
   // const drpDwn = data?.map(i => Object.keys(i))
@@ -75,15 +79,8 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [personName])
 
-  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const [gridname, setGridName] = React.useState();
-  const [check, setcheck] = React.useState(false);
-  const [gridview, setgridview] = React.useState()
-  const [dropName, setDropName] = React.useState();
-  const [state, dispatch] = useContext(Context)
 
   const handleChangeName = (event) => {
     setGridName(event.target.value)
@@ -108,17 +105,6 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
         )
       )
       .catch((err) => console.error(err));
-
-      // let array = []
-      // if(localStorage.getItem("savegrid")) {
-      //   const datas = JSON.parse(localStorage.getItem("savegrid"))
-      //   array.push.apply(array, datas);
-      //   array.push({pageNames, gridname,columnDatadrag,check});
-      //   localStorage.setItem("savegrid", JSON.stringify(array))
-      // } else {
-      //   array.push({pageNames, gridname,columnDatadrag,check});
-      //   localStorage.setItem("savegrid", JSON.stringify(array))
-      // }
       setOpen(false)
     }
   }
@@ -127,17 +113,6 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
     // get gridview list
     getGridView().then((res) => dispatch({ type: "GRIDVIEW_LISTS", payload: res.data.data}))
 
-    // if(localStorage.getItem("savegrid")) {
-    //   const gridviewmenu = JSON.parse(localStorage.getItem("savegrid"))
-    //   const gridViewbyPage = gridviewmenu?.filter((temp) => temp.pageNames.slice(4) === pageName)
-    //   const defaultgrid = gridViewbyPage?.filter((temp) => temp.check)
-    //   if(defaultgrid.length > 0){
-    //     setPersonName(defaultgrid[0]?.personName)
-    //   }
-    //   setgridview(gridViewbyPage)
-    // }
-    
-    
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
@@ -222,17 +197,16 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
 
       { gridview?.length > 0 && (
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">{dropName ? null : "Grid View"}</InputLabel>
+        <InputLabel id="demo-simple-select-outlined-label">GridView</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          // id="demo-simple-select"
-          // label="Grid View"
-          MenuProps={MenuProps}
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
           value={dropName}
+          MenuProps={MenuProps}
           onChange={(e) => handleChangedata(e)}
         >
           { gridview && gridview.map((name, index) => (
-            <MenuItem key={index} value={name}>
+            <MenuItem key={index} value={{name: name.name, pwa_columns_data: name.pwa_columns_data}}>
               <div className="gridview-option">
                 <div className="gridview-option-name">
                   {name.name}
