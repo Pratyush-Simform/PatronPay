@@ -142,6 +142,31 @@ class EnhancedTable extends React.Component {
       return;
     }
 
+    if (this.state.columnDataCopy.length > 0) {
+      const columnData = reorder(
+        this.state.columnDataCopy,
+        result.source.index,
+        result.destination.index
+      );
+  
+      this.setState({
+        columnDataCopy: columnData,
+      });
+
+      // if (this.props.name === "Transaction") {
+      //   localStorage.setItem("Tcols", JSON.stringify(this.state.columnDataCopy));
+      // } else if (this.props.name === "Payment Profiles") {
+      //   localStorage.setItem("Pcols", JSON.stringify(this.state.columnDataCopy));
+      // } else if (this.props.name === "Membership Payments") {
+      //   localStorage.setItem("MemCols", JSON.stringify(this.state.columnDataCopy));
+      // } else if (this.props.name === "Cashless Payments") {
+      //   localStorage.setItem(
+      //     "CashlessCols",
+      //     JSON.stringify(this.state.columnDataCopy)
+      //   );
+      // } else localStorage.setItem("Cols", JSON.stringify(this.state.columnDataCopy));
+
+    } else {
     const columnData = reorder(
       this.state.columnData,
       result.source.index,
@@ -151,18 +176,19 @@ class EnhancedTable extends React.Component {
     this.setState({
       columnData: columnData,
     });
-    if (this.props.name === "Transaction") {
-      localStorage.setItem("Tcols", JSON.stringify(this.state.columnData));
-    } else if (this.props.name === "Payment Profiles") {
-      localStorage.setItem("Pcols", JSON.stringify(this.state.columnData));
-    } else if (this.props.name === "Membership Payments") {
-      localStorage.setItem("MemCols", JSON.stringify(this.state.columnData));
-    } else if (this.props.name === "Cashless Payments") {
-      localStorage.setItem(
-        "CashlessCols",
-        JSON.stringify(this.state.columnData)
-      );
-    } else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
+    // if (this.props.name === "Transaction") {
+    //   localStorage.setItem("Tcols", JSON.stringify(this.state.columnData));
+    // } else if (this.props.name === "Payment Profiles") {
+    //   localStorage.setItem("Pcols", JSON.stringify(this.state.columnData));
+    // } else if (this.props.name === "Membership Payments") {
+    //   localStorage.setItem("MemCols", JSON.stringify(this.state.columnData));
+    // } else if (this.props.name === "Cashless Payments") {
+    //   localStorage.setItem(
+    //     "CashlessCols",
+    //     JSON.stringify(this.state.columnData)
+    //   );
+    // } else localStorage.setItem("Cols", JSON.stringify(this.state.columnData));
+  }
   };
   handleWidthChange = (columnId, width) => {
     this.setState((state) => {
@@ -255,39 +281,52 @@ class EnhancedTable extends React.Component {
   isSelected = (id) => this.state.selected.indexOf(id) !== -1;
 
   componentDidMount() {
-    const columnData = localStorage.getItem("Cols");
-    const tableColdata = localStorage.getItem("Tcols");
-    const profileColData = localStorage.getItem("Pcols");
-    const memberCols = localStorage.getItem("MemCols");
-    const cashlessCols = localStorage.getItem("CashlessCols");
-    this.setState(
-      {
-        dataCopy: this.props.data,
+    // const columnData = localStorage.getItem("Cols");
+    // const tableColdata = localStorage.getItem("Tcols");
+    // const profileColData = localStorage.getItem("Pcols");
+    // const memberCols = localStorage.getItem("MemCols");
+    // const cashlessCols = localStorage.getItem("CashlessCols");
+    // this.setState(
+    //   {
+    //     dataCopy: this.props.data,
+    //     renderer: this.props.data,
+    //     ...(columnData && { columnData: JSON.parse(columnData) }),
+    //     columnData:
+    //       this.props.name === "Profile Items"
+    //         ? columnData
+    //           ? JSON.parse(columnData)
+    //           : this.props.columnData
+    //         : this.props.name === "Payment Profiles"
+    //         ? profileColData
+    //           ? JSON.parse(profileColData)
+    //           : this.props.columnData
+    //         : this.props.name === "Membership Payments"
+    //         ? memberCols
+    //           ? JSON.parse(memberCols)
+    //           : this.props.columnData
+    //         : this.props.name === "CashLess Payments"
+    //         ? cashlessCols
+    //           ? JSON.parse(cashlessCols)
+    //           : this.props.columnData
+    //         : tableColdata
+    //         ? JSON.parse(tableColdata)
+    //         : this.props.columnData,
+    //   },
+    //   () => {}
+    // );
+    if(this.state.columnDataCopy.length > 0) {
+      this.setState({
+        dataCopy: this.props.dataCopy,
         renderer: this.props.data,
-        ...(columnData && { columnData: JSON.parse(columnData) }),
-        columnData:
-          this.props.name === "Profile Items"
-            ? columnData
-              ? JSON.parse(columnData)
-              : this.props.columnData
-            : this.props.name === "Payment Profiles"
-            ? profileColData
-              ? JSON.parse(profileColData)
-              : this.props.columnData
-            : this.props.name === "Membership Payments"
-            ? memberCols
-              ? JSON.parse(memberCols)
-              : this.props.columnData
-            : this.props.name === "CashLess Payments"
-            ? cashlessCols
-              ? JSON.parse(cashlessCols)
-              : this.props.columnData
-            : tableColdata
-            ? JSON.parse(tableColdata)
-            : this.props.columnData,
-      },
-      () => {}
-    );
+        columnData: this.state.columnDataCopy
+      })
+    } else {
+    this.setState({
+      dataCopy: this.props.dataCopy,
+      renderer: this.props.data,
+      columnData: this.props.columnData
+    })
+  }
     const reduceAmountData = this.props?.data?.map((rd) => rd.amount);
     const reduceAmountAuthData = this.props?.data?.map((rd) => rd.amount_auth);
     const reduceTipData = this.props?.data.map((rt) => rt.tip);
@@ -520,12 +559,13 @@ class EnhancedTable extends React.Component {
   selectedData = (data) => {
     const filLogs = [];
     data?.forEach((element) => {
-      const a = this.state.columnData.filter((j) => j.id.includes(element));
+      const a = this.state.columnData.filter((j) => (j.label === element));
       filLogs.push(...a);
     });
     if (filLogs.length > 0) {
       this.setState({
         columnDataCopy: filLogs,
+        // columnData: filLogs,
       });
     }
   };
@@ -723,6 +763,7 @@ class EnhancedTable extends React.Component {
   }
 
   render() {
+    const columnLength = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.length : this.state.columnData.length;
     const { classes, data, name } = this.props;
     const activeData = data.filter((temp) => temp.is_deleted === false)
     const inactiveData = data.filter((temp) => temp.is_deleted === true)
@@ -970,10 +1011,12 @@ class EnhancedTable extends React.Component {
             setStartDate={this.setCashStartDate}
           />
         ) : null}
-          <div className="drpDwn">
+          <div className="drpDwn drpDwn-responsive">
             <Dropdown
-              data={data}
+              data={this.props.columnData}
               selectedData={(data) => this.selectedData(data)}
+              columnDataCopy={this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy : this.state.columnData}
+              pageName={name}
             />
           </div>
         </div>
@@ -1042,7 +1085,7 @@ class EnhancedTable extends React.Component {
         <div className={classes.tableWrapper}>
           <Table
             table-layout="fixed"
-            className="pTable"
+            className={`pTable ${columnLength > 1 ? '' : 'oneCellAdded'}`}
             aria-labelledby="tableTitle"
           >
             <TableHead>
@@ -1105,10 +1148,10 @@ class EnhancedTable extends React.Component {
                             key={n.id}
                             selected={isSelected}
                           >
-                            <td className="tableDir">
-                              <Table className="table">
-                                <TableBody>
-                                  <TableRow>
+                            {/* <td className="tableDir"> */}
+                              {/* <Table className="table"> */}
+                                {/* <TableBody> */}
+                                  {/* <TableRow> */}
                                     <TableCell padding="checkbox">
                                       <Checkbox checked={isSelected} />
                                     </TableCell>
@@ -1185,18 +1228,20 @@ class EnhancedTable extends React.Component {
                                           padding="none"
                                           width={"100px"}
                                         >
+                                        <div className="toolHead">
                                         <DeleteIcon
                                           onClick={() =>
                                             this.handleProfileItemsDelete(n)
                                           }
                                         />
+                                        </div>
                                         </TableCell>
                                       ) : null}
                                     {/* </div> */}
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </td>
+                                  {/* </TableRow> */}
+                                {/* </TableBody> */}
+                              {/* </Table> */}
+                            {/* </td> */}
                           </TableRow>
                         );
                       })
@@ -1225,11 +1270,11 @@ class EnhancedTable extends React.Component {
                             key={n.id}
                             selected={isSelected}
                           >
-                            <td className="tableDir">
-                              <Table className="table">
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell padding="checkbox">
+                            {/* <td className="tableDir"> */}
+                              {/* <Table className="table"> */}
+                                {/* <TableBody> */}
+                                  {/* <TableRow> */}
+                                    <TableCell padding="checkbox" width={"48px"}>
                                       <Checkbox checked={isSelected} />
                                     </TableCell>
                                     {this.columnRender()?.map((column) => {
@@ -1299,17 +1344,19 @@ class EnhancedTable extends React.Component {
                                         padding="none"
                                         width={"100px"}
                                       >
+                                      <div className="toolHead">
                                       <DeleteIcon
                                         onClick={() =>
                                           this.handleProfileItemsDelete(n)
                                         }
                                       />
+                                      </div>
                                       </TableCell>
                                     ) : null}
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </td>
+                                  {/* </TableRow> */}
+                                {/* </TableBody> */}
+                              {/* </Table> */}
+                            {/* </td> */}
                           </TableRow>
                         );
                       })}
@@ -1320,9 +1367,17 @@ class EnhancedTable extends React.Component {
                 )}
               </TableBody>
             ) : (
-              <div className="spinner">
-                <CircularProgress />
-              </div>
+              <TableBody>
+                <TableCell
+                  colSpan={"30"}
+                >
+                  <div className="spinner-inner">
+                  <div className="spinner">
+                    <CircularProgress />
+                  </div>
+                  </div>
+                  </TableCell>
+              </TableBody>
             )}
           </Table>
         </div>

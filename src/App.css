@@ -355,6 +355,11 @@
   justify-content: center;
 }
 
+.spinner-inner {
+  min-height: auto;
+  width: 100%;
+}
+
 .spinner {
   display: flex;
   justify-content: center;

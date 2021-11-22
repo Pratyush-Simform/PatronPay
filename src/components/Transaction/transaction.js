@@ -26,8 +26,10 @@ const Transaction = () => {
       temp["firstName"] = temp.cash_payment.first_name || temp.cashless_payment.first_name || temp.membership_payment.first_name
       temp["lastName"] = temp.cash_payment.last_name || temp.cashless_payment.last_name || temp.membership_payment.last_name
       temp["cardNumber"] = temp.membership_payment.card_number
+      temp["cc_last4"] = temp.cashless_payment.cc_last4
+      temp["card_type"] = temp.cashless_payment.card_type || temp.cash_payment.txn_type
+      temp["tip"] = temp.cashless_payment.tip || temp.membership_payment.tip || temp.cash_payment.tip
     });
-
     setNewData(data);
   }, [data]);
 
