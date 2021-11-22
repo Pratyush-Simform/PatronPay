@@ -68,56 +68,56 @@ class EnhancedTable extends React.Component {
       datacopy: [],
       updatedCol: [],
       columnDataCopy: [],
-      transactionHeader: [
-        { label: "Date/time", key: "newDate" },
-        { label: "Payment Url", key: "payment_url" },
-        { label: "Transaction type", key: "trs_type" },
-        { label: "Settled", key: "settled" },
-        { label: "No of Items", key: "noOfItems" },
-      ],
-      profileItemsHeader: [
-        { label: "Barcode", key: "barcode" },
-        { label: "Description", key: "description" },
-        { label: "Short Name", key: "short_name" },
-        { label: "Price", key: "price" },
-      ],
-      paymentProfileHeader: [
-        { label: "Configuration Type", key: "config_type" },
-        { label: "Name", key: "name" },
-      ],
-      memberPaymentsHeader: [
-        { label: "Amount", key: "amount" },
-        { label: "Card number", key: "card_number" },
-        { label: "Currency", key: "currency" },
-        { label: "Name", key: "first_name" },
-        { label: "Tip", key: "tip" },
-        { label: "Tax", key: "tax" },
-        { label: "Tip Tax", key: "tip_tax" },
-        { label: "Transaction Type", key: "txn_type" },
-      ],
-      cashPaymentsHeader: [
-        { label: "Amount", key: "amount" },
-        { label: "Currency", key: "currency" },
-        { label: "Tip", key: "tip" },
-        { label: "Tax", key: "tax" },
-        { label: "Tip Tax", key: "tip_tax" },
-        { label: "Transaction Type", key: "txn_type" },
-      ],
-      cashlessPaymentsHeader: [
-        { label: "Amount", key: "amount_auth" },
-        { label: "Card type", key: "card_type" },
-        { label: "Currency", key: "currency" },
-        { label: "Name", key: "first_name" },
-        { label: "Tip", key: "tip" },
-        { label: "Tax", key: "tax" },
-        { label: "Tip Tax", key: "tip_tax" },
-        { label: "Transaction Type", key: "txn_type" },
-      ],
-      users: [
-        { label: "Email", key: "email" },
-        { label: "First Name", key: "first_name" },
-        { label: "Last Name", key: "last_name" },
-      ],
+      // transactionHeader: [
+      //   { label: "Date/time", key: "newDate" },
+      //   { label: "Payment Url", key: "payment_url" },
+      //   { label: "Transaction type", key: "trs_type" },
+      //   { label: "Settled", key: "settled" },
+      //   { label: "No of Items", key: "noOfItems" },
+      // ],
+      // profileItemsHeader: [
+      //   { label: "Barcode", key: "barcode" },
+      //   { label: "Description", key: "description" },
+      //   { label: "Short Name", key: "short_name" },
+      //   { label: "Price", key: "price" },
+      // ],
+      // paymentProfileHeader: [
+      //   { label: "Configuration Type", key: "config_type" },
+      //   { label: "Name", key: "name" },
+      // ],
+      // memberPaymentsHeader: [
+      //   { label: "Amount", key: "amount" },
+      //   { label: "Card number", key: "card_number" },
+      //   { label: "Currency", key: "currency" },
+      //   { label: "Name", key: "first_name" },
+      //   { label: "Tip", key: "tip" },
+      //   { label: "Tax", key: "tax" },
+      //   { label: "Tip Tax", key: "tip_tax" },
+      //   { label: "Transaction Type", key: "txn_type" },
+      // ],
+      // cashPaymentsHeader: [
+      //   { label: "Amount", key: "amount" },
+      //   { label: "Currency", key: "currency" },
+      //   { label: "Tip", key: "tip" },
+      //   { label: "Tax", key: "tax" },
+      //   { label: "Tip Tax", key: "tip_tax" },
+      //   { label: "Transaction Type", key: "txn_type" },
+      // ],
+      // cashlessPaymentsHeader: [
+      //   { label: "Amount", key: "amount_auth" },
+      //   { label: "Card type", key: "card_type" },
+      //   { label: "Currency", key: "currency" },
+      //   { label: "Name", key: "first_name" },
+      //   { label: "Tip", key: "tip" },
+      //   { label: "Tax", key: "tax" },
+      //   { label: "Tip Tax", key: "tip_tax" },
+      //   { label: "Transaction Type", key: "txn_type" },
+      // ],
+      // users: [
+      //   { label: "Email", key: "email" },
+      //   { label: "First Name", key: "first_name" },
+      //   { label: "Last Name", key: "last_name" },
+      // ],
       snackbar: false,
       vertical: "top",
       horizontal: "center",
@@ -360,6 +360,26 @@ class EnhancedTable extends React.Component {
     }
   };
 
+  exportCSV = () => {
+    const columnDatas = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.map(i => Object.values(i)) : this.state.columnData.map(i => Object.values(i))
+    let headers = columnDatas.map(i => i[3])
+    let tempheaderkey = columnDatas.map(i => i[0])
+    
+    let data = [headers]
+    this.props.data.forEach((ele) => {
+      const obj = []
+      tempheaderkey.forEach(key => {
+        if(key === "newIcon"){
+          obj.push("")
+        } else {
+          obj.push(ele[key])
+        }
+      })
+      data.push(obj)
+    })
+    return data;
+  }
+
   exportPDF = () => {
     const unit = "pt";
     const size = "A4";
@@ -369,151 +389,171 @@ class EnhancedTable extends React.Component {
     const doc = new jsPDF(orientation, unit, size);
 
     doc.setFontSize(15);
-    let title = "";
-    let content = {};
-    if (this.props.name === "Transaction") {
-      title = "Transaction";
-      const headers = [
-        [
-          "Date/time",
-          "Payment Url",
-          "Transaction type",
-          "Settled",
-          "No of Items",
-        ],
-      ];
 
-      const data = this.props.data.map((elt) => [
-        elt.newDate,
-        elt.payment_url,
-        elt.trs_type,
-        elt.settled,
-        elt.noOfItems,
-      ]);
+    let title = this.props.name
+    const columnDatas = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.map(i => Object.values(i)) : this.state.columnData.map(i => Object.values(i))
+    const headers = [columnDatas.map(i => i[3])]
+    const tempheaderkey = columnDatas.map(i => i[0])
 
-      content = {
-        startY: 50,
-        head: headers,
-        body: data,
-      };
-    } else if (this.props.name === "Profile Items") {
-      title = "Profile Items";
-      const headers = [["Barcode", "Description", "Short Name", "Price"]];
+    let data = []
+    this.props.data.forEach((ele) => {
+      const obj = []
+      tempheaderkey.forEach(key => {
+        obj.push(ele[key]) 
+      })
+      data.push(obj)
+    })
 
-      const data = this.props.data.map((elt) => [
-        elt.barcode,
-        elt.description,
-        elt.short_name,
-        elt.price,
-      ]);
+    let content = {
+    startY: 50,
+    head: headers,
+    body: data,
+    };
+    // let title = "";
+    // let content = {};
+    // if (this.props.name === "Transaction") {
+    //   title = "Transaction";
+    //   const headers = [
+    //     [
+    //       "Date/time",
+    //       "Payment Url",
+    //       "Transaction type",
+    //       "Settled",
+    //       "No of Items",
+    //     ],
+    //   ];
 
-      content = {
-        startY: 50,
-        head: headers,
-        body: data,
-      };
-    } else if (this.props.name === "Payment Profiles") {
-      title = "Payment Profiles";
-      const headers = [["Name", "Configuration Type"]];
+    //   const data = this.props.data.map((elt) => [
+    //     elt.newDate,
+    //     elt.payment_url,
+    //     elt.trs_type,
+    //     elt.settled,
+    //     elt.noOfItems,
+    //   ]);
 
-      const data = this.props.data.map((elt) => [elt.name, elt.config_type]);
+    //   content = {
+    //     startY: 50,
+    //     head: headers,
+    //     body: data,
+    //   };
+    // } else if (this.props.name === "Profile Items") {
+    //   title = "Profile Items";
+    //   const headers = [["Barcode", "Description", "Short Name", "Price"]];
 
-      content = {
-        startY: 50,
-        head: headers,
-        body: data,
-      };
-    } else if (this.props.name === "Membership Payments") {
-      title = "Membership Payments";
-      const headers = [
-        [
-          "Amount",
-          "Card Number",
-          "Curremcy",
-          "Name",
-          "Tip",
-          "Tax",
-          "Tip Tax",
-          "Transaction Type",
-        ],
-      ];
-      const data = this.props.data.map((elt) => [
-        elt.amount,
-        elt.card_number,
-        elt.currency,
-        elt.first_name,
-        elt.tip,
-        elt.tax,
-        elt.tip_tax,
-        elt.txn_type,
-      ]);
+    //   const data = this.props.data.map((elt) => [
+    //     elt.barcode,
+    //     elt.description,
+    //     elt.short_name,
+    //     elt.price,
+    //   ]);
 
-      content = {
-        startY: 50,
-        head: headers,
-        body: data,
-      };
-    } else if (this.props.name === "Cash Payments") {
-      const headers = [
-        ["Amount", "Curremcy", "Tip", "Tax", "Tip Tax", "Transaction Type"],
-      ];
-      const data = this.props.data.map((elt) => [
-        elt.amount,
-        elt.currency,
-        elt.tip,
-        elt.tax,
-        elt.tip_tax,
-        elt.txn_type,
-      ]);
+    //   content = {
+    //     startY: 50,
+    //     head: headers,
+    //     body: data,
+    //   };
+    // } else if (this.props.name === "Payment Profiles") {
+    //   title = "Payment Profiles";
+    //   const headers = [["Name", "Configuration Type"]];
 
-      content = {
-        startY: 50,
-        head: headers,
-        body: data,
-      };
-    } else if (this.props.name === "Cashless Payments") {
-      const headers = [
-        [
-          "Amount",
-          "Card Type",
-          "Currency",
-          "Name",
-          "Tip",
-          "Tax",
-          "Tip Tax",
-          "Transaction Type",
-        ],
-      ];
-      const data = this.props.data.map((elt) => [
-        elt.amount_auth,
-        elt.card_type,
-        elt.currency,
-        elt.first_name,
-        elt.tip,
-        elt.tax,
-        elt.tip_tax,
-        elt.txn_type,
-      ]);
+    //   const data = this.props.data.map((elt) => [elt.name, elt.config_type]);
 
-      content = {
-        startY: 50,
-        head: headers,
-        body: data,
-      };
-    } else if (this.props.name === "Users") {
-      const headers = [["email", "first_name", "last_name"]];
-      const data = this.props.data.map((elt) => [
-        elt.email,
-        elt.first_name,
-        elt.last_name,
-      ]);
+    //   content = {
+    //     startY: 50,
+    //     head: headers,
+    //     body: data,
+    //   };
+    // } else if (this.props.name === "Membership Payments") {
+    //   title = "Membership Payments";
+    //   const headers = [
+    //     [
+    //       "Amount",
+    //       "Card Number",
+    //       "Curremcy",
+    //       "Name",
+    //       "Tip",
+    //       "Tax",
+    //       "Tip Tax",
+    //       "Transaction Type",
+    //     ],
+    //   ];
+    //   const data = this.props.data.map((elt) => [
+    //     elt.amount,
+    //     elt.card_number,
+    //     elt.currency,
+    //     elt.first_name,
+    //     elt.tip,
+    //     elt.tax,
+    //     elt.tip_tax,
+    //     elt.txn_type,
+    //   ]);
 
-      content = {
-        startY: 50,
-        head: headers,
-        body: data,
-      };
-    }
+    //   content = {
+    //     startY: 50,
+    //     head: headers,
+    //     body: data,
+    //   };
+    // } else if (this.props.name === "Cash Payments") {
+    //   const headers = [
+    //     ["Amount", "Curremcy", "Tip", "Tax", "Tip Tax", "Transaction Type"],
+    //   ];
+    //   const data = this.props.data.map((elt) => [
+    //     elt.amount,
+    //     elt.currency,
+    //     elt.tip,
+    //     elt.tax,
+    //     elt.tip_tax,
+    //     elt.txn_type,
+    //   ]);
+
+    //   content = {
+    //     startY: 50,
+    //     head: headers,
+    //     body: data,
+    //   };
+    // } else if (this.props.name === "Cashless Payments") {
+    //   const headers = [
+    //     [
+    //       "Amount",
+    //       "Card Type",
+    //       "Currency",
+    //       "Name",
+    //       "Tip",
+    //       "Tax",
+    //       "Tip Tax",
+    //       "Transaction Type",
+    //     ],
+    //   ];
+    //   const data = this.props.data.map((elt) => [
+    //     elt.amount_auth,
+    //     elt.card_type,
+    //     elt.currency,
+    //     elt.first_name,
+    //     elt.tip,
+    //     elt.tax,
+    //     elt.tip_tax,
+    //     elt.txn_type,
+    //   ]);
+
+    //   content = {
+    //     startY: 50,
+    //     head: headers,
+    //     body: data,
+    //   };
+    // } else if (this.props.name === "Users") {
+    //   const headers = [["email", "first_name", "last_name"]];
+    //   const data = this.props.data.map((elt) => [
+    //     elt.email,
+    //     elt.first_name,
+    //     elt.last_name,
+    //   ]);
+
+    //   content = {
+    //     startY: 50,
+    //     head: headers,
+    //     body: data,
+    //   };
+    // }
 
     doc.text(title, marginLeft, 40);
     doc.autoTable(content);
@@ -816,7 +856,7 @@ class EnhancedTable extends React.Component {
                 <ImportFile />
                 <CSVLink
                   data={this.props.data}
-                  headers={this.state.profileItemsHeader}
+                  // headers={this.state.profileItemsHeader}
                   >
                   <Button 
                   variant="outlined"
@@ -827,8 +867,8 @@ class EnhancedTable extends React.Component {
               </>
             ) : null}
             {/* </span> */}
-            <ExcelFile
-              element={<Button variant="outlined" color="primary" size="large" startIcon={<DescriptionOutlined />}>Execl</Button>}
+            {/* <ExcelFile
+              element={<Button variant="outlined" color="primary" size="large" startIcon={<DescriptionOutlined />}>Excel</Button>}
             >
               {name === "Transction" ? (
                 <ExcelSheet data={this.props.data} name="Transction">
@@ -891,6 +931,21 @@ class EnhancedTable extends React.Component {
                   <ExcelColumn label="Last Name" value="last_name" />
                 </ExcelSheet>
               ) : null}
+            </ExcelFile> */}
+            {/* Without and condition dynamically download Excel file*/}
+            <ExcelFile
+              element={<Button variant="outlined" color="primary" size="large" startIcon={<DescriptionOutlined />}>Excel</Button>}
+              >
+              <ExcelSheet data={this.props.data} name={this.props.name}>
+                {this.state.columnDataCopy.length > 0 
+                  ? this.state.columnDataCopy?.map((columnData) => (
+                    columnData.id !== "newIcon" ? <ExcelColumn label={columnData.label} value={columnData.id}/> : <ExcelColumn label={columnData.label} value="Icon"/>
+                    ))
+                  : this.state.columnData?.map((columnData) => (
+                    columnData.id !== "newIcon" ? <ExcelColumn label={columnData.label} value={columnData.id}/> : <ExcelColumn label={columnData.label} value="Icon"/>
+                ))
+                }
+              </ExcelSheet>
             </ExcelFile>
             <Button
               onClick={() => this.exportPDF()}
@@ -902,7 +957,7 @@ class EnhancedTable extends React.Component {
               Pdf
             </Button>
             {/* <span className="btnMargin"> */}
-              {name === "Transaction" ? (
+              {/* {name === "Transaction" ? (
                 <CSVLink
                   data={this.props.data}
                   headers={this.state.transactionHeader}
@@ -984,7 +1039,15 @@ class EnhancedTable extends React.Component {
                   startIcon={<DescriptionOutlined />}
                   > csv</Button>
                 </CSVLink>
-              ) : null}
+              ) : null} */}
+              <CSVLink data={this.exportCSV()}>
+                  <Button 
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  startIcon={<DescriptionOutlined />}
+                  > csv</Button>
+                </CSVLink>
           {/* </span> */}
           </Stack>
         </div>
