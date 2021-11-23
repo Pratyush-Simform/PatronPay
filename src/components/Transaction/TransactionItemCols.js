@@ -1,0 +1,58 @@
+export let cols = [
+    {
+        id: "date_created",
+        numeric: false,
+        disablePadding: false,
+        label: "Date-time",
+        width: 200,
+    },
+    {
+        id: "tri_id_name",
+        numeric: false,
+        disablePadding: false,
+        label: "Item",
+        width: 200,
+    },
+    {
+        id: "amount",
+        numeric: true,
+        disablePadding: false,
+        label: "Amount $",
+        width: 200,
+    },
+    {
+        id: "tax",
+        numeric: true,
+        disablePadding: false,
+        label: "Tax $",
+        width: 200,
+    },
+    {
+        id: "amount_overridden",
+        numeric: false,
+        disablePadding: false,
+        label: "Amount Over-Ridden",
+        width: 200,
+    },
+    {
+        id: "original_amount",
+        numeric: true,
+        disablePadding: false,
+        label: "Original Amount $",
+        width: 200,
+    },
+    {
+        id: "other_amount",
+        numeric: true,
+        disablePadding: false,
+        label: "Other Amount",
+        width: 200,
+    },
+    {
+        id: "quantity",
+        numeric: true,
+        disablePadding: false,
+        label: "Quantity",
+        width: 200,
+    },
+  ];

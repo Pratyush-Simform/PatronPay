@@ -59,22 +59,24 @@ export default function TemporaryDrawer() {
       } else if (index === 1) {
         history.push("/transaction");
       } else if (index === 2) {
-        history.push("/profile");
+        history.push("/transactionitems");
       } else if (index === 3) {
-        history.push("/paymentProfile");
+        history.push("/profile");
       } else if (index === 4) {
-        history.push("/memberPayments");
+        history.push("/paymentProfile");
       } else if (index === 5) {
-        history.push("/cashlessPayments");
+        history.push("/memberPayments");
       } else if (index === 6) {
-        history.push("/cashPayments");
+        history.push("/cashlessPayments");
       } else if (index === 7) {
-        history.push("/users");
+        history.push("/cashPayments");
       } else if (index === 8) {
-        history.push("/myorganisation");
+        history.push("/users");
       } else if (index === 9) {
-        history.push("/debuglogs");
+        history.push("/myorganisation");
       } else if (index === 10) {
+        history.push("/debuglogs");
+      } else if (index === 11) {
         localStorage.setItem("token", "");
         privateLogout();
         localStorage.removeItem("subDomain");
@@ -110,6 +112,7 @@ export default function TemporaryDrawer() {
         {[
           "Order",
           "Transaction",
+          "Transaction Items",
           "Profile Items",
           "Payment Profiles",
           "Member Payments",

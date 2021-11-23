@@ -805,11 +805,11 @@ class EnhancedTable extends React.Component {
   render() {
     const columnLength = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.length : this.state.columnData.length;
     const { classes, data, name } = this.props;
-    const activeData = data.filter((temp) => temp.is_deleted === false)
-    const inactiveData = data.filter((temp) => temp.is_deleted === true)
-    const shoppingCart = data.filter(temp => temp.paymentProfile === "Shopping Cart Profile")
-    const quickPay = data.filter(temp => temp.paymentProfile === "QuickPay Profile")
-    const wgsmBaseball = data.filter(temp => temp.paymentProfile === "WGSM Baseball Profile")
+    const activeData = data?.filter((temp) => temp?.is_deleted === false)
+    const inactiveData = data?.filter((temp) => temp?.is_deleted === true)
+    const shoppingCart = data?.filter(temp => temp?.paymentProfile === "Shopping Cart Profile")
+    const quickPay = data?.filter(temp => temp?.paymentProfile === "QuickPay Profile")
+    const wgsmBaseball = data?.filter(temp => temp?.paymentProfile === "WGSM Baseball Profile")
     const {
       order,
       orderBy,
@@ -1084,6 +1084,7 @@ class EnhancedTable extends React.Component {
           </div>
         </div>
         {name === "Transaction" ||
+        name === "Transaction Items" ||
         name === "Payment Profiles" ||
         name === "Profile Items" ||
         name === "Users" ? null : (
