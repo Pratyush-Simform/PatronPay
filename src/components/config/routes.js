@@ -16,6 +16,12 @@ export const routes = {
     component: lazy(() => import("../../components/Transaction/transaction")),
     type: PrivateRoute,
   },
+  transactionItems: {
+    name: "Transaction Items",
+    path: "/transactionItems",
+    component: lazy(() => import("../../components/Transaction/TransactionItems")),
+    type: PrivateRoute,
+  },
   profile: {
     name: "Profile",
     path: "/profile",

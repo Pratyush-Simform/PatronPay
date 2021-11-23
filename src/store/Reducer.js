@@ -17,6 +17,7 @@ const initialState = {
   cashPayments: [],
   memberPayments: [],
   gridViewLists: [],
+  transactionsItems: [],
 };
 
 const reducer = (state, action) => {
@@ -96,6 +97,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         transaction: action.payload,
+      };
+    case "TRANSACTION_ITEMS":
+      return {
+        ...state,
+        transactionsItems: action.payload,
       };
     case "MEMBERTIME":
       return {
