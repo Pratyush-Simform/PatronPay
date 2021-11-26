@@ -34,6 +34,12 @@ export const routes = {
     component: lazy(() => import("../../components/profile/PaymentProfiles")),
     type: PrivateRoute,
   },
+  userAssignment: {
+    name: "User Assignment",
+    path: "/userAssignment",
+    component: lazy(() => import("../../components/profile/UserAssignment")),
+    type: PrivateRoute,
+  },
   memberPayments: {
     name: "Member Payments",
     path: "/memberPayments",

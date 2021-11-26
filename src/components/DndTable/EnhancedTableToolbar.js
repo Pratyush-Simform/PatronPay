@@ -16,6 +16,7 @@ import "../../App.css";
 import { Constants } from "./Constants";
 import PaymentProfileModal from "../modals/PaymentProfileModal";
 import TextField from '@mui/material/TextField';
+import UserAssignmentModal from "../modals/UserAssignmentModal";
 
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData } =
@@ -124,6 +125,7 @@ let EnhancedTableToolbar = (props) => {
                   <EditUserModal name={Constants.ADD} />
                 ) : null}
                 {title === "Payment Profiles" && <PaymentProfileModal />}
+                {title === "User Assignment" && <UserAssignmentModal names={Constants.ADD} />}
                 {/* <MoreVert /> */}
               </IconButton>
             </Tooltip>

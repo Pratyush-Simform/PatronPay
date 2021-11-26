@@ -42,6 +42,8 @@ import DescriptionOutlined from '@material-ui/icons/DescriptionOutlined';
 import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
 import { FormControlLabel } from "@material-ui/core";
 import {Context} from "../../store/Context";
+import { deleteUserAssignment, getUserAssignment } from "../../services/userAssignmentApi";
+import UserAssignmentModal from "../modals/UserAssignmentModal";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -561,17 +563,17 @@ class EnhancedTable extends React.Component {
   };
 
   setStartDate = (date) => {
-    let createdDate = this.props.data.map((i) => {
-      return {
-        date: new Date(i.date_created).getDate(),
-        id: i.id,
-        url: i.payment_url,
-        type: i.trs_type,
-      };
-    });
+    // let createdDate = this.props.data.map((i) => {
+    //   return {
+    //     date: new Date(i.date_created).getDate(),
+    //     id: i.id,
+    //     url: i.payment_url,
+    //     type: i.trs_type,
+    //   };
+    // });
 
-    let filteredDates = createdDate.filter((fd) => {
-      return fd.date < date.getDate();
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_created < date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -579,17 +581,17 @@ class EnhancedTable extends React.Component {
   };
 
   setEndDate = (date) => {
-    let endDate = this.props.data.map((j) => {
-      return {
-        date: new Date(j.date_modified).getDate(),
-        id: j.id,
-        url: j.payment_url,
-        type: j.trs_type,
-      };
-    });
+    // let endDate = this.props.data.map((j) => {
+    //   return {
+    //     date: new Date(j.date_modified).getDate(),
+    //     id: j.id,
+    //     url: j.payment_url,
+    //     type: j.trs_type,
+    //   };
+    // });
 
-    let filteredDates = endDate.filter((fd) => {
-      return fd.date > date.getDate();
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_modified > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -621,20 +623,20 @@ class EnhancedTable extends React.Component {
   };
 
   setMemEndDate = (date) => {
-    const endDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_created).getDate(),
-        amount: sd.amount,
-        card_number: sd.card_number,
-        first_name: sd.first_name,
-        last_name: sd.last_name,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = endDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const endDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_created).getDate(),
+    //     amount: sd.amount,
+    //     card_number: sd.card_number,
+    //     first_name: sd.first_name,
+    //     last_name: sd.last_name,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_created > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -642,20 +644,20 @@ class EnhancedTable extends React.Component {
   };
 
   setMemStartDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_modified).getDate(),
-        amount: sd.amount,
-        card_number: sd.card_number,
-        first_name: sd.first_name,
-        last_name: sd.last_name,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_modified).getDate(),
+    //     amount: sd.amount,
+    //     card_number: sd.card_number,
+    //     first_name: sd.first_name,
+    //     last_name: sd.last_name,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_modified > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -663,20 +665,20 @@ class EnhancedTable extends React.Component {
   };
 
   setCashlessStartDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_modified).getDate(),
-        amount_auth: sd.amount_auth,
-        card_type: sd.card_type,
-        cc_last4: sd.cc_last4,
-        currency: sd.currency,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_modified).getDate(),
+    //     amount_auth: sd.amount_auth,
+    //     card_type: sd.card_type,
+    //     cc_last4: sd.cc_last4,
+    //     currency: sd.currency,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_modified > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -684,20 +686,20 @@ class EnhancedTable extends React.Component {
   };
 
   setCashlessEndDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_created).getDate(),
-        amount_auth: sd.amount_auth,
-        card_type: sd.card_type,
-        cc_last4: sd.cc_last4,
-        currency: sd.currency,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_created).getDate(),
+    //     amount_auth: sd.amount_auth,
+    //     card_type: sd.card_type,
+    //     cc_last4: sd.cc_last4,
+    //     currency: sd.currency,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_created > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -705,18 +707,18 @@ class EnhancedTable extends React.Component {
   };
 
   setCashStartDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_created).getDate(),
-        amount: sd.amount,
-        currency: sd.currency,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_created).getDate(),
+    //     amount: sd.amount,
+    //     currency: sd.currency,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_created > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -724,18 +726,18 @@ class EnhancedTable extends React.Component {
   };
 
   setCashEndDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_modified).getDate(),
-        amount: sd.amount,
-        currency: sd.currency,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_modified).getDate(),
+    //     amount: sd.amount,
+    //     currency: sd.currency,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_modified > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -776,6 +778,24 @@ class EnhancedTable extends React.Component {
         )
     );
   };
+
+  handleUserAssignmentDelete = (row) => {
+    deleteUserAssignment(row.id).then(() => 
+      getUserAssignment()
+      .then((res) => 
+      this.setState({ 
+        snackbar: true,
+        snackMsg: "User Assignment Deleted Successfully",
+      })
+    )
+    .catch(() => 
+      this.setState({
+        snackbar: true,
+        snackMsg: "Could not Delete User Assignment",
+      })
+      )
+    )
+  }
 
   handleClose = () => {
     this.setState({ snackbar: false });
@@ -1086,6 +1106,7 @@ class EnhancedTable extends React.Component {
         {name === "Transaction" ||
         name === "Transaction Items" ||
         name === "Payment Profiles" ||
+        name === "User Assignment" ||
         name === "Profile Items" ||
         name === "Users" ? null : (
           <div className="totals">
@@ -1300,7 +1321,21 @@ class EnhancedTable extends React.Component {
                                         />
                                         </div>
                                         </TableCell>
-                                      ) : null}
+                                      ) : name === "User Assignment" ? (
+                                        <TableCell
+                                          padding="none"
+                                          width={"100px"}
+                                        >
+                                        <div className="toolHead">
+                                        <DeleteIcon
+                                          onClick={() =>
+                                            this.handleUserAssignmentDelete(n)
+                                          }
+                                        />
+                                        </div>
+                                        </TableCell>
+                                      ) : 
+                                      null}
                                     {/* </div> */}
                                   {/* </TableRow> */}
                                 {/* </TableBody> */}
@@ -1380,6 +1415,9 @@ class EnhancedTable extends React.Component {
                                         </TableCell>
                                       );
                                     })}
+                                    {/* {name === "Transactions" && (
+                                      <TableCell padding="none" width={"100px"}>n[column.id]</TableCell>
+                                    )} */}
                                     {name === "Users" ? (
                                       <TableCell
                                         padding="none"
@@ -1412,6 +1450,20 @@ class EnhancedTable extends React.Component {
                                       <DeleteIcon
                                         onClick={() =>
                                           this.handleProfileItemsDelete(n)
+                                        }
+                                      />
+                                      </div>
+                                      </TableCell>
+                                    ) : name === "User Assignment" ? (
+                                      <TableCell
+                                        padding="none"
+                                        width={"100px"}
+                                      >
+                                      <div className="toolHead">
+                                      <UserAssignmentModal row={n}/>
+                                      <DeleteIcon
+                                        onClick={() =>
+                                          this.handleUserAssignmentDelete(n)
                                         }
                                       />
                                       </div>
