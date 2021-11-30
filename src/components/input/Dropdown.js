@@ -19,7 +19,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
-import { addGridView, getGridView } from "../../services/saveGridViewApi";
+import { addGridView, getGridView, deleteGridView } from "../../services/saveGridViewApi";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Context } from "../../store/Context"
 
@@ -133,6 +133,20 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
     setDropName(event.target.value.name)
    }
 
+   const handleDelete = (id) => {
+     const payload = { "delete-saved-grid" : id }
+     deleteGridView(payload)
+     .then(() =>
+     getGridView().then((res) =>
+         dispatch({
+           type: "GRIDVIEW_LISTS",
+           payload: res.data.data,
+         })
+       )
+     )
+     .catch((err) => console.error(err));
+   }
+
   return (
     <>
       <Modal
@@ -206,13 +220,13 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
           onChange={(e) => handleChangedata(e)}
         >
           { gridview && gridview.map((name, index) => (
-            <MenuItem key={index} value={{name: name.name, pwa_columns_data: name.pwa_columns_data}}>
+            <MenuItem key={index} value={name}>
               <div className="gridview-option">
                 <div className="gridview-option-name">
                   {name.name}
                 </div>
                 <div className="gridview-option-delete">
-                  <DeleteIcon />
+                  <DeleteIcon onClick={() => handleDelete(name.id)} />
                 </div>
               </div>
             </MenuItem>

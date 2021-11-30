@@ -13,9 +13,11 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useFormik } from "formik";
 import { getConfigApi } from "../../services/orderApi";
-import { addPaymentProfles, getPaymentProfiles } from "../../services/profileApi";
+import { addPaymentProfles, getPaymentProfiles, editPaymentProfiles } from "../../services/profileApi";
 import { Context } from "../../store/Context"
 import { useStyles } from "./styles";
+import { Constants } from "../DndTable/Constants";
+import EditIcon from "@material-ui/icons/Edit";
 
 const MenuProps = {
   PaperProps: {
@@ -27,7 +29,7 @@ const MenuProps = {
 
 // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-function PaymentProfileModal() {
+function PaymentProfileModal({ row, names}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState([]);
@@ -44,21 +46,21 @@ function PaymentProfileModal() {
 
   const formik = useFormik({
     initialValues: {
-      description: "",
-      name: "",
-      custom_payments: false,
-      include_pricing_details: false,
-      enable_tip: false,
-      custom_payment_tax: 0,
-      tip_tax: 0,
-      prompt_for_receipt: false,
-      ask_customer_name: false,
-      pay_by_account_number: false,
-      require_first_name: false,
-      require_last_name: false,
-      is_deleted: false,
-      dbg_upl_log_lvl: "",
-      dbg_upl_scheme: "",
+      description: row?.description || "",
+      name: row?.name || "",
+      custom_payments: row?.custom_payments || false,
+      include_pricing_details: row?.include_pricing_details || false,
+      enable_tip: row?.enable_tip || false,
+      custom_payment_tax: row?.custom_payment_tax || 0,
+      tip_tax: row?.tip_tax || 0,
+      prompt_for_receipt: row?.prompt_for_receipt || false,
+      ask_customer_name: row?.ask_customer_name || false,
+      pay_by_account_number: row?.pay_by_account_number || false,
+      require_first_name: row?.require_first_name ||false,
+      require_last_name: row?.require_last_name ||false,
+      is_deleted: row?.is_deleted || false,
+      dbg_upl_log_lvl: row?.dbg_upl_log_lvl ||"",
+      dbg_upl_scheme: row?.dbg_upl_scheme ||"",
     },
     onSubmit: (values) => {
       const newPcf = {
@@ -81,16 +83,37 @@ function PaymentProfileModal() {
           },
         ],
       };
-      addPaymentProfles(newPcf)
-        .then(() => {
-         getPaymentProfiles().then((res) => dispatch({
-           type: "PAYMENT_PROFILES",
-           payload: res.data.data.results,
-         }))
+      if(name === Constants.ADD) {
+        addPaymentProfles(values).then(() => {
+          getPaymentProfiles().then((res) => dispatch({
+            type: "PAYMENT_PROFILES", 
+            payload:res.data.data.results
+          }))
           alert("Sucessfull addition")
           setOpen(false)
-        })
-        .catch(() => alert("There is an error"));
+      })
+      .catch(() => alert("There is an error"));
+    }else {
+      editPaymentProfiles(row.id, newPcf).then(() => {
+        getPaymentProfiles().then((res) => dispatch({
+          type: "PAYMENT_PROFILES", 
+          payload:res.data.data.results
+        }))
+        alert("Sucessfull addition")
+        setOpen(false)
+    })
+    .catch(() => alert("There is an error"));
+    }
+      // addPaymentProfles(newPcf)
+      //   .then(() => {
+      //    getPaymentProfiles().then((res) => dispatch({
+      //      type: "PAYMENT_PROFILES",
+      //      payload: res.data.data.results,
+      //    }))
+      //     alert("Sucessfull addition")
+      //     setOpen(false)
+      //   })
+      //   .catch(() => alert("There is an error"));
     },
   });
 
@@ -116,9 +139,9 @@ function PaymentProfileModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>
-        <AddIcon />
-      </Button>
+      <span type="button" onClick={handleOpen}>
+        {names === Constants.ADD ? <AddIcon /> : <EditIcon />}
+      </span>
       <Modal
         open={open}
         onClose={handleClose}
@@ -134,7 +157,11 @@ function PaymentProfileModal() {
         <Fade in={open}>
          <div className="paper pModal">
           <div className="pModal__header">
-            <h2>Add New Profle</h2>
+            {names === Constants.ADD ? (
+              <h2 id="transition-modal-title">Add New Payment Profile</h2>
+            ) : (
+              <h2 id="transition-modal-title">Edit Payment Profile</h2>
+            )}
           </div>
           <div className="pModal__body">
           <form onSubmit={formik.handleSubmit}>
@@ -179,6 +206,7 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="custom_payments"
                     value={formik.values.custom_payments}
+                    checked={formik.values.custom_payments}
                   />
                 }
                 label="Enable Other $ Amount"
@@ -189,6 +217,7 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="include_pricing_details"
                     value={formik.values.include_pricing_details}
+                    checked={formik.values.include_pricing_details}
                   />
                 }
                 label="Enable Price/Amount Details "
@@ -199,6 +228,7 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="enable_tip"
                     value={formik.values.enable_tip}
+                    checked={formik.values.enable_tip}
                   />
                 }
                 label="Enable Tips"
@@ -293,6 +323,7 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="prompt_for_receipt"
                     value={formik.values.prompt_for_receipt}
+                    checked={formik.values.prompt_for_receipt}
                   />
                 }
                 label="Prompt for receipt"
@@ -305,6 +336,7 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="ask_customer_name"
                     value={formik.values.ask_customer_name}
+                    checked={formik.values.ask_customer_name}
                   />
                 }
                 label="Ask for customer name?"
@@ -320,6 +352,7 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="pay_by_account_number"
                     value={formik.values.pay_by_account_number}
+                    checked={formik.values.pay_by_account_number}
                   />
                 }
                 label="Pay by account number"
@@ -330,6 +363,7 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="require_first_name"
                     value={formik.values.require_first_name}
+                    checked={formik.values.require_first_name}
                   />
                 }
                 label="Require first name"
@@ -340,6 +374,7 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="require_last_name"
                     value={formik.values.require_last_name}
+                    checked={formik.values.require_last_name}
                   />
                 }
                 label="Require last name"
@@ -354,9 +389,10 @@ function PaymentProfileModal() {
                     onChange={formik.handleChange}
                     name="is_deleted"
                     value={formik.values.is_deleted}
+                    checked={formik.values.is_deleted}
                   />
                 }
-                label="is_deleted"
+                label="Active"
               />
               </div>
             </div>

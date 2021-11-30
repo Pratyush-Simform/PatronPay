@@ -65,18 +65,20 @@ export default function TemporaryDrawer() {
       } else if (index === 4) {
         history.push("/paymentProfile");
       } else if (index === 5) {
-        history.push("/memberPayments");
+        history.push("/userAssignment");
       } else if (index === 6) {
-        history.push("/cashlessPayments");
+        history.push("/memberPayments");
       } else if (index === 7) {
-        history.push("/cashPayments");
+        history.push("/cashlessPayments");
       } else if (index === 8) {
-        history.push("/users");
+        history.push("/cashPayments");
       } else if (index === 9) {
-        history.push("/myorganisation");
+        history.push("/users");
       } else if (index === 10) {
-        history.push("/debuglogs");
+        history.push("/myorganisation");
       } else if (index === 11) {
+        history.push("/debuglogs");
+      } else if (index === 12) {
         localStorage.setItem("token", "");
         privateLogout();
         localStorage.removeItem("subDomain");
@@ -115,6 +117,7 @@ export default function TemporaryDrawer() {
           "Transaction Items",
           "Profile Items",
           "Payment Profiles",
+          "User Assignment",
           "Member Payments",
           "Cashless Payments",
           "Cash Payments",

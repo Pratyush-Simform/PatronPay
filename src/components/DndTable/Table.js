@@ -29,7 +29,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteUsers, getUsers } from "../../services/userApi";
 import {
   deletePaymentProfiles,
+  duplicatePaymentProfles,
   getPaymentProfiles,
+  deleteProfileItems,
+  getProfileItems
 } from "../../services/profileApi";
 import { withContext } from "../../store/WithContext";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -42,6 +45,19 @@ import DescriptionOutlined from '@material-ui/icons/DescriptionOutlined';
 import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
 import { FormControlLabel } from "@material-ui/core";
 import {Context} from "../../store/Context";
+import { deleteUserAssignment, getUserAssignment } from "../../services/userAssignmentApi";
+import UserAssignmentModal from "../modals/UserAssignmentModal";
+// import EditModal from "../modals/EditModal";
+import EditCashPaymentModal from "../modals/EditCashPaymentModal";
+import EditMemberPaymentModal from "../modals/EditMemberPaymentModal";
+import EditCashlessPaymentModal from "../modals/EditCashlessPaymentModal";
+import { deleteMembershipPayments, getMembershipPayments } from "../../services/membershipPaymentApi";
+import { deleteCashPayments, getCashPayments } from "../../services/cashPaymentApi";
+import { deleteCardPayments, getCardPayments } from "../../services/cardPaymentApi";
+import PaymentProfileModal from "../modals/PaymentProfileModal";
+import FileCopy from '@material-ui/icons/FileCopy';
+// import { generateTransactionReceipt } from "../../services/transactionApi";
+
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -561,17 +577,17 @@ class EnhancedTable extends React.Component {
   };
 
   setStartDate = (date) => {
-    let createdDate = this.props.data.map((i) => {
-      return {
-        date: new Date(i.date_created).getDate(),
-        id: i.id,
-        url: i.payment_url,
-        type: i.trs_type,
-      };
-    });
+    // let createdDate = this.props.data.map((i) => {
+    //   return {
+    //     date: new Date(i.date_created).getDate(),
+    //     id: i.id,
+    //     url: i.payment_url,
+    //     type: i.trs_type,
+    //   };
+    // });
 
-    let filteredDates = createdDate.filter((fd) => {
-      return fd.date < date.getDate();
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_created < date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -579,17 +595,17 @@ class EnhancedTable extends React.Component {
   };
 
   setEndDate = (date) => {
-    let endDate = this.props.data.map((j) => {
-      return {
-        date: new Date(j.date_modified).getDate(),
-        id: j.id,
-        url: j.payment_url,
-        type: j.trs_type,
-      };
-    });
+    // let endDate = this.props.data.map((j) => {
+    //   return {
+    //     date: new Date(j.date_modified).getDate(),
+    //     id: j.id,
+    //     url: j.payment_url,
+    //     type: j.trs_type,
+    //   };
+    // });
 
-    let filteredDates = endDate.filter((fd) => {
-      return fd.date > date.getDate();
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_modified > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -621,20 +637,20 @@ class EnhancedTable extends React.Component {
   };
 
   setMemEndDate = (date) => {
-    const endDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_created).getDate(),
-        amount: sd.amount,
-        card_number: sd.card_number,
-        first_name: sd.first_name,
-        last_name: sd.last_name,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = endDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const endDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_created).getDate(),
+    //     amount: sd.amount,
+    //     card_number: sd.card_number,
+    //     first_name: sd.first_name,
+    //     last_name: sd.last_name,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_created > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -642,20 +658,20 @@ class EnhancedTable extends React.Component {
   };
 
   setMemStartDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_modified).getDate(),
-        amount: sd.amount,
-        card_number: sd.card_number,
-        first_name: sd.first_name,
-        last_name: sd.last_name,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_modified).getDate(),
+    //     amount: sd.amount,
+    //     card_number: sd.card_number,
+    //     first_name: sd.first_name,
+    //     last_name: sd.last_name,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_modified > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -663,20 +679,20 @@ class EnhancedTable extends React.Component {
   };
 
   setCashlessStartDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_modified).getDate(),
-        amount_auth: sd.amount_auth,
-        card_type: sd.card_type,
-        cc_last4: sd.cc_last4,
-        currency: sd.currency,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_modified).getDate(),
+    //     amount_auth: sd.amount_auth,
+    //     card_type: sd.card_type,
+    //     cc_last4: sd.cc_last4,
+    //     currency: sd.currency,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_modified > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -684,20 +700,20 @@ class EnhancedTable extends React.Component {
   };
 
   setCashlessEndDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_created).getDate(),
-        amount_auth: sd.amount_auth,
-        card_type: sd.card_type,
-        cc_last4: sd.cc_last4,
-        currency: sd.currency,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_created).getDate(),
+    //     amount_auth: sd.amount_auth,
+    //     card_type: sd.card_type,
+    //     cc_last4: sd.cc_last4,
+    //     currency: sd.currency,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_created > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -705,18 +721,18 @@ class EnhancedTable extends React.Component {
   };
 
   setCashStartDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_created).getDate(),
-        amount: sd.amount,
-        currency: sd.currency,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_created).getDate(),
+    //     amount: sd.amount,
+    //     currency: sd.currency,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_created > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -724,18 +740,18 @@ class EnhancedTable extends React.Component {
   };
 
   setCashEndDate = (date) => {
-    const startDate = this.props.data.map((sd) => {
-      return {
-        date: new Date(sd.date_modified).getDate(),
-        amount: sd.amount,
-        currency: sd.currency,
-        tip: sd.tip,
-        tip_tax: sd.tip_tax,
-        txn_type: sd.txn_type,
-      };
-    });
-    let filteredDates = startDate.filter((fd) => {
-      return fd.date > date.getDate();
+    // const startDate = this.props.data.map((sd) => {
+    //   return {
+    //     date: new Date(sd.date_modified).getDate(),
+    //     amount: sd.amount,
+    //     currency: sd.currency,
+    //     tip: sd.tip,
+    //     tip_tax: sd.tip_tax,
+    //     txn_type: sd.txn_type,
+    //   };
+    // });
+    let filteredDates = this.props.data.filter((fd) => {
+      return fd.date_modified > date.getDate();
     });
     this.setState({
       renderer: filteredDates,
@@ -758,7 +774,7 @@ class EnhancedTable extends React.Component {
     );
   };
 
-  handleProfileItemsDelete = (row) => {
+  handlePaymentProfileDelete = (row) => {
     deletePaymentProfiles(row.id).then(() =>
       getPaymentProfiles()
         .then((res) =>
@@ -776,6 +792,124 @@ class EnhancedTable extends React.Component {
         )
     );
   };
+
+  handleUserAssignmentDelete = (row) => {
+    deleteUserAssignment(row.id).then(() => 
+      getUserAssignment()
+      .then((res) => 
+      this.setState({ 
+        snackbar: true,
+        snackMsg: "User Assignment Deleted Successfully",
+      })
+    )
+    .catch(() => 
+      this.setState({
+        snackbar: true,
+        snackMsg: "Could not Delete User Assignment",
+      })
+      )
+    )
+  }
+
+  handleMemberPaymentDelete = (row) => {
+    deleteMembershipPayments(row.id).then(() => 
+      getMembershipPayments()
+      .then(() =>
+      this.setState({
+        snackbar: true,
+        snackMsg: "Deleted Succesfully"
+      })
+      )
+      .catch(() =>
+        this.setState({
+          snackbar: true,
+          snackMsg: "Could not Delete"
+        })
+        )
+      )
+  }
+
+  handleCashPaymentDelete = (row) => {
+    deleteCashPayments(row.id).then(() => 
+      getCashPayments()
+      .then(() =>
+      this.setState({
+        snackbar: true,
+        snackMsg: "Deleted Succesfully"
+      })
+      )
+      .catch(() =>
+        this.setState({
+          snackbar: true,
+          snackMsg: "Could not Delete"
+        })
+        )
+      )
+  }
+
+  handleCashlessPaymentDelete = (row) => {
+    deleteCardPayments(row.id).then(() =>
+      getCardPayments()
+      .then(() =>
+      this.setState({
+        snackbar: true,
+        snackMsg: "Deleted Succesfully"
+      })
+      )
+      .catch(() =>
+        this.setState({
+          snackbar: true,
+          snackMsg: "Could not Delete"
+        })
+        )
+      )
+  }
+
+  handleCopyPaymentProfiles = (row) => {
+    let name  = prompt("Enter name for new profile:")
+    if(name){
+      const payload = {"id": row.id, "name": name}
+      duplicatePaymentProfles(payload).then(() =>
+      getPaymentProfiles()
+      .then((res) =>
+        this.setState({
+          snackbar: true,
+          snackMsg: "Duplicate Payment Profile Created Succesfully",
+        })
+      )
+      .catch(() =>
+        this.setState({
+          snackbar: true,
+          snackMsg: "Payment Profile Not Created",
+        })
+      )
+      )
+    }
+  }
+
+  handleProfileItemDelete =(row) => {
+    deleteProfileItems(row.id).then(() =>
+    getProfileItems()
+      .then(() =>
+      this.setState({
+        snackbar: true,
+        snackMsg: "Deleted Succesfully"
+      })
+      )
+      .catch(() =>
+        this.setState({
+          snackbar: true,
+          snackMsg: "Could not Delete"
+        })
+        )
+      )
+  }
+
+  handleGenerateReceipt = (row) => {
+    // const payload = { "generate-receipt": row.trs_id}
+    // const payload = { "transaction_id" : row.trs_id, "phone_number" : }
+    // generateTransactionReceipt(payload)
+  }
 
   handleClose = () => {
     this.setState({ snackbar: false });
@@ -1086,6 +1220,7 @@ class EnhancedTable extends React.Component {
         {name === "Transaction" ||
         name === "Transaction Items" ||
         name === "Payment Profiles" ||
+        name === "User Assignment" ||
         name === "Profile Items" ||
         name === "Users" ? null : (
           <div className="totals">
@@ -1241,7 +1376,7 @@ class EnhancedTable extends React.Component {
                                           </TableCell>
                                           {/* <TableCell><image src={n.icon} /></TableCell> */}
                                         </>
-                                      ) : (
+                                      ) : column.id !== "receipt" ? (
                                         <TableCell
                                           key={column.id}
                                           padding="none"
@@ -1261,11 +1396,71 @@ class EnhancedTable extends React.Component {
                                             {n[column.id]}
                                           </div>
                                         </TableCell>
+                                      ) : (
+                                        <TableCell
+                                          key={column.id}
+                                          padding="none"
+                                          width={`${column.width}px` || "100px"}
+                                        >
+                                          <div
+                                            style={{
+                                              width:
+                                                `${column.width}px` || "100px",
+                                              whiteSpace: "nowrap",
+                                              overflow: "hidden",
+                                              textOverflow: "ellipsis",
+                                              // wordBreak: "break-all",
+                                              // wordWrap: "break-word"
+                                            }}
+                                          >
+                                            {n["receipt"] 
+                                              ? <a href={n["receipt"]} target="_blank" rel="noreferrer">View Receipt</a>
+                                              : <Button color="primary" variant="outlined" size="small" onClick={() => this.handleGenerateReceipt(n)}>Generate Receipt</Button> 
+                                            }
+                                          </div>
+                                        </TableCell>
                                       );
                                     })}
-                                    {/* <div className="toolHead"> */}
-                                      {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
-                                      {name === "Transactions" ? (
+
+                                      {/* Transaction  */}
+                                    { name === "Transaction" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          {/* <EditModal row={n} /> */}
+                                          <DeleteIcon />
+                                        </div>
+                                      </TableCell>
+                                    )}
+                                    {/* Cash Payments */}
+                                    { name === "Cash Payments" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          <EditCashPaymentModal row={n} />
+                                          <DeleteIcon />
+                                        </div>
+                                      </TableCell>
+                                    )}
+                                    {/* Cashless Payments */}
+                                    { name === "Cashless Payments" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          <EditCashlessPaymentModal row={n} />
+                                          <DeleteIcon />
+                                        </div>
+                                      </TableCell>
+                                    )}
+                                    {/* Membership Payments */}
+                                    { name === "Membership Payments" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          <EditMemberPaymentModal row={n} />
+                                          <DeleteIcon 
+                                            onClick={() => this.handleMemberPaymentDelete(n)}
+                                          />
+                                        </div>
+                                      </TableCell>
+                                    )}
+                                      {name === "Users" ? (
 	                                      <TableCell
                                           padding="none"
                                           width={"100px"}
@@ -1284,7 +1479,7 @@ class EnhancedTable extends React.Component {
                                         >
                                         <div className="toolHead">
                                           <AddModal row={n} />
-                                          <DeleteIcon />
+                                          <DeleteIcon onClick={() => this.handleProfileItemDelete(n)}/>
                                         </div>
                                         </TableCell>
                                       ) : name === "Payment Profiles" ? (
@@ -1293,14 +1488,30 @@ class EnhancedTable extends React.Component {
                                           width={"100px"}
                                         >
                                         <div className="toolHead">
+                                          {/* <FileCopy onClick={() => this.handleCopyPaymentProfiles(n)}/> */}
+                                          <PaymentProfileModal row={n} />
                                         <DeleteIcon
                                           onClick={() =>
-                                            this.handleProfileItemsDelete(n)
+                                            this.handlePaymentProfileDelete(n)
                                           }
                                         />
                                         </div>
                                         </TableCell>
-                                      ) : null}
+                                      ) : name === "User Assignment" ? (
+                                        <TableCell
+                                          padding="none"
+                                          width={"100px"}
+                                        >
+                                        <div className="toolHead">
+                                        <DeleteIcon
+                                          onClick={() =>
+                                            this.handleUserAssignmentDelete(n)
+                                          }
+                                        />
+                                        </div>
+                                        </TableCell>
+                                      ) : 
+                                      null}
                                     {/* </div> */}
                                   {/* </TableRow> */}
                                 {/* </TableBody> */}
@@ -1358,7 +1569,7 @@ class EnhancedTable extends React.Component {
                                             {n[column.id]}
                                           </div>
                                         </TableCell>
-                                      ) : (
+                                      ) : column.id !== "receipt" ? (
                                         <TableCell
                                           key={column.id}
                                           padding="none"
@@ -1378,8 +1589,74 @@ class EnhancedTable extends React.Component {
                                             {n[column.id]}
                                           </div>
                                         </TableCell>
+                                      ) : (
+                                        <TableCell
+                                          key={column.id}
+                                          padding="none"
+                                          width={`${column.width}px` || "100px"}
+                                        >
+                                          <div
+                                            style={{
+                                              width:
+                                                `${column.width}px` || "100px",
+                                              whiteSpace: "nowrap",
+                                              overflow: "hidden",
+                                              textOverflow: "ellipsis",
+                                              // wordBreak: "break-all",
+                                              // wordWrap: "break-word"
+                                            }}
+                                          >
+                                            {n["receipt"] 
+                                              ? <a href={n["receipt"]} target="_blank" rel="noreferrer">View Receipt</a>
+                                              : <Button color="primary" variant="outlined" size="small" onClick={() => this.handleGenerateReceipt(n)}>Generate Receipt</Button> 
+                                            }
+                                          </div>
+                                      </TableCell>
                                       );
                                     })}
+
+                                    {/* Transaction */}
+                                    { name === "Transaction" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          {/* <EditModal row={n} /> */}
+                                          <DeleteIcon />
+                                        </div>
+                                      </TableCell>
+                                    )}
+                                    {/* Cash Payments */}
+                                    { name === "Cash Payments" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          <EditCashPaymentModal row={n} />
+                                          <DeleteIcon 
+                                            onClick={() => this.handleCashPaymentDelete(n)}
+                                          />
+                                        </div>
+                                      </TableCell>
+                                    )}
+                                    {/* Cashless Payments */}
+                                    { name === "Cashless Payments" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          <EditCashlessPaymentModal row={n} />
+                                          <DeleteIcon 
+                                            onClick={() => this.handleCashlessPaymentDelete(n)}
+                                          />
+                                        </div>
+                                      </TableCell>
+                                    )}
+                                    {/* Membership Payments */}
+                                    { name === "Membership Payments" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          <EditMemberPaymentModal row={n} />
+                                          <DeleteIcon 
+                                            onClick={() => this.handleMemberPaymentDelete(n)}
+                                          />
+                                        </div>
+                                      </TableCell>
+                                    )}
                                     {name === "Users" ? (
                                       <TableCell
                                         padding="none"
@@ -1400,7 +1677,7 @@ class EnhancedTable extends React.Component {
                                       >
                                       <div className="toolHead">
                                         <AddModal row={n} />
-                                        <DeleteIcon />
+                                        <DeleteIcon onClick={() => this.handleProfileItemDelete(n)}/>
                                       </div>
                                       </TableCell>
                                     ) : name === "Payment Profiles" ? (
@@ -1409,9 +1686,25 @@ class EnhancedTable extends React.Component {
                                         width={"100px"}
                                       >
                                       <div className="toolHead">
+                                      <FileCopy onClick={() => this.handleCopyPaymentProfiles(n)}/>
+                                      <PaymentProfileModal row={n} />
                                       <DeleteIcon
                                         onClick={() =>
-                                          this.handleProfileItemsDelete(n)
+                                          this.handlePaymentProfileDelete(n)
+                                        }
+                                      />
+                                      </div>
+                                      </TableCell>
+                                    ) : name === "User Assignment" ? (
+                                      <TableCell
+                                        padding="none"
+                                        width={"100px"}
+                                      >
+                                      <div className="toolHead">
+                                      <UserAssignmentModal row={n}/>
+                                      <DeleteIcon
+                                        onClick={() =>
+                                          this.handleUserAssignmentDelete(n)
                                         }
                                       />
                                       </div>

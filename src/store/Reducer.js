@@ -18,6 +18,7 @@ const initialState = {
   memberPayments: [],
   gridViewLists: [],
   transactionsItems: [],
+  userAssignment: [],
 };
 
 const reducer = (state, action) => {
@@ -122,6 +123,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         paymentProfiles: action.payload,
+      };
+    case "USER_ASSIGNMENT":
+      return {
+        ...state,
+        userAssignment: action.payload,
       };
     case "PAYMENT_PROFILE_NAME":
       return {

@@ -119,17 +119,17 @@ export let cols = [
       width: 200,
     },
     {
-      id: "user",
+      id: "email",
       numeric: false,
       disablePadding: false,
       label: "User",
       width: 200,
     },
-    // {
-    //   id: "receipt",
-    //   numeric: true,
-    //   disablePadding: true,
-    //   label: "Receipt",
-    //   width: 200,
-    // },
+    {
+      id: "receipt",
+      numeric: false,
+      disablePadding: true,
+      label: "Receipt",
+      width: 200,
+    },
   ];

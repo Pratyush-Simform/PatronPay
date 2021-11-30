@@ -29,6 +29,7 @@ const Transaction = () => {
       temp["cc_last4"] = temp.cashless_payment.cc_last4
       temp["card_type"] = temp.cashless_payment.card_type || temp.cash_payment.txn_type
       temp["tip"] = temp.cashless_payment.tip || temp.membership_payment.tip || temp.cash_payment.tip
+      temp["email"] = temp.tru_id.email
     });
     setNewData(data);
   }, [data]);

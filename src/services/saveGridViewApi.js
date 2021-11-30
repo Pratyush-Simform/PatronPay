@@ -23,3 +23,15 @@ export const getGridView = async () => {
     });
     return response;
 };
+
+export const deleteGridView = async (payload) => {
+  let subDom = localStorage.getItem("subDomain");
+  const api = `https://${subDom}/api/save_grid_view/`;
+  const token = localStorage.getItem("token");
+  const response = await Axios.post(api, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
