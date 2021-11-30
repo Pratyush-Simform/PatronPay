@@ -17,7 +17,7 @@ import { getConfigApi } from "../../services/orderApi";
 import { Context } from "../../store/Context"
 import { useStyles } from "./styles";
 import { getUsers } from "../../services/userApi";
-import { addUserAssignment, getUserAssignment } from "../../services/userAssignmentApi";
+import { addUserAssignment, getUserAssignment, editUserAssignment } from "../../services/userAssignmentApi";
 import {Constants} from "../DndTable/Constants";
 
 const MenuProps = {
@@ -53,7 +53,7 @@ function UserAssignmentModal({ row, names}) {
       default_for_user: (row?.default_for_user) ||false,
       login_persistence: row?.login_persistence || "0",
       timeout: row?.timeout || "0",
-      number: "",
+      txn_receipt_receiver: "",
       password_required_after_timeout: (row?.password_required_after_timeout === "Yes" ? true : false) || false,
       transaction_access: (row?.transaction_access === "Yes" ? true : false) || false,
       is_deleted: (row?.is_deleted === "Yes" ? true : false) || true,
@@ -61,21 +61,32 @@ function UserAssignmentModal({ row, names}) {
     onSubmit: (values) => {
       const newPcf = {
         ...values,
-        tur_id: {"id" :selectedUserid, "email" : selectedUser.email},
-        pcf_id: {"id" : nameid, "is_deleted": true, "name": name.name},
+        tur_id: selectedUserid,
+        pcf_id: nameid,
         // pcf_id: {"id" :nameid},
         // dbg_upl_log_lvl: dbg,
         // dbg_upl_scheme: dbgupl,
         login_persistence: loginOption,
       };
-      addUserAssignment(newPcf)
-      .then(() => {
-        getUserAssignment().then(response => {
-          dispatch({ type: "USER_ASSIGNMENT", payload: response.data.data.results });
-      })
-      setOpen(false)
-      })
-    .catch((err) => console.error(err));
+      if(names === Constants.ADD) {
+        addUserAssignment(newPcf)
+        .then(() => {
+          getUserAssignment().then(response => {
+            dispatch({ type: "USER_ASSIGNMENT", payload: response.data.data.results });
+        })
+        setOpen(false)
+        })
+        .catch((err) => console.error(err));
+      } else {
+        editUserAssignment(row.id, newPcf)
+        .then(() => {
+          getUserAssignment().then(response => {
+            dispatch({ type: "USER_ASSIGNMENT", payload: response.data.data.results });
+        })
+        setOpen(false)
+        })
+        .catch((err) => console.error(err));
+      }
 
       // addUserAssignment(newPcf)
       //   .then(() => {
@@ -260,11 +271,11 @@ function UserAssignmentModal({ row, names}) {
                     id="outlined-basic"
                     label="Auto-send transaction receipt to"
                     variant="outlined"
-                    name="number"
+                    name="txn_receipt_receiver"
                     placeholder="2027953213"
                     helperText="Don't include +1 at the beginning."
                     onChange={formik.handleChange}
-                    value={formik.values.number}
+                    value={formik.values.txn_receipt_receiver}
                     required
                 />
                 </div>

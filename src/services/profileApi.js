@@ -36,10 +36,33 @@ export const deletePaymentProfiles = async (id) => {
   return response;
 };
 
+export const editPaymentProfiles = async (id, payload) => {
+  let subDom = localStorage.getItem("subDomain");
+  const api = `https://${subDom}/api/patron_configuration/${id}`;
+  const token = localStorage.getItem("token");
+  const response = await Axios.put(api, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
 
 export const addPaymentProfles = async (payload) => {
   let subDom = localStorage.getItem("subDomain");
   const api = `https://${subDom}/api/patron_configuration/`;
+  const token = localStorage.getItem("token");
+  const response = await Axios.post(api, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response
+}
+
+export const duplicatePaymentProfles = async (payload) => {
+  let subDom = localStorage.getItem("subDomain");
+  const api = `https://${subDom}/api/duplicate_profile/`;
   const token = localStorage.getItem("token");
   const response = await Axios.post(api, payload, {
     headers: {
@@ -65,7 +88,7 @@ export const editProfileItems = async (id, payload) => {
   let subDom = localStorage.getItem("subDomain");
   const api = `https://${subDom}/api/patron_configuration_item/${id}`;
   const token = localStorage.getItem("token");
-  const response = await Axios.post(api, payload, {
+  const response = await Axios.put(api, payload, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -77,7 +100,7 @@ export const deleteProfileItems = async (id) => {
   let subDom = localStorage.getItem("subDomain");
   const api = `https://${subDom}/api/patron_configuration_item/${id}`;
   const token = localStorage.getItem("token");
-  const response = await Axios.post(api, {
+  const response = await Axios.delete(api, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

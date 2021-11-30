@@ -22,7 +22,7 @@ function UserAssignment() {
         temp["f_name"] = temp.tur_id.first_name
         temp["email"] = temp.tur_id.email
         temp["name"] = temp.pcf_id.name;
-        temp["is_deleted"] = temp.pcf_id.is_deleted ? "Yes" : "No";
+        temp["is_deleted"] = temp.pcf_id.is_deleted ? "No" : "Yes";
         temp["default_for_user"] = temp.default_for_user ? "Yes" : "No" ; 
         temp["price_override_allowed"] = temp.price_override_allowed ? "Yes" : "No";
         temp["password_required_after_timeout"] = temp.password_required_after_timeout ? "Yes" : "No" ;

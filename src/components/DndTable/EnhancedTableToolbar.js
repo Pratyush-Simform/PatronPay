@@ -124,7 +124,7 @@ let EnhancedTableToolbar = (props) => {
                 {title === "Users" ? (
                   <EditUserModal name={Constants.ADD} />
                 ) : null}
-                {title === "Payment Profiles" && <PaymentProfileModal />}
+                {title === "Payment Profiles" && <PaymentProfileModal names={Constants.ADD}/>}
                 {title === "User Assignment" && <UserAssignmentModal names={Constants.ADD} />}
                 {/* <MoreVert /> */}
               </IconButton>

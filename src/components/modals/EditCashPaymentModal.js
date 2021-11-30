@@ -10,15 +10,14 @@ import { useFormik } from "formik";
 import "../../App.css";
 import { useStyles } from "./styles";
 import TextField from "@material-ui/core/TextField";
-import { addUsers, editUsers, getUsers } from "../../services/userApi"
 import { Context } from "../../store/Context";
 import {Constants} from "../DndTable/Constants"
 import Snackbar from '@material-ui/core/Snackbar';
 import { Button } from "@mui/material";
-import { getTenantInfo, editTenantInfo, addTenantInfo } from "../../services/myorganisationApis";
+import { getCashPayments, editCashPayments } from "../../services/cashPaymentApi"
 
 
-function EditUserModal({ row, name }) {
+function EditCashPaymentsModal({ row, name }) {
   const classes = useStyles();
   const [snackState, setsnackState] = React.useState({
     vertical: 'top',
@@ -44,22 +43,30 @@ function EditUserModal({ row, name }) {
 
   const formik = useFormik({
     initialValues: {
-      email: row?.email || "",
-      first_name: row?.first_name || "",
-      last_name: row?.last_name || "",
-      password: "",
+        txn_date_time: row?.txn_date_time || "",
+        txn_type: row?.txn_type || "",
+        currency: row?.currency || "",
+        amount: row?.amount || 0.0,
+        tip: row?.tip || 0.0,
+        tip_tax: row?.tip_tax || 0.0,
     },
     onSubmit: (values) => {
+      editCashPayments(row.id, values).then(() => getCashPayments()
+      .then((res) => dispatch({ type: "CASH_PAYMENTS", payload: res.data.data.results })))
+      .catch(() => setSnackMsg("Cannot Update Cash Payments"), setSnackbar(true))
+      setSnackMsg("Successfully Updated")
+      setSnackbar(true)
+      setOpen(false);
     //  if(name === Constants.ADD) {
-    //      addTenantInfo(values).then(() => getTenantInfo()
+    //      addUsers(values).then(() => getUsers()
     //      .then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
     //      .catch(() => setSnackMsg("Cannot Create User"), setSnackbar(true))
     //      setSnackMsg("User Created Succesfully")
     //      setSnackbar(true)
     //      setOpen(false);
     //  }else {
-    //      editTenantInfo(row.id, values)
-    //      .then(() => getTenantInfo().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
+    //      editUsers(row.id, values)
+    //      .then(() => getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
     //      .catch(() => setSnackMsg("Cannot Edit User"), setSnackbar(true))
     //      setSnackMsg("User Edited Succesfully")
     //      setSnackbar(true)
@@ -94,11 +101,11 @@ function EditUserModal({ row, name }) {
         <Fade in={open}>
           <div className="paper pModal">
             <div className="pModal__header">
-              {name === Constants.ADD ? (
-                <h2 id="transition-modal-title">Add Organization</h2>
-              ) : (
-                <h2 id="transition-modal-title">Edit Organization</h2>
-              )}
+              {/* {name === Constants.ADD ? (
+                <h2 id="transition-modal-title">Add Users</h2>
+              ) : ( */}
+                <h2 id="transition-modal-title">Edit Cash Payments</h2>
+              {/* )} */}
             </div>
             <div className="pModal__body">
               <form onSubmit={formik.handleSubmit}>
@@ -106,13 +113,13 @@ function EditUserModal({ row, name }) {
                 <div className="pCol pCol--col12">
                   <TextField
                     id="outlined-basic"
-                    name="email"
+                    name="txn_date_time"
                     type="text"
-                    label="Email"
+                    label="Txn Date Time"
                     multiline
                     variant="outlined"
                     onChange={formik.handleChange}
-                    value={formik.values.email}
+                    value={formik.values.txn_date_time}
                     className="text"
                   />
                 </div>
@@ -121,41 +128,66 @@ function EditUserModal({ row, name }) {
                     <div className="pCol pCol--col6 pCol--col-md-12">
                     <TextField
                       id="outlined-basic"
-                      name="first_name"
+                      name="txn_type"
                       type="text"
-                      label="First Name"
+                      label="Txn Type"
                       multiline
                       variant="outlined"
                       onChange={formik.handleChange}
-                      value={formik.values.first_name}
+                      value={formik.values.txn_type}
                     />
                     </div>
                     <div className="pCol pCol--col6 pCol--col-md-12">
                     <TextField
                       lid="outlined-basic"
-                      name="last_name"
+                      name="currency"
                       type="text"
-                      label="Last Name"
+                      label="Currency"
                       multiline
                       variant="outlined"
                       onChange={formik.handleChange}
-                      value={formik.values.last_name}
+                      value={formik.values.currency}
                     />
                     </div>
                   </div>
+
                   <div className="pRow">
-              <div className="pCol pCol--col12">
-                  <TextField
-                    lid="outlined-basic"
-                    name="password"
-                    type="text"
-                    label="Password"
-                    multiline
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                  />
-                  </div>
+                    <div className="pCol pCol--col4 pCol--col-md-12">
+                        <TextField
+                        id="outlined-basic"
+                        name="amount"
+                        type="number"
+                        label="Amount"
+                        multiline
+                        variant="outlined"
+                        onChange={formik.handleChange}
+                        value={formik.values.amount}
+                        />
+                    </div>
+                    <div className="pCol pCol--col4 pCol--col-md-12">
+                        <TextField
+                        lid="outlined-basic"
+                        name="tip"
+                        type="number"
+                        label="Tip"
+                        multiline
+                        variant="outlined"
+                        onChange={formik.handleChange}
+                        value={formik.values.tip}
+                        />
+                    </div>
+                    <div className="pCol pCol--col4 pCol--col-md-12">
+                        <TextField
+                        lid="outlined-basic"
+                        name="tip_tax"
+                        type="number"
+                        label="Tip Tax"
+                        multiline
+                        variant="outlined"
+                        onChange={formik.handleChange}
+                        value={formik.values.tip_tax}
+                        />
+                    </div>
                   </div>
                 <div className="profileSubmitBtn">
                   {/* <button className="btn" type="submit">Submit</button> */}
@@ -172,4 +204,4 @@ function EditUserModal({ row, name }) {
   );
 }
 
-export default React.memo(EditUserModal);
+export default React.memo(EditCashPaymentsModal);
