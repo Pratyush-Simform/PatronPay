@@ -24,14 +24,27 @@ export const getTransactions = async () => {
 //    return response
 // }
 
-// export const generateTransactionReceipt = async (payload) => {
-//   let subDom = localStorage.getItem("subDomain");
-//    const api = `https://${subDom}/api/transactions/`;
-//    const token = localStorage.getItem("token");
-//    const response = await Axios.post(api, payload, {
-//      headers: {
-//        Authorization: `Bearer ${token}`,
-//      },
-//    });
-//    return response
-// }
+export const generateTransactionReceipt = async (payload) => {
+  let subDom = localStorage.getItem("subDomain");
+   const api = `https://${subDom}/api/generate_receipt/`;
+   const token = localStorage.getItem("token");
+   const response = await Axios.post(api, payload, {
+     headers: {
+       Authorization: `Bearer ${token}`,
+     },
+   });
+   return response
+}
+
+// /transaction-item/
+export const getTransactionItems = async () => {
+  let subDom = localStorage.getItem("subDomain");
+   const api = `https://${subDom}/api/transaction-item/`;
+   const token = localStorage.getItem("token");
+   const response = await Axios.get(api, {
+     headers: {
+       Authorization: `Bearer ${token}`,
+     },
+   });
+   return response
+}

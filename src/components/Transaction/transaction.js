@@ -21,7 +21,7 @@ const Transaction = () => {
   useEffect(() => {
     data.forEach((temp) => {
       temp["noOfItems"] = temp.trs_items.length;
-      temp["newDate"] = temp.date_created.substring(0, 10);
+      temp["newDate"] = `${temp.date_created.substring(0, 10)} ${temp.date_created.substring(11, 19)}`;
       temp["amount"] = temp.cash_payment.amount || temp.cashless_payment.amount_auth || temp.membership_payment.amount
       temp["firstName"] = temp.cash_payment.first_name || temp.cashless_payment.first_name || temp.membership_payment.first_name
       temp["lastName"] = temp.cash_payment.last_name || temp.cashless_payment.last_name || temp.membership_payment.last_name

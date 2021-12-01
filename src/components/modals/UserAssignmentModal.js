@@ -50,7 +50,7 @@ function UserAssignmentModal({ row, names}) {
       tur_id: row?.tur_id.id || "",
       pcf_id: row?.pcf_id.id || "",
       price_override_allowed: (row?.price_override_allowed === "Yes" ? true : false) || false,
-      default_for_user: (row?.default_for_user) ||false,
+      default_for_user: (row?.default_for_user === "Yes" ? true : false) || false,
       login_persistence: row?.login_persistence || "0",
       timeout: row?.timeout || "0",
       txn_receipt_receiver: "",

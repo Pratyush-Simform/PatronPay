@@ -10,7 +10,6 @@ import { useFormik } from "formik";
 import "../../App.css";
 import { useStyles } from "./styles";
 import TextField from "@material-ui/core/TextField";
-import { addUsers, editUsers, getUsers } from "../../services/userApi"
 import { Context } from "../../store/Context";
 import {Constants} from "../DndTable/Constants"
 import Snackbar from '@material-ui/core/Snackbar';
@@ -18,7 +17,7 @@ import { Button } from "@mui/material";
 import { getTenantInfo, editTenantInfo, addTenantInfo } from "../../services/myorganisationApis";
 
 
-function EditUserModal({ row, name }) {
+function AddOrganization({ row, name }) {
   const classes = useStyles();
   const [snackState, setsnackState] = React.useState({
     vertical: 'top',
@@ -44,27 +43,28 @@ function EditUserModal({ row, name }) {
 
   const formik = useFormik({
     initialValues: {
-      email: row?.email || "",
-      first_name: row?.first_name || "",
-      last_name: row?.last_name || "",
-      password: "",
+      logo: row?.logo || "",
+      contact_email: row?.contact_email || "",
+      contact_name: row?.contact_name || "",
+      contact_address: row?.contact_address || "",
+      contact_phone_number: row?.contact_phone_number || "",
     },
     onSubmit: (values) => {
-    //  if(name === Constants.ADD) {
-    //      addTenantInfo(values).then(() => getTenantInfo()
-    //      .then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
-    //      .catch(() => setSnackMsg("Cannot Create User"), setSnackbar(true))
-    //      setSnackMsg("User Created Succesfully")
-    //      setSnackbar(true)
-    //      setOpen(false);
-    //  }else {
-    //      editTenantInfo(row.id, values)
-    //      .then(() => getTenantInfo().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
-    //      .catch(() => setSnackMsg("Cannot Edit User"), setSnackbar(true))
-    //      setSnackMsg("User Edited Succesfully")
-    //      setSnackbar(true)
-    //      setOpen(false);
-    //  }
+     if(name === Constants.ADD) {
+         addTenantInfo(values).then(() => getTenantInfo()
+         .then((res) => dispatch({type: "MY_ORGANIZATIONS", payload:res.data.data.results})))
+         .catch(() => setSnackMsg("Cannot Create Organization"), setSnackbar(true))
+         setSnackMsg("Organization Created Succesfully")
+         setSnackbar(true)
+         setOpen(false);
+     }else {
+         editTenantInfo(row.id, values)
+         .then(() => getTenantInfo().then((res) => dispatch({type: "MY_ORGANIZATIONS", payload:res.data.data.results})))
+         .catch(() => setSnackMsg("Cannot Edit Organizations"), setSnackbar(true))
+         setSnackMsg("Organization Edited Succesfully")
+         setSnackbar(true)
+         setOpen(false);
+     }
     },
   });
   return (
@@ -102,61 +102,63 @@ function EditUserModal({ row, name }) {
             </div>
             <div className="pModal__body">
               <form onSubmit={formik.handleSubmit}>
-              <div className="pRow">
-                <div className="pCol pCol--col12">
-                  <TextField
-                    id="outlined-basic"
-                    name="email"
-                    type="text"
-                    label="Email"
-                    multiline
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    className="text"
-                  />
-                </div>
-              </div>
-                  <div className="pRow">
-                    <div className="pCol pCol--col6 pCol--col-md-12">
+                <div className="pRow">
+                  <div className="pCol pCol--col12">
                     <TextField
                       id="outlined-basic"
-                      name="first_name"
+                      name="contact_email"
                       type="text"
-                      label="First Name"
+                      label="Contact Email"
                       multiline
                       variant="outlined"
                       onChange={formik.handleChange}
-                      value={formik.values.first_name}
+                      value={formik.values.contact_email}
+                      className="text"
                     />
-                    </div>
-                    <div className="pCol pCol--col6 pCol--col-md-12">
+                  </div>
+                </div>
+                <div className="pRow">
+                  <div className="pCol pCol--col12">
+                    <TextField
+                      id="outlined-basic"
+                      name="contact_name"
+                      type="text"
+                      label="Contact Name"
+                      multiline
+                      variant="outlined"
+                      onChange={formik.handleChange}
+                      value={formik.values.contact_name}
+                    />
+                  </div>
+                </div>
+                <div className="pRow">
+                  <div className="pCol pCol--col12">
                     <TextField
                       lid="outlined-basic"
-                      name="last_name"
+                      name="contact_address"
                       type="text"
-                      label="Last Name"
+                      label="Contact Address"
                       multiline
                       variant="outlined"
                       onChange={formik.handleChange}
-                      value={formik.values.last_name}
+                      value={formik.values.contact_address}
                     />
-                    </div>
                   </div>
-                  <div className="pRow">
-              <div className="pCol pCol--col12">
-                  <TextField
-                    lid="outlined-basic"
-                    name="password"
-                    type="text"
-                    label="Password"
-                    multiline
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                  />
+                </div>
+                <div className="pRow">
+                  <div className="pCol pCol--col12">
+                    <TextField
+                      lid="outlined-basic"
+                      name="contact_phone_number"
+                      type="text"
+                      label="Contact Phone Number"
+                      multiline
+                      variant="outlined"
+                      onChange={formik.handleChange}
+                      value={formik.values.contact_phone_number}
+                    />
                   </div>
-                  </div>
+                </div>
                 <div className="profileSubmitBtn">
                   {/* <button className="btn" type="submit">Submit</button> */}
                   <Button variant="contained" color="primary" size="large" type="submit">
@@ -172,4 +174,4 @@ function EditUserModal({ row, name }) {
   );
 }
 
-export default React.memo(EditUserModal);
+export default React.memo(AddOrganization);

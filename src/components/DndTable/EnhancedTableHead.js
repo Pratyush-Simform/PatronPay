@@ -150,7 +150,7 @@ class EnhancedTableHead extends React.Component {
                     </Draggable>
                   </TableCell>
                 ))}
-                {name === "Transaction" || name === "Profile Items" || name === "Payment Profiles" || name === "Users" || name === "User Assignment"? (
+                {name !== "Transaction Items" || name !== "Debug Logs" ? (
                   <TableCell
                     padding="none"
                     width={"100px"}

@@ -56,7 +56,8 @@ import { deleteCashPayments, getCashPayments } from "../../services/cashPaymentA
 import { deleteCardPayments, getCardPayments } from "../../services/cardPaymentApi";
 import PaymentProfileModal from "../modals/PaymentProfileModal";
 import FileCopy from '@material-ui/icons/FileCopy';
-// import { generateTransactionReceipt } from "../../services/transactionApi";
+import { generateTransactionReceipt } from "../../services/transactionApi";
+import AddOrganization from "../modals/AddOrgModal";
 
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -779,7 +780,6 @@ class EnhancedTable extends React.Component {
       getPaymentProfiles()
         .then((res) =>
           this.setState({
-            renderer: res.data.data.results,
             snackbar: true,
             snackMsg: "Payment Profile Deleted Succesfully",
           })
@@ -868,7 +868,7 @@ class EnhancedTable extends React.Component {
   handleCopyPaymentProfiles = (row) => {
     let name  = prompt("Enter name for new profile:")
     if(name){
-      const payload = {"id": row.id, "name": name}
+      const payload = {"pk": row.id, "profile_name": name}
       duplicatePaymentProfles(payload).then(() =>
       getPaymentProfiles()
       .then((res) =>
@@ -891,10 +891,11 @@ class EnhancedTable extends React.Component {
     deleteProfileItems(row.id).then(() =>
     getProfileItems()
       .then(() =>
-      this.setState({
+      {this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
-      })
+      });
+    }
       )
       .catch(() =>
         this.setState({
@@ -906,9 +907,19 @@ class EnhancedTable extends React.Component {
   }
 
   handleGenerateReceipt = (row) => {
-    // const payload = { "generate-receipt": row.trs_id}
-    // const payload = { "transaction_id" : row.trs_id, "phone_number" : }
-    // generateTransactionReceipt(payload)
+    const payload = { "trs_id": row.trs_id}
+    generateTransactionReceipt(payload).then(() =>
+    this.setState({
+      snackbar: true,
+      snackMsg: "Receipt Generate Successfully",
+    })
+  )
+  .catch(() =>
+    this.setState({
+      snackbar: true,
+      snackMsg: "Unable to Generate Receipt",
+    })
+  )
   }
 
   handleClose = () => {
@@ -1460,6 +1471,14 @@ class EnhancedTable extends React.Component {
                                         </div>
                                       </TableCell>
                                     )}
+                                    {/* My Organisation */}
+                                    { name === "My Organisation" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          <AddOrganization row={n} />
+                                        </div>
+                                      </TableCell>
+                                    )}
                                       {name === "Users" ? (
 	                                      <TableCell
                                           padding="none"
@@ -1654,6 +1673,14 @@ class EnhancedTable extends React.Component {
                                           <DeleteIcon 
                                             onClick={() => this.handleMemberPaymentDelete(n)}
                                           />
+                                        </div>
+                                      </TableCell>
+                                    )}
+                                    {/* My Organisation */}
+                                    { name === "My Organisation" && (
+                                      <TableCell padding="none" width={"100px"}>
+                                        <div className="toolHead">
+                                          <AddOrganization row={n} />
                                         </div>
                                       </TableCell>
                                     )}
