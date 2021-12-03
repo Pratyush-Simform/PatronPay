@@ -909,7 +909,7 @@ class EnhancedTable extends React.Component {
   handleGenerateReceipt = (row) => {
     const payload = { "trs_id": row.trs_id}
     generateTransactionReceipt(payload).then(() =>
-    this.setState({
+      this.setState({
       snackbar: true,
       snackMsg: "Receipt Generate Successfully",
     })

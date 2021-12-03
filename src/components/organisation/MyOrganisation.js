@@ -9,8 +9,13 @@ function MyOrganisation() {
   const [state, dispatch] = useContext(Context)
 
   useEffect(() => {
-    getTenantInfo().then((res) => 
-      dispatch({ type: "MY_ORGANIZATIONS", payload: res.data.data.results })
+    getTenantInfo().then((res) => {
+        const newDataSource = res.data.data.results.map((temp) =>{ 
+          temp["logo"] = <img alt="img" src={temp.logo} />;
+          return temp;
+          });
+        dispatch({ type: "MY_ORGANIZATIONS", payload: newDataSource })
+      }
     );
   }, [dispatch]);
   return (

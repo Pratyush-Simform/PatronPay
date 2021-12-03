@@ -14,6 +14,7 @@ import { Context } from "../../store/Context";
 import {Constants} from "../DndTable/Constants"
 import Snackbar from '@material-ui/core/Snackbar';
 import { Button } from "@mui/material";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { getTenantInfo, editTenantInfo, addTenantInfo } from "../../services/myorganisationApis";
 
 
@@ -102,6 +103,30 @@ function AddOrganization({ row, name }) {
             </div>
             <div className="pModal__body">
               <form onSubmit={formik.handleSubmit}>
+                <div className="pRow">
+                  <div className="pCol pCol--col12">
+                  <label className="pBtn pBtn--upload" htmlFor="contained-button-file">
+                    <input
+                      accept="image/*"
+                      className="uploadBtn"
+                      id="contained-button-file"
+                      multiple
+                      type="file"
+                      name="logo"
+                      onChange={formik.handleChange}
+                    />
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      component="span"
+                      size="large"
+                      startIcon={<CloudUploadIcon />}
+                    >
+                      Upload Icon
+                    </Button>
+                  </label>
+                  </div>
+                </div>
                 <div className="pRow">
                   <div className="pCol pCol--col12">
                     <TextField
