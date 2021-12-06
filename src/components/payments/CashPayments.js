@@ -9,7 +9,10 @@ function CashPayment() {
 
     useEffect(() => {
       getCashPayments().then((res) => {
-        const newDataSource = res.data.data.results
+        const newDataSource = res.data.data.results.map((temp) => {
+          temp["txn_date_time"] = `${temp.txn_date_time.substring(0, 10)} ${temp.txn_date_time.substring(11, 19)}`;
+          return temp
+        })
         dispatch({ type: "CASH_PAYMENTS", payload: newDataSource });
       })
 

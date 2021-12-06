@@ -32,7 +32,7 @@ export let cols = [
         numeric: false,
         disablePadding: false,
         label: "Amount Over-Ridden",
-        width: 200,
+        width: 300,
     },
     {
         id: "original_amount",

@@ -17,6 +17,7 @@ import { Constants } from "./Constants";
 import PaymentProfileModal from "../modals/PaymentProfileModal";
 import TextField from '@mui/material/TextField';
 import UserAssignmentModal from "../modals/UserAssignmentModal";
+import AddOrgModal from "../modals/AddOrgModal";
 
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData } =
@@ -124,6 +125,7 @@ let EnhancedTableToolbar = (props) => {
                 {title === "Users" ? (
                   <EditUserModal name={Constants.ADD} />
                 ) : null}
+                {title === "My Organisation" && <AddOrgModal name={Constants.ADD} />}
                 {title === "Payment Profiles" && <PaymentProfileModal names={Constants.ADD}/>}
                 {title === "User Assignment" && <UserAssignmentModal names={Constants.ADD} />}
                 {/* <MoreVert /> */}

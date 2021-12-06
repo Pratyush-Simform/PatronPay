@@ -19,6 +19,7 @@ const initialState = {
   gridViewLists: [],
   transactionsItems: [],
   userAssignment: [],
+  myOrganizations: [],
 };
 
 const reducer = (state, action) => {
@@ -149,10 +150,15 @@ const reducer = (state, action) => {
         ...state,
         memberPayments: action.payload,
       };
-      case "GRIDVIEW_LISTS":
+    case "GRIDVIEW_LISTS":
       return {
         ...state,
         gridViewLists: action.payload,
+      };
+    case "MY_ORGANIZATIONS":
+      return {
+        ...state,
+        myOrganizations: action.payload,
       };
     default:
       return;
