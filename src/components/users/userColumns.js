@@ -4,7 +4,7 @@ export let cols = [
       numeric: false,
       disablePadding: false,
       label: "Email Id",
-      width: 700,
+      width: 500,
     },
     {
       id: "first_name",

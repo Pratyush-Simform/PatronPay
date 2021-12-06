@@ -4,48 +4,48 @@ export let cols = [
         numeric: false,
         disablePadding: false,
         label: "Profile Mode",
-        width: 500
+        width: 300
     },
     {
         id: "name",
         numeric: false,
         disablePadding: false,
         label: "Name",
-        width: 500
+        width: 300
     },
     {
         id: "customPayments",
         numeric: false,
         disablePadding: false,
         label: "Enable Amount Details",
-        width: 500
+        width: 300
     },
     {
         id: "enableTip",
         numeric: false,
         disablePadding: false,
         label: "Enable Tip",
-        width: 500
+        width: 300
     },
     {
         id: "payByAccountNumber",
         numeric: false,
         disablePadding: false,
         label: "Enable Other Amount",
-        width: 500
+        width: 300
     },
     {
         id: "Active",
         numeric: false,
         disablePadding: false,
         label: "Active",
-        width: 500
+        width: 300
     },
     {
         id: "actions",
         numeric: false,
         disablePadding: false,
         label: "",
-        width: 500
+        width: 300
     }
 ]
