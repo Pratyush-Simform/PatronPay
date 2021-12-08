@@ -41,8 +41,6 @@ function EditMemberPaymentsModal({ row, name }) {
     setsnackState({ ...snackState, open: false });
   };
 
-  console.log("row",row);
-
   const formik = useFormik({
     initialValues: {
         txn_date_time: row?.txn_date_time || "",

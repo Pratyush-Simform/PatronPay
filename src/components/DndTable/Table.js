@@ -85,6 +85,7 @@ class EnhancedTable extends React.Component {
       datacopy: [],
       updatedCol: [],
       columnDataCopy: [],
+      startDateData: [],
       // transactionHeader: [
       //   { label: "Date/time", key: "newDate" },
       //   { label: "Payment Url", key: "payment_url" },
@@ -588,10 +589,12 @@ class EnhancedTable extends React.Component {
     // });
 
     let filteredDates = this.props.data.filter((fd) => {
-      return fd.date_created < date.getDate();
+      // return fd.date_created < date.getDate();
+      return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
     });
     this.setState({
       renderer: filteredDates,
+      startDateData: filteredDates,
     });
   };
 
@@ -605,8 +608,9 @@ class EnhancedTable extends React.Component {
     //   };
     // });
 
-    let filteredDates = this.props.data.filter((fd) => {
-      return fd.date_modified > date.getDate();
+    let filteredDates = this.state.startDateData.filter((fd) => {
+      // return fd.date_modified > date.getDate();
+      return new Date(fd.date_modified).toISOString() < new Date(date).toISOString();
     });
     this.setState({
       renderer: filteredDates,
@@ -650,8 +654,9 @@ class EnhancedTable extends React.Component {
     //     txn_type: sd.txn_type,
     //   };
     // });
-    let filteredDates = this.props.data.filter((fd) => {
-      return fd.date_created > date.getDate();
+    let filteredDates = this.state.startDateData.filter((fd) => {
+      // return fd.date_created > date.getDate();
+      return new Date(fd.date_created).toISOString() < new Date(date).toISOString();
     });
     this.setState({
       renderer: filteredDates,
@@ -672,10 +677,12 @@ class EnhancedTable extends React.Component {
     //   };
     // });
     let filteredDates = this.props.data.filter((fd) => {
-      return fd.date_modified > date.getDate();
+      // return fd.date_modified > date.getDate();
+      return new Date(fd.date_modified).toISOString() > new Date(date).toISOString();
     });
     this.setState({
       renderer: filteredDates,
+      startDateData: filteredDates,
     });
   };
 
@@ -693,10 +700,12 @@ class EnhancedTable extends React.Component {
     //   };
     // });
     let filteredDates = this.props.data.filter((fd) => {
-      return fd.date_modified > date.getDate();
+      // return fd.date_modified > date.getDate();
+      return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
     });
     this.setState({
       renderer: filteredDates,
+      startDateData: filteredDates,
     });
   };
 
@@ -713,8 +722,9 @@ class EnhancedTable extends React.Component {
     //     txn_type: sd.txn_type,
     //   };
     // });
-    let filteredDates = this.props.data.filter((fd) => {
-      return fd.date_created > date.getDate();
+    let filteredDates = this.state.startDateData.filter((fd) => {
+      // return fd.date_created > date.getDate();
+      return new Date(fd.date_created).toISOString() < new Date(date).toISOString();
     });
     this.setState({
       renderer: filteredDates,
@@ -733,10 +743,12 @@ class EnhancedTable extends React.Component {
     //   };
     // });
     let filteredDates = this.props.data.filter((fd) => {
-      return fd.date_created > date.getDate();
+      // return fd.date_created > date.getDate();
+      return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
     });
     this.setState({
       renderer: filteredDates,
+      startDateData: filteredDates,
     });
   };
 
@@ -751,8 +763,10 @@ class EnhancedTable extends React.Component {
     //     txn_type: sd.txn_type,
     //   };
     // });
-    let filteredDates = this.props.data.filter((fd) => {
-      return fd.date_modified > date.getDate();
+    let filteredDates = this.state.startDateData.filter((fd) => {
+      // return fd.date_modified > date.getDate();
+      return new Date(fd.date_modified).toISOString() < new Date(date).toISOString();
+
     });
     this.setState({
       renderer: filteredDates,

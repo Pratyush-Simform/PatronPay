@@ -11,7 +11,7 @@ export let cols = [
     numeric: false,
     disablePadding: true,
     label: "Transaction Type",
-    width: 300,
+    width: 200,
   },
   {
     id: "currency",
@@ -32,14 +32,14 @@ export let cols = [
       numeric: true,
       disablePadding: true,
       label: "Tip $",
-      width: 300,
+      width: 200,
     },
     {
       id: "tip_tax",
       numeric: true,
       disablePadding: true,
       label: "Tip Tax $",
-      width: 300,
+      width: 200,
     },
     {
       id: "first_name",
@@ -60,7 +60,7 @@ export let cols = [
       numeric: false,
       disablePadding: false,
       label: "Card number",
-      width: 300,
+      width: 200,
     },
 ]
 
@@ -164,14 +164,14 @@ export let cashCols = [
     numeric: false,
     disablePadding: false,
     label: "Date",
-    width: 200,
+    width: 300,
   },
   {
     id: "txn_type",
     numeric: true,
     disablePadding: true,
     label: "Transaction Type",
-    width: 400,
+    width: 300,
   },
   {
     id: "currency",
@@ -185,21 +185,21 @@ export let cashCols = [
     numeric: true,
     disablePadding: true,
     label: "Amount $",
-    width: 300,
+    width: 200,
   },
   {
     id: "tip",
     numeric: true,
     disablePadding: true,
     label: "Tip $",
-    width: 400,
+    width: 200,
   },
   {
     id: "tip_tax",
     numeric: true,
     disablePadding: true,
     label: "Tip Tax $",
-    width: 400,
+    width: 200,
   },
 
 ]

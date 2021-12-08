@@ -4,7 +4,7 @@ export let cols = [
     numeric: false,
     disablePadding: true,
     label: "Icon",
-    width: 300,
+    width: 200,
   },
   {
     id: "barcode",
@@ -32,7 +32,7 @@ export let cols = [
     numeric: true,
     disablePadding: true,
     label: "Amount($)",
-    width: 300,
+    width: 200,
   },
   {
     id: "category",
@@ -46,14 +46,14 @@ export let cols = [
     numeric: true,
     disablePadding: true,
     label: "Tax(%)",
-    width: 300,
+    width: 200,
   },
   {
     id: "order",
     numeric: true,
     disablePadding: true,
     label: "Order",
-    width: 300,
+    width: 200,
   },
   {
     id: "price_override_allowed",
