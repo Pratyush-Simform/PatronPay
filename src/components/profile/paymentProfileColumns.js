@@ -25,7 +25,7 @@ export let cols = [
         numeric: false,
         disablePadding: false,
         label: "Enable Tip",
-        width: 300
+        width: 200
     },
     {
         id: "payByAccountNumber",
@@ -39,13 +39,13 @@ export let cols = [
         numeric: false,
         disablePadding: false,
         label: "Active",
-        width: 300
+        width: 200
     },
     {
         id: "actions",
         numeric: false,
         disablePadding: false,
         label: "",
-        width: 300
+        width: 200
     }
 ]
