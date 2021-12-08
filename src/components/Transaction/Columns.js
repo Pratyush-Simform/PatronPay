@@ -116,7 +116,7 @@ export let cols = [
       numeric: false,
       disablePadding: false,
       label: "Transaction ID",
-      width: 200,
+      width: 300,
     },
     {
       id: "email",
