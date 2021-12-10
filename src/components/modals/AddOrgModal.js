@@ -29,6 +29,7 @@ function AddOrganization({ row, name }) {
   const [open, setOpen] = React.useState(false);
   const [, dispatch] = useContext(Context)
   const [snackbar, setSnackbar] = React.useState(false)
+  // const [image, setImage] = React.useState()
 
   const handleOpen = () => {
     setOpen(true);
@@ -51,6 +52,10 @@ function AddOrganization({ row, name }) {
       contact_phone_number: row?.contact_phone_number || "",
     },
     onSubmit: (values) => {
+      // const newPcf = {
+      //   ...values,
+      //   logo: image,
+      // }
      if(name === Constants.ADD) {
          addTenantInfo(values).then(() => getTenantInfo()
          .then((res) => dispatch({type: "MY_ORGANIZATIONS", payload:res.data.data.results})))
@@ -68,6 +73,11 @@ function AddOrganization({ row, name }) {
      }
     },
   });
+
+  // const handleChangeimage = (event) => {
+  //   setImage(event.target.files[0]);
+  // }
+
   return (
     <>
     <Snackbar
