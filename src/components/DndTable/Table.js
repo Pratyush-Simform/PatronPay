@@ -1346,9 +1346,9 @@ class EnhancedTable extends React.Component {
               rowCount={data?.length}
               name={name}
             />
-            {data.length > 0 ? (
+            {data?.length > 0 ? (
               <TableBody>
-                {renderer.length
+                {renderer?.length
                   ? (name === "Profile Items" 
                   ? this.context[0].paymentProfileName === "Shopping Cart Profile" 
                     ? shoppingCart

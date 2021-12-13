@@ -63,7 +63,8 @@ let EnhancedTableToolbar = (props) => {
         }
       };
     }
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[searchInput]);
 
   return (
     <Toolbar
