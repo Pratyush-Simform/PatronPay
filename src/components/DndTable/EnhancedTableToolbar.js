@@ -63,7 +63,8 @@ let EnhancedTableToolbar = (props) => {
         }
       };
     }
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[searchInput]);
 
   return (
     <Toolbar
@@ -125,7 +126,7 @@ let EnhancedTableToolbar = (props) => {
                 {title === "Users" ? (
                   <EditUserModal name={Constants.ADD} />
                 ) : null}
-                {title === "My Organisation" && <AddOrgModal name={Constants.ADD} />}
+                {(title === "My Organisation" && props.items.length < 1) && <AddOrgModal name={Constants.ADD} />}
                 {title === "Payment Profiles" && <PaymentProfileModal names={Constants.ADD}/>}
                 {title === "User Assignment" && <UserAssignmentModal names={Constants.ADD} />}
                 {/* <MoreVert /> */}

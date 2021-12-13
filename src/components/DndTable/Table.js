@@ -48,9 +48,9 @@ import {Context} from "../../store/Context";
 import { deleteUserAssignment, getUserAssignment } from "../../services/userAssignmentApi";
 import UserAssignmentModal from "../modals/UserAssignmentModal";
 // import EditModal from "../modals/EditModal";
-import EditCashPaymentModal from "../modals/EditCashPaymentModal";
-import EditMemberPaymentModal from "../modals/EditMemberPaymentModal";
-import EditCashlessPaymentModal from "../modals/EditCashlessPaymentModal";
+// import EditCashPaymentModal from "../modals/EditCashPaymentModal";
+// import EditMemberPaymentModal from "../modals/EditMemberPaymentModal";
+// import EditCashlessPaymentModal from "../modals/EditCashlessPaymentModal";
 import { deleteMembershipPayments, getMembershipPayments } from "../../services/membershipPaymentApi";
 import { deleteCashPayments, getCashPayments } from "../../services/cashPaymentApi";
 import { deleteCardPayments, getCardPayments } from "../../services/cardPaymentApi";
@@ -778,7 +778,6 @@ class EnhancedTable extends React.Component {
       getUsers()
         .then((res) =>
           this.setState({
-            renderer: res.data.data.results,
             snackbar: true,
             snackMsg: "User Deleted Succesfully",
           })
@@ -922,12 +921,15 @@ class EnhancedTable extends React.Component {
 
   handleGenerateReceipt = (row) => {
     const payload = { "trs_id": row.trs_id}
-    generateTransactionReceipt(payload).then(() =>
-      this.setState({
-      snackbar: true,
-      snackMsg: "Receipt Generate Successfully",
-    })
-  )
+    generateTransactionReceipt(payload).then((res) =>
+      // {
+      //   this.setState({
+      //   snackbar: true,
+      //   snackMsg: "Receipt Generate Successfully",
+      //   });
+        {window.open(res.data.data, "_blank")}
+      // }
+    )
   .catch(() =>
     this.setState({
       snackbar: true,
@@ -1344,9 +1346,9 @@ class EnhancedTable extends React.Component {
               rowCount={data?.length}
               name={name}
             />
-            {data.length > 0 ? (
+            {data?.length > 0 ? (
               <TableBody>
-                {renderer.length
+                {renderer?.length
                   ? (name === "Profile Items" 
                   ? this.context[0].paymentProfileName === "Shopping Cart Profile" 
                     ? shoppingCart
@@ -1365,9 +1367,9 @@ class EnhancedTable extends React.Component {
                         return (
                           <TableRow
                             hover
-                            onClick={(event) => this.handleClick(event, n.id)}
-                            role="checkbox"
-                            aria-checked={isSelected}
+                            // onClick={(event) => this.handleClick(event, n.id)}
+                            // role="checkbox"
+                            // aria-checked={isSelected}
                             tabIndex={-1}
                             key={n.id}
                             selected={isSelected}
@@ -1377,7 +1379,7 @@ class EnhancedTable extends React.Component {
                                 {/* <TableBody> */}
                                   {/* <TableRow> */}
                                     <TableCell padding="checkbox">
-                                      <Checkbox checked={isSelected} />
+                                      <Checkbox checked={isSelected}  onClick={(event) => this.handleClick(event, n.id)}/>
                                     </TableCell>
                                     {this.columnRender().map((column) => {
                                       return column.numeric ? (
@@ -1448,20 +1450,20 @@ class EnhancedTable extends React.Component {
                                     })}
 
                                       {/* Transaction  */}
-                                    { name === "Transaction" && (
+                                    {/* { name === "Transaction" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
-                                          {/* <EditModal row={n} /> */}
-                                          <DeleteIcon />
+                                          <EditModal row={n} />
+                                          <DeleteIcon/>
                                         </div>
                                       </TableCell>
-                                    )}
+                                    )} */}
                                     {/* Cash Payments */}
                                     { name === "Cash Payments" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
-                                          <EditCashPaymentModal row={n} />
-                                          <DeleteIcon />
+                                          {/* <EditCashPaymentModal row={n} /> */}
+                                          <DeleteIcon onClick={() => this.handleCashPaymentDelete(n)}/>
                                         </div>
                                       </TableCell>
                                     )}
@@ -1469,8 +1471,8 @@ class EnhancedTable extends React.Component {
                                     { name === "Cashless Payments" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
-                                          <EditCashlessPaymentModal row={n} />
-                                          <DeleteIcon />
+                                          {/* <EditCashlessPaymentModal row={n} /> */}
+                                          <DeleteIcon onClick={() => this.handleCashlessPaymentDelete(n)}/>
                                         </div>
                                       </TableCell>
                                     )}
@@ -1478,7 +1480,7 @@ class EnhancedTable extends React.Component {
                                     { name === "Membership Payments" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
-                                          <EditMemberPaymentModal row={n} />
+                                          {/* <EditMemberPaymentModal row={n} /> */}
                                           <DeleteIcon 
                                             onClick={() => this.handleMemberPaymentDelete(n)}
                                           />
@@ -1571,8 +1573,8 @@ class EnhancedTable extends React.Component {
                         return (
                           <TableRow
                             hover
-                            onClick={(event) => this.handleClick(event, n.id)}
-                            role="checkbox"
+                            // onClick={(event) => this.handleClick(event, n.id)}
+                            // role="checkbox"
                             aria-checked={isSelected}
                             tabIndex={-1}
                             key={n.id}
@@ -1583,7 +1585,7 @@ class EnhancedTable extends React.Component {
                                 {/* <TableBody> */}
                                   {/* <TableRow> */}
                                     <TableCell padding="checkbox" width={"48px"}>
-                                      <Checkbox checked={isSelected} />
+                                      <Checkbox checked={isSelected} onClick={(event) => this.handleClick(event, n.id)}/>
                                     </TableCell>
                                     {this.columnRender()?.map((column) => {
                                       return column.numeric ? (
@@ -1649,19 +1651,19 @@ class EnhancedTable extends React.Component {
                                     })}
 
                                     {/* Transaction */}
-                                    { name === "Transaction" && (
+                                    {/* { name === "Transaction" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
-                                          {/* <EditModal row={n} /> */}
+                                          <EditModal row={n} />
                                           <DeleteIcon />
                                         </div>
                                       </TableCell>
-                                    )}
+                                    )} */}
                                     {/* Cash Payments */}
                                     { name === "Cash Payments" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
-                                          <EditCashPaymentModal row={n} />
+                                          {/* <EditCashPaymentModal row={n} /> */}
                                           <DeleteIcon 
                                             onClick={() => this.handleCashPaymentDelete(n)}
                                           />
@@ -1672,7 +1674,7 @@ class EnhancedTable extends React.Component {
                                     { name === "Cashless Payments" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
-                                          <EditCashlessPaymentModal row={n} />
+                                          {/* <EditCashlessPaymentModal row={n} /> */}
                                           <DeleteIcon 
                                             onClick={() => this.handleCashlessPaymentDelete(n)}
                                           />
@@ -1683,7 +1685,7 @@ class EnhancedTable extends React.Component {
                                     { name === "Membership Payments" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
-                                          <EditMemberPaymentModal row={n} />
+                                          {/* <EditMemberPaymentModal row={n} /> */}
                                           <DeleteIcon 
                                             onClick={() => this.handleMemberPaymentDelete(n)}
                                           />
@@ -1772,6 +1774,7 @@ class EnhancedTable extends React.Component {
                   <div className="spinner-inner">
                   <div className="spinner">
                     <CircularProgress />
+                    {/* <p>Data Not Found</p> */}
                   </div>
                   </div>
                   </TableCell>

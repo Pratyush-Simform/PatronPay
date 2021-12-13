@@ -15,7 +15,8 @@ import { Context } from "../../store/Context";
 import {Constants} from "../DndTable/Constants"
 import Snackbar from '@material-ui/core/Snackbar';
 import { Button } from "@mui/material";
-
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 function EditUserModal({ row, name }) {
   const classes = useStyles();
@@ -47,6 +48,11 @@ function EditUserModal({ row, name }) {
       first_name: row?.first_name || "",
       last_name: row?.last_name || "",
       password: "",
+      // admin_user: row?.admin_user || "",
+      // is_active: row?.active || "",
+      can_use_portal: row?.can_use_portal || "",
+      can_use_terminal: row?.can_use_terminal || "",
+      manual_card_entry: row?.manual_card_entry || "",
     },
     onSubmit: (values) => {
      if(name === Constants.ADD) {
@@ -143,7 +149,7 @@ function EditUserModal({ row, name }) {
                     </div>
                   </div>
                   <div className="pRow">
-              <div className="pCol pCol--col12">
+                  <div className="pCol pCol--col12">
                   <TextField
                     lid="outlined-basic"
                     name="password"
@@ -155,6 +161,69 @@ function EditUserModal({ row, name }) {
                     value={formik.values.password}
                   />
                   </div>
+                  </div>
+                  <div className="pRow">
+                    <div className="pCol pCol--col12">
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={formik.handleChange}
+                            name="admin_user"
+                            value={formik.values.admin_user}
+                            checked={formik.values.admin_user}
+                          />
+                        }
+                        label="Admin User"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={formik.handleChange}
+                            name="is_active"
+                            value={formik.values.is_active}
+                            checked={formik.values.is_active}
+                          />
+                        }
+                        label="Active"
+                      />
+                    </div>
+                  </div>
+                  <div className="pRow">
+                    <div className="pCol pCol--col12">
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={formik.handleChange}
+                            name="can_use_terminal"
+                            value={formik.values.can_use_terminal}
+                            checked={formik.values.can_use_terminal}
+                          />
+                        }
+                        label="Can Use Terminal"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={formik.handleChange}
+                            name="manual_card_entry"
+                            value={formik.values.manual_card_entry}
+                            checked={formik.values.manual_card_entry}
+                          />
+                        }
+                        label="Manual Card Entry"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={formik.handleChange}
+                            name="can_use_portal"
+                            value={formik.values.can_use_portal}
+                            checked={formik.values.can_use_portal}
+                          />
+                        }
+                        label="Can Use Web"
+                      />
+                    </div>
                   </div>
                 <div className="profileSubmitBtn">
                   {/* <button className="btn" type="submit">Submit</button> */}
