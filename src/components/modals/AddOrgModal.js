@@ -29,7 +29,7 @@ function AddOrganization({ row, name }) {
   const [open, setOpen] = React.useState(false);
   const [, dispatch] = useContext(Context)
   const [snackbar, setSnackbar] = React.useState(false)
-  // const [image, setImage] = React.useState()
+  const [image, setImage] = React.useState()
 
   const handleOpen = () => {
     setOpen(true);
@@ -52,20 +52,34 @@ function AddOrganization({ row, name }) {
       contact_phone_number: row?.contact_phone_number || "",
     },
     onSubmit: (values) => {
-      // const newPcf = {
-      //   ...values,
-      //   logo: image,
-      // }
+      const newPcf = {
+        ...values,
+        logo: image,
+      }
+      let form_data = new FormData();
+      for (let key in newPcf) {
+        form_data.append(key, newPcf[key]);
+      }
      if(name === Constants.ADD) {
-         addTenantInfo(values).then(() => getTenantInfo()
-         .then((res) => dispatch({type: "MY_ORGANIZATIONS", payload:res.data.data.results})))
+         addTenantInfo(form_data).then(() => getTenantInfo()
+         .then((res) => {
+            const newDataSource = res.data.data.results.map((temp) =>{ 
+              temp["logo"] = <img alt="img" src={temp.logo} />;
+              return temp;
+          });
+          dispatch({ type: "MY_ORGANIZATIONS", payload: newDataSource })}))
          .catch(() => setSnackMsg("Cannot Create Organization"), setSnackbar(true))
          setSnackMsg("Organization Created Succesfully")
          setSnackbar(true)
          setOpen(false);
      }else {
-         editTenantInfo(row.id, values)
-         .then(() => getTenantInfo().then((res) => dispatch({type: "MY_ORGANIZATIONS", payload:res.data.data.results})))
+         editTenantInfo(row.id, form_data)
+         .then(() => getTenantInfo().then((res) => {
+          const newDataSource = res.data.data.results.map((temp) =>{ 
+            temp["logo"] = <img alt="img" src={temp.logo} />;
+            return temp;
+          });
+          dispatch({ type: "MY_ORGANIZATIONS", payload: newDataSource })}))
          .catch(() => setSnackMsg("Cannot Edit Organizations"), setSnackbar(true))
          setSnackMsg("Organization Edited Succesfully")
          setSnackbar(true)
@@ -74,9 +88,9 @@ function AddOrganization({ row, name }) {
     },
   });
 
-  // const handleChangeimage = (event) => {
-  //   setImage(event.target.files[0]);
-  // }
+  const handleChangeimage = (event) => {
+    setImage(event.target.files[0]);
+  }
 
   return (
     <>
@@ -123,7 +137,7 @@ function AddOrganization({ row, name }) {
                       multiple
                       type="file"
                       name="logo"
-                      onChange={formik.handleChange}
+                      onChange={handleChangeimage}
                     />
                     <Button
                       variant="outlined"
