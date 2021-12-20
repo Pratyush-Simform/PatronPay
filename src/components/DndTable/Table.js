@@ -58,6 +58,7 @@ import PaymentProfileModal from "../modals/PaymentProfileModal";
 import FileCopy from '@material-ui/icons/FileCopy';
 import { generateTransactionReceipt } from "../../services/transactionApi";
 import AddOrganization from "../modals/AddOrgModal";
+import ProfileItemCopyModal from "../modals/ProfileItemCopyModal";
 
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -967,7 +968,7 @@ class EnhancedTable extends React.Component {
     const columnLength = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.length : this.state.columnData.length;
     const { classes, data, name } = this.props;
     const activeData = data?.filter((temp) => temp?.is_deleted === false)
-    const inactiveData = data?.filter((temp) => temp?.is_deleted === true)
+    // const inactiveData = data?.filter((temp) => temp?.is_deleted === true)
     const shoppingCart = data?.filter(temp => temp?.paymentProfile === "Shopping Cart Profile")
     const quickPay = data?.filter(temp => temp?.paymentProfile === "QuickPay Profile")
     const wgsmBaseball = data?.filter(temp => temp?.paymentProfile === "WGSM Baseball Profile")
@@ -1249,6 +1250,7 @@ class EnhancedTable extends React.Component {
         name === "Payment Profiles" ||
         name === "User Assignment" ||
         name === "Profile Items" ||
+        name === "My Organisation" ||
         name === "Users" ? null : (
           <div className="totals">
             {name === "Cashless Payments" ? (
@@ -1298,7 +1300,7 @@ class EnhancedTable extends React.Component {
           </div> 
           </>
         )}
-          { name === "Transaction" && (
+          {/* { name === "Transaction" && (
           <div className="totals">
             <div className="totals__item">Active <span>{activeData.length}</span></div>
             <div className="totals__item">Inactive <span>{inactiveData.length}</span></div>
@@ -1306,7 +1308,7 @@ class EnhancedTable extends React.Component {
             <div className="totals__item">Quick Pay <span>{quickPay.length}</span></div>
             <div className="totals__item">Total<span>{data.length}</span></div>
           </div>
-          )}
+          )} */}
           
         <div className={classes.tableWrapper}>
           <Table
@@ -1513,6 +1515,7 @@ class EnhancedTable extends React.Component {
                                           width={"100px"}
                                         >
                                         <div className="toolHead">
+                                          <ProfileItemCopyModal row={n}/>
                                           <AddModal row={n} />
                                           <DeleteIcon onClick={() => this.handleProfileItemDelete(n)}/>
                                         </div>
@@ -1523,7 +1526,7 @@ class EnhancedTable extends React.Component {
                                           width={"100px"}
                                         >
                                         <div className="toolHead">
-                                          {/* <FileCopy onClick={() => this.handleCopyPaymentProfiles(n)}/> */}
+                                          <FileCopy onClick={() => this.handleCopyPaymentProfiles(n)}/>
                                           <PaymentProfileModal row={n} />
                                         <DeleteIcon
                                           onClick={() =>
@@ -1719,6 +1722,7 @@ class EnhancedTable extends React.Component {
                                         width={"100px"}
                                       >
                                       <div className="toolHead">
+                                        <ProfileItemCopyModal row={n}/>
                                         <AddModal row={n} />
                                         <DeleteIcon onClick={() => this.handleProfileItemDelete(n)}/>
                                       </div>

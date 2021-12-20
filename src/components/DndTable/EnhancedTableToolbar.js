@@ -35,6 +35,17 @@ let EnhancedTableToolbar = (props) => {
       input.onkeydown = function (event) {
         if (!(event.key === "Backspace")) {
           if (props.title === "Profile Items") {
+            // let fildata = itemCopy.filter((item) => {
+            //   const temp = Object.values(item)
+            //   let temp1
+            //   for(let i = 0; i < temp.length; i++) {
+            //     if(typeof(temp[i]) != "object" && temp[i].toString().includes(searchInput)){
+            //       temp1 = item;
+            //       break
+            //     }
+            //   }
+            //   return temp1
+            // })
             let filData = itemCopy.filter((j) =>
               j.description.includes(searchInput)
             );

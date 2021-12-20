@@ -108,3 +108,15 @@ export const deleteProfileItems = async (id) => {
   return response;
 };
 
+// /duplicate_profile_item/
+export const duplicatePaymentProfleItem = async (payload) => {
+  let subDom = localStorage.getItem("subDomain");
+  const api = `https://${subDom}/api/duplicate_profile_item/`;
+  const token = localStorage.getItem("token");
+  const response = await Axios.post(api, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response
+}

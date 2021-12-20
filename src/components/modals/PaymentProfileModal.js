@@ -12,12 +12,14 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useFormik } from "formik";
-import { getConfigApi } from "../../services/orderApi";
 import { addPaymentProfles, getPaymentProfiles, editPaymentProfiles } from "../../services/profileApi";
 import { Context } from "../../store/Context"
 import { useStyles } from "./styles";
 import { Constants } from "../DndTable/Constants";
 import EditIcon from "@material-ui/icons/Edit";
+import Divider from '@material-ui/core/Divider';
+import Stack from '@mui/material/Stack';
+import ReportProblemRounded from '@material-ui/icons/ReportProblemRounded';
 
 const MenuProps = {
   PaperProps: {
@@ -36,18 +38,19 @@ function PaymentProfileModal({ row, names}) {
   const [tip1, setTip1] = useState(0);
   const [tip2, setTip2] = useState(0);
   const [tip3, setTip3] = useState(0);
-  const [name, setName] = useState("");
+  const [configType, setConfigType] = useState("");
   const [defaulTip, setDefaultTip] = useState("");
   const [dbg, setDbg] = useState(0);
   const [dbgupl, setDbgupl] = useState("");
   const handleOpen = () => setOpen(true);
-  const [, dispatch] = useContext(Context);
+  const [state, dispatch] = useContext(Context);
   const handleClose = () => setOpen(false);
 
   const formik = useFormik({
     initialValues: {
-      description: row?.description || "",
+      // description: row?.description || "",
       name: row?.name || "",
+      config_type: row?.config_type || "",
       custom_payments: row?.custom_payments || false,
       include_pricing_details: row?.include_pricing_details || false,
       enable_tip: row?.enable_tip || false,
@@ -65,7 +68,7 @@ function PaymentProfileModal({ row, names}) {
     onSubmit: (values) => {
       const newPcf = {
         ...values,
-        name: name,
+        config_type: configType,
         dbg_upl_log_lvl: dbg,
         dbg_upl_scheme: dbgupl,
         tip_choices: [
@@ -83,8 +86,8 @@ function PaymentProfileModal({ row, names}) {
           },
         ],
       };
-      if(name === Constants.ADD) {
-        addPaymentProfles(values).then(() => {
+      if(names === Constants.ADD) {
+        addPaymentProfles(newPcf).then(() => {
           getPaymentProfiles().then((res) => dispatch({
             type: "PAYMENT_PROFILES", 
             payload:res.data.data.results
@@ -118,7 +121,7 @@ function PaymentProfileModal({ row, names}) {
   });
 
   const handleChange = (event, identifier) => {
-    if (identifier === "name") setName(event.target.value);
+    if (identifier === "config_type") setConfigType(event.target.value);
     else if (identifier === "defaultTip") setDefaultTip(event.target.value);
     else if (identifier === "dbg") setDbg(event.target.value);
     else if (identifier === "dbgupl") setDbgupl(event.target.value);
@@ -130,12 +133,28 @@ function PaymentProfileModal({ row, names}) {
     else setTip3(e.target.value);
   };
 
+  // useEffect(() => {
+  //   getPaymentProfiles()
+  //     .then((res) => {
+  //       const newDataSource = res.data.data.results.map((temp) => {
+  //         return temp.config_type
+  //       });
+  //       const uniqarray = [...new Set(newDataSource)];
+  //       const final_result = uniqarray.filter((result) => result !== "");
+  //       setConfig(final_result);
+  //     })
+  //     .catch(() => alert("Cannot load profile configurations"));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
   useEffect(() => {
-    getConfigApi()
-      .then((res) => setConfig(res.data.data.results))
-      .catch(() => alert("Cannot load profile configurations"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const newDataSource = state.paymentProfiles.map((temp) => {
+      return temp.config_type
+    });
+      const uniqarray = [...new Set(newDataSource)];
+      const final_result = uniqarray.filter((result) => result !== "");
+      setConfig(final_result);
+  }, [state.paymentProfiles]);
 
   return (
     <div>
@@ -169,11 +188,11 @@ function PaymentProfileModal({ row, names}) {
             <div className="pCol pCol--col6 pCol--col-md-12">
               <TextField
                 id="outlined-basic"
-                label="Description"
+                label="Name"
                 variant="outlined"
-                name="description"
+                name="name"
                 onChange={formik.handleChange}
-                value={formik.values.description}
+                value={formik.values.name}
               />
             </div>
             <div className="pCol pCol--col6 pCol--col-md-12">
@@ -184,14 +203,14 @@ function PaymentProfileModal({ row, names}) {
                 <Select
                   labelId="demo-controlled-open-select-label"
                   id="demo-controlled-open-select"
-                  value={name}
+                  value={configType}
                   label="Profile Mode"
-                  onChange={(event) => handleChange(event, "name")}
+                  onChange={(event) => handleChange(event, "config_type")}
                   MenuProps={MenuProps}
                 >
                   {config?.map((con) => (
-                    <MenuItem value={con.name} onChange={formik.handleChange}>
-                      {con.name}
+                    <MenuItem value={con} onChange={formik.handleChange}>
+                      {con}
                     </MenuItem>
                   ))}
                 </Select>
@@ -392,7 +411,7 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.is_deleted}
                   />
                 }
-                label="Active"
+                label="Inactive"
               />
               </div>
             </div>
@@ -445,6 +464,23 @@ function PaymentProfileModal({ row, names}) {
                 </Select>
               </FormControl>
               </div>
+            </div>
+            <Divider />
+            <div>
+              <Stack direction="row" justifyContent="space-evenly" alignItems="center">
+                <div>
+                  <Stack direction="column" justifyContent="center" alignItems="center" style={{color: 'orange'}} spacing={0.5}>
+                    <ReportProblemRounded />
+                    <p>Tip</p>
+                  </Stack>
+                </div>
+                <div>
+                  <Stack direction="column" justifyContent="center" alignItems="baseline" spacing={0.5}>
+                    <p>1. Click Submit and then "Items" to add Profile Items to this Payment Profile.</p>
+                    <p>2. Go to User Assignment to add User(s) to this Payment Profile.</p>
+                  </Stack>
+                </div>
+              </Stack>
             </div>
             <div className="profileSubmitBtn">
               <Button variant="contained" color="primary" size="large" type="submit">
