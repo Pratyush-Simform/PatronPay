@@ -964,6 +964,41 @@ class EnhancedTable extends React.Component {
     }
   }
 
+  // handleAmountTotal = () => {
+  //   const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  //   if(this.props.name === "Cashless Payments"){
+  //     const reduceAmountAuthData = this.props?.data?.map((rd) => rd.amount_auth);
+  //     const ReduceAmountAuth =
+  //     reduceAmountAuthData.length > 0 && reduceAmountAuthData.reduce(reducer);
+
+  //     return ReduceAmountAuth;
+  //   } else {
+  //     const reduceAmountData = this.props?.data?.map((rd) => rd.amount);
+  //     const ReduceData =
+  //       reduceAmountData.length > 0 && reduceAmountData.reduce(reducer);
+
+  //     return ReduceData;
+  //   }
+  // }
+
+  // handleTipTotal = () => {
+  //   const reduceTipData = this.props?.data.map((rt) => rt.tip);
+  //   const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  //   const ReduceTipData =
+  //     reduceTipData.length > 0 && reduceTipData.reduce(reducer);
+
+  //   return ReduceTipData;
+  // }
+
+  // handleTipTaxTotal = () => {
+  //   const reduceTipTaxTotal = this.props?.data.map((rtt) => rtt.tip_tax);
+  //   const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  //   const ReduceTipTaxData =
+  //     reduceTipTaxTotal.length > 0 && reduceTipTaxTotal.reduce(reducer);
+
+  //   return ReduceTipTaxData;
+  // }
+
   render() {
     const columnLength = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.length : this.state.columnData.length;
     const { classes, data, name } = this.props;
@@ -1245,13 +1280,16 @@ class EnhancedTable extends React.Component {
             />
           </div>
         </div>
+        <hr className="dashedline" />
         {name === "Transaction" ||
         name === "Transaction Items" ||
         name === "Payment Profiles" ||
         name === "User Assignment" ||
         name === "Profile Items" ||
         name === "My Organisation" ||
+        name === "Debug Logs" ||
         name === "Users" ? null : (
+          <>
           <div className="totals">
             {name === "Cashless Payments" ? (
               <div className="totals__item">Amount <span>{amount_auth_total}</span></div>
@@ -1261,6 +1299,8 @@ class EnhancedTable extends React.Component {
             <div className="totals__item">Tip <span>{tip_total}</span></div>
             <div className="totals__item">Tip Tax <span>{tip_tax_total}</span></div>
           </div>
+          <hr className="dashedline" />
+          </>
         )}
         {name === "Profile Items" && (
           <>
@@ -1298,6 +1338,7 @@ class EnhancedTable extends React.Component {
               />
             </div>
           </div> 
+          <hr className="dashedline" />
           </>
         )}
           {/* { name === "Transaction" && (

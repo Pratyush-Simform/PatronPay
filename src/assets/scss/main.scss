@@ -85,7 +85,7 @@
   }
 }
 .totals {
-  border-bottom: 1px solid #e0e0e0;
+  // border-bottom: 1px solid #e0e0e0;
   padding-bottom: 15px;
   padding-top: 15px;
   @include phone-landscape {
@@ -287,6 +287,9 @@
   flex-wrap: wrap;
   margin-left: -15px;
   margin-right: -15px;
+  &--align {
+    align-items: center;
+  }
 }
 
 .pCol {
@@ -314,7 +317,7 @@
 
 // Profile Status
 .pProfileStatus {
-  border-bottom: 1px solid #e0e0e0;
+  // border-bottom: 1px solid #e0e0e0;
   padding: 10px 20px;
   display: flex;
   &__item {
@@ -398,4 +401,9 @@
   &-delete {
     margin-left: auto;
   }
+}
+
+.dashedline {
+  border: none;
+  border-top: 2px dashed #e0e0e0;
 }

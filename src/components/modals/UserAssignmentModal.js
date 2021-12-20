@@ -171,7 +171,7 @@ function UserAssignmentModal({ row, names}) {
                   required
                 >
                   {users?.map((con) => (
-                    <MenuItem value={con} onChange={formik.handleChange}>
+                    <MenuItem value={con} key={con} onChange={formik.handleChange}>
                       {con.email}
                     </MenuItem>
                   ))}
@@ -193,7 +193,7 @@ function UserAssignmentModal({ row, names}) {
                   required
                 >
                   {config?.map((con) => (
-                    <MenuItem value={con} onChange={formik.handleChange}>
+                    <MenuItem value={con} key={con} onChange={formik.handleChange}>
                       {con.name}
                     </MenuItem>
                   ))}
