@@ -49,6 +49,8 @@ function AddModal({ row, name }) {
   const [snackbar, setSnackbar] = useState(false);
   const [, dispatch] = useContext(Context);
   const { vertical, horizontal } = snackState;
+  const [images, setImages] = useState();
+  const [icons, setIcons] = useState();
 
   const handleOpen = () => {
     setOpen(true);
@@ -76,9 +78,15 @@ function AddModal({ row, name }) {
       exclude_from_tips: row?.exclude_from_tips || false,
     },
     onSubmit: (values) => {
-      const newpcf = { ...values, pcf_id: pcfId };
+      const newpcf = { ...values, pcf_id: pcfId, icon: icons, image: images};
+
+      let form_data = new FormData();
+      for (let key in newpcf) {
+        form_data.append(key, newpcf[key]);
+      }
+
       if (name === Constants.ADD) {
-        addProfileItems(newpcf)
+        addProfileItems(form_data)
           .then(() =>
             getProfileItems().then((res) =>
               dispatch({
@@ -95,7 +103,7 @@ function AddModal({ row, name }) {
         setSnackbar(true);
         setOpen(false);
       } else {
-        editProfileItems(row.id, newpcf)
+        editProfileItems(row.id, form_data)
           .then(() =>
             getProfileItems().then((res) =>
               dispatch({
@@ -129,6 +137,14 @@ function AddModal({ row, name }) {
   const handleSnackClose = () => {
     setsnackState({ ...snackState, open: false });
   };
+
+  const handleChangeimage = (event) => {
+    setImages(event.target.files[0]);
+  }
+
+  const handleChangeicon = (event) => {
+    setIcons(event.target.files[0]);
+  }
 
   return (
     <>
@@ -281,7 +297,7 @@ function AddModal({ row, name }) {
                       multiple
                       type="file"
                       name="icon"
-                      onChange={formik.handleChange}
+                      onChange={handleChangeicon}
                     />
                     <Button
                       variant="outlined"
@@ -303,7 +319,7 @@ function AddModal({ row, name }) {
                       multiple
                       type="file"
                       name="full_image"
-                      onChange={formik.handleChange}
+                      onChange={handleChangeimage}
                     />
                     <Button
                       variant="outlined"

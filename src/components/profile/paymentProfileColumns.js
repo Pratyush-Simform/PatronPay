@@ -4,14 +4,14 @@ export let cols = [
         numeric: false,
         disablePadding: false,
         label: "Profile Mode",
-        width: 300
+        width: 200
     },
     {
         id: "name",
         numeric: false,
         disablePadding: false,
         label: "Name",
-        width: 300
+        width: 200
     },
     {
         id: "customPayments",

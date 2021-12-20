@@ -11,7 +11,7 @@ export let cols = [
       numeric: false,
       disablePadding: false,
       label: "Settelement Status",
-      width: 200,
+      width: 300,
     },
     {
       id: "settled_on",
@@ -39,7 +39,7 @@ export let cols = [
       numeric: true,
       disablePadding: true,
       label: "Last 4",
-      width: 200,
+      width: 100,
     },
     {
       id: "amount",
@@ -109,7 +109,7 @@ export let cols = [
       numeric: false,
       disablePadding: false,
       label: "Transaction Items",
-      width: 200,
+      width: 300,
     },
     {
       id: "trs_id",
