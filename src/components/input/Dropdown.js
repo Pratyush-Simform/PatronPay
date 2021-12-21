@@ -231,7 +231,10 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
               </div>
             </MenuItem>
           ))}
-        </Select> 
+          {/* <div>
+            <Button onClick={handleOpen} color="primary">Save GridView</Button>
+          </div> */}
+        </Select>
       </FormControl>
       )}
       
@@ -239,7 +242,7 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
         <Button onClick={handleOpen} color="primary">Save GridView</Button>
       </ButtonGroup>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-mutiple-chip-label">Columns</InputLabel>
+        <InputLabel id="demo-mutiple-chip-label">Fields</InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"

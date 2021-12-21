@@ -17,7 +17,6 @@ import { Context } from "../../store/Context"
 import { useStyles } from "./styles";
 import { Constants } from "../DndTable/Constants";
 import EditIcon from "@material-ui/icons/Edit";
-import Divider from '@material-ui/core/Divider';
 import Stack from '@mui/material/Stack';
 import ReportProblemRounded from '@material-ui/icons/ReportProblemRounded';
 
@@ -217,8 +216,8 @@ function PaymentProfileModal({ row, names}) {
               </FormControl>
               </div>
             </div>
-            <div className="pRow">
-            <div className="pCol pCol--col12">
+            <div className="pRow pRow--align">
+            <div className="pCol pCol--col4 pCol--col-md-12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -228,8 +227,21 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.custom_payments}
                   />
                 }
-                label="Enable Other $ Amount"
+                label="Other Amounts"
               />
+              </div>
+              <div className="pCol pCol--col4 pCol--col-md-12">
+              <TextField
+                type="number"
+                id="outlined-basic"
+                label="Other Amount Tax"
+                variant="outlined"
+                name="custom_payment_tax"
+                onChange={formik.handleChange}
+                value={formik.values.custom_payment_tax}
+                />
+              </div>
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -239,23 +251,12 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.include_pricing_details}
                   />
                 }
-                label="Enable Price/Amount Details "
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={formik.handleChange}
-                    name="enable_tip"
-                    value={formik.values.enable_tip}
-                    checked={formik.values.enable_tip}
-                  />
-                }
-                label="Enable Tips"
-              />
-                </div>
+                label="Amount Details "
+              />         
+              </div>
             </div>
-            <div className="pRow">
-              <div className="pCol pCol--col6 pCol--col-md-12">
+            {/* <div className="pRow">
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <TextField
                 type="number"
                 id="outlined-basic"
@@ -266,8 +267,22 @@ function PaymentProfileModal({ row, names}) {
                 value={formik.values.custom_payment_tax}
                 />
               </div>
-            </div>
-            <div className="pRow">
+            </div> */}
+            <hr className="dashedline" />
+            <div className="pRow pRow--align">
+              <div className="pCol pCol--col4 pCol--col-md-12">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={formik.handleChange}
+                      name="enable_tip"
+                      value={formik.values.enable_tip}
+                      checked={formik.values.enable_tip}
+                    />
+                  }
+                  label="Enable Tips"
+                />
+              </div>
               <div className="pCol pCol--col4 pCol--col-md-12">
               <TextField
                 id="outlined-basic"
@@ -288,19 +303,19 @@ function PaymentProfileModal({ row, names}) {
                 value={tip2}
               />
               </div>
-              <div className="pCol pCol--col4 pCol--col-md-12">
-              <TextField
-                id="outlined-basic"
-                label="Tip Button #3 (%)"
-                variant="outlined"
-                type="number"
-                onChange={(e) => handleTipChange(e, "3")}
-                value={tip3}
-              />
-            </div>
             </div>
             <div className="pRow">
-            <div className="pCol pCol--col6 pCol--col-md-12">
+            <div className="pCol pCol--col4 pCol--col-md-12">
+              <TextField
+                  id="outlined-basic"
+                  label="Tip Button #3 (%)"
+                  variant="outlined"
+                  type="number"
+                  onChange={(e) => handleTipChange(e, "3")}
+                  value={tip3}
+                />
+            </div>
+            <div className="pCol pCol--col4 pCol--col-md-12">
               <FormControl>
                 <InputLabel id="demo-simple-select-helper-label">
                   Default Tip
@@ -322,7 +337,7 @@ function PaymentProfileModal({ row, names}) {
                 </Select>
               </FormControl>
               </div>
-              <div className="pCol pCol--col6 pCol--col-md-12">
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <TextField
                 id="outlined-basic"
                 label="Tip Tax"
@@ -334,37 +349,10 @@ function PaymentProfileModal({ row, names}) {
               />
             </div>
             </div>
+            <hr className="dashedline" />
             <div className="pRow">
-              <div className="pCol pCol--col6 pCol--col-md-12">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={formik.handleChange}
-                    name="prompt_for_receipt"
-                    value={formik.values.prompt_for_receipt}
-                    checked={formik.values.prompt_for_receipt}
-                  />
-                }
-                label="Prompt for receipt"
-              />
-              </div>
-              <div className="pCol pCol--col6 pCol--col-md-12">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={formik.handleChange}
-                    name="ask_customer_name"
-                    value={formik.values.ask_customer_name}
-                    checked={formik.values.ask_customer_name}
-                  />
-                }
-                label="Ask for customer name?"
-              />
-            </div>
-            </div>
-            <h3>CLUB MEMBER PAYMENTS</h3>
-            <div className="pRow">
-              <div className="pCol pCol--col12">
+              {/* <div className="pCol pCol--col12"> */}
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -374,8 +362,10 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.pay_by_account_number}
                   />
                 }
-                label="Pay by account number"
+                label="Member Payments"
               />
+              </div>
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -385,8 +375,10 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.require_first_name}
                   />
                 }
-                label="Require first name"
+                label="Require First Name"
               />
+              </div>
+              <div className="pCol pCol--col4 pCol--col-md-12">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -396,10 +388,43 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.require_last_name}
                   />
                 }
-                label="Require last name"
+                label="Require Last Name"
               />
               </div>
+              {/* </div> */}
             </div>
+            <hr className="dashedline" />
+            <div className="pRow">
+              <div className="pCol pCol--col4 pCol--col-md-12">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={formik.handleChange}
+                    name="prompt_for_receipt"
+                    value={formik.values.prompt_for_receipt}
+                    checked={formik.values.prompt_for_receipt}
+                  />
+                }
+                label="Text Receipts"
+              />
+              </div>
+              <div className="pCol pCol--col4 pCol--col-md-12">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={formik.handleChange}
+                    name="ask_customer_name"
+                    value={formik.values.ask_customer_name}
+                    checked={formik.values.ask_customer_name}
+                  />
+                }
+                label="Ask For Name"
+              />
+            </div>
+            <div className="pCol pCol--col4 pCol--col-md-12"></div>
+            </div>
+            <hr className="dashedline" />
+            {/* <h3>CLUB MEMBER PAYMENTS</h3> */}
             <div className="pRow">
               <div className="pCol pCol--col12">
               <FormControlLabel
@@ -465,7 +490,7 @@ function PaymentProfileModal({ row, names}) {
               </FormControl>
               </div>
             </div>
-            <Divider />
+            <hr className="dashedline" />
             <div>
               <Stack direction="row" justifyContent="space-evenly" alignItems="center">
                 <div>

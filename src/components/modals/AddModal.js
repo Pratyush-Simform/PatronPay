@@ -73,7 +73,7 @@ function AddModal({ row, name }) {
       price: row?.price || 0.0,
       tax: row?.tax || 0.0,
       other_amt: row?.other_amt || 0.0,
-      price_override_allowed: row?.price_override_allowed || true,
+      price_override_allowed: row?.price_override_allowed || false,
       is_deleted: row?.is_deleted || false,
       exclude_from_tips: row?.exclude_from_tips || false,
     },
