@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -10,8 +10,8 @@ import { useFormik } from "formik";
 import "../../App.css";
 import { useStyles } from "./styles";
 import TextField from "@material-ui/core/TextField";
-import { addUsers, editUsers, getUsers } from "../../services/userApi"
-import { Context } from "../../store/Context";
+import { addUsers, editUsers } from "../../services/userApi"
+// import { Context } from "../../store/Context";
 import {Constants} from "../DndTable/Constants"
 import Snackbar from '@material-ui/core/Snackbar';
 import { Button } from "@mui/material";
@@ -27,7 +27,7 @@ function EditUserModal({ row, name }) {
   const [snackMsg, setSnackMsg] = React.useState("")
   const { vertical, horizontal } = snackState;
   const [open, setOpen] = React.useState(false);
-  const [, dispatch] = useContext(Context)
+  // const [, dispatch] = useContext(Context)
   const [snackbar, setSnackbar] = React.useState(false)
 
   const handleOpen = () => {
@@ -48,23 +48,27 @@ function EditUserModal({ row, name }) {
       first_name: row?.first_name || "",
       last_name: row?.last_name || "",
       password: "",
-      // admin_user: row?.admin_user || "",
-      // is_active: row?.active || "",
-      can_use_portal: row?.can_use_portal || "",
-      can_use_terminal: row?.can_use_terminal || "",
-      manual_card_entry: row?.manual_card_entry || "",
+      is_superuser: row?.admin_user === "No" ? false : true || false,
+      is_active: row?.active === "No" ? false : true || false,
+      can_use_portal: row?.can_use_portal === "No" ? false : true || false,
+      can_use_terminal: row?.can_use_terminal === "No" ? false : true || false,
+      manual_card_entry: row?.manual_card_entry === "No" ? false : true || false,
     },
     onSubmit: (values) => {
      if(name === Constants.ADD) {
-         addUsers(values).then(() => getUsers()
-         .then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
+         addUsers(values).then(() => window.location.reload()
+        //  getUsers()
+        //  .then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results}))
+         )
          .catch(() => setSnackMsg("Cannot Create User"), setSnackbar(true))
          setSnackMsg("User Created Succesfully")
          setSnackbar(true)
          setOpen(false);
      }else {
          editUsers(row.id, values)
-         .then(() => getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
+         .then(() => window.location.reload()
+        //  getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results}))
+         )
          .catch(() => setSnackMsg("Cannot Edit User"), setSnackbar(true))
          setSnackMsg("User Edited Succesfully")
          setSnackbar(true)
@@ -168,9 +172,9 @@ function EditUserModal({ row, name }) {
                         control={
                           <Checkbox
                             onChange={formik.handleChange}
-                            name="admin_user"
-                            value={formik.values.admin_user}
-                            checked={formik.values.admin_user}
+                            name="is_superuser"
+                            value={formik.values.is_superuser}
+                            checked={formik.values.is_superuser}
                           />
                         }
                         label="Admin User"
