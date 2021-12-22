@@ -14,6 +14,20 @@ export let cols = [
       width: 300,
     },
     {
+      id: "is_superuser",
+      numeric: false,
+      disablePadding: false,
+      label: "Admin User",
+      width: 300,
+    },
+    {
+      id: "is_active",
+      numeric: false,
+      disablePadding: false,
+      label: "Active",
+      width: 300,
+    },
+    {
       id: "can_use_portal",
       numeric: false,
       disablePadding: false,
