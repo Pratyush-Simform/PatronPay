@@ -29,7 +29,8 @@ import IconExpandLess from '@material-ui/icons/ExpandLess'
 import IconExpandMore from '@material-ui/icons/ExpandMore'
 import Collapse from '@material-ui/core/Collapse'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-
+import SvgIcon from '@mui/material/SvgIcon';
+import AttachMoney from '@material-ui/icons/AttachMoney';
 
 export default function TemporaryDrawer() {
   const [state, dispatch] = useContext(Context);
@@ -207,6 +208,7 @@ export default function TemporaryDrawer() {
 
       <ListItem button onClick={handleClick} className={classes.listItem}>
         <ListItemIcon className={classes.listItemIcon}>
+          <AttachMoney />
         </ListItemIcon>
         <ListItemText primary="Transactions" />
         {opens ? <IconExpandLess style={{marginLeft: "100px", marginRight: "100%"}}/> : <IconExpandMore style={{marginLeft: "100px", marginRight: "100%"}}/>}
@@ -215,11 +217,11 @@ export default function TemporaryDrawer() {
       <Collapse in={opens} timeout="auto" unmountOnExit>
         <Divider />
         <List component="div" disablePadding style={{backgroundColor: "aliceblue"}}>
-          {/* <ListItem button className={classes.listItem} onClick={() => siderButton("/dashboard", anchor, false)}>
+          <ListItem button className={classes.listItem} onClick={() => siderButton("/dashboard", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
-          </ListItem> */}
+          </ListItem>
           <ListItem button className={classes.listItem} onClick={() => siderButton("/transaction", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
               <Creditcard />
@@ -234,13 +236,14 @@ export default function TemporaryDrawer() {
           </ListItem>
           <ListItem button className={classes.listItem} onClick={() => siderButton("/cashPayments", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
-              <Creditcard />
             </ListItemIcon>
             <ListItemText primary="Cash" />
           </ListItem>
           <ListItem button className={classes.listItem} onClick={() => siderButton("/memberPayments", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
-              <Creditcard />
+              <SvgIcon>
+                <path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"></path>
+              </SvgIcon>
             </ListItemIcon>
             <ListItemText primary="Member" />
           </ListItem>

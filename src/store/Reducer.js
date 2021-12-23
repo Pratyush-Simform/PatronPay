@@ -20,6 +20,7 @@ const initialState = {
   transactionsItems: [],
   userAssignment: [],
   myOrganizations: [],
+  dashboardData: [],
 };
 
 const reducer = (state, action) => {
@@ -160,6 +161,11 @@ const reducer = (state, action) => {
         ...state,
         myOrganizations: action.payload,
       };
+    case "DASHBOARD_DATA":
+      return {
+        ...state,
+        dashboardData: action.payload,
+      }
     default:
       return;
   }
