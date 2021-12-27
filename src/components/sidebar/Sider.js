@@ -29,8 +29,18 @@ import IconExpandLess from '@material-ui/icons/ExpandLess'
 import IconExpandMore from '@material-ui/icons/ExpandMore'
 import Collapse from '@material-ui/core/Collapse'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import SvgIcon from '@mui/material/SvgIcon';
-import AttachMoney from '@material-ui/icons/AttachMoney';
+// import SvgIcon from '@mui/material/SvgIcon';
+// import AttachMoney from '@material-ui/icons/AttachMoney';
+// import MoneyIcon from '@material-ui/icons/Money';
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import SyncAltIcon from '@material-ui/icons/SyncAlt';
+import GroupsIcon from '@material-ui/icons/Group';
+import LayersIcon from '@material-ui/icons/Layers';
+import CodeIcon from '@material-ui/icons/Code';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import BusinessIcon from '@material-ui/icons/Business';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 
 export default function TemporaryDrawer() {
   const [state, dispatch] = useContext(Context);
@@ -173,7 +183,7 @@ export default function TemporaryDrawer() {
 
         <ListItem button className={classes.listItem} onClick={() => siderButton("/myorganisation", anchor, false)}>
           <ListItemIcon className={classes.listItemIcon}>
-            <IconDashboard />
+            <BusinessIcon />
           </ListItemIcon>
           <ListItemText primary="My Organisation" />
         </ListItem>
@@ -187,28 +197,28 @@ export default function TemporaryDrawer() {
 
       <ListItem button className={classes.listItem} onClick={() => siderButton("/paymentProfile", anchor, false)}>
         <ListItemIcon className={classes.listItemIcon}>
-          <IconPeople />
+          <ReceiptIcon />
         </ListItemIcon>
         <ListItemText primary="Payment Profiles" />
       </ListItem>
 
       <ListItem button className={classes.listItem} onClick={() => siderButton("/userAssignment", anchor, false)}>
         <ListItemIcon className={classes.listItemIcon}>
-          <IconPeople />
+          <AssignmentIcon />
         </ListItemIcon>
         <ListItemText primary="User Assignment" />
       </ListItem>
 
       <ListItem button className={classes.listItem} onClick={() => siderButton("/debuglogs", anchor, false)}>
         <ListItemIcon className={classes.listItemIcon}>
-          <IconPeople />
+          <CodeIcon />
         </ListItemIcon>
         <ListItemText primary="Debug Logs" />
       </ListItem>
 
       <ListItem button onClick={handleClick} className={classes.listItem}>
         <ListItemIcon className={classes.listItemIcon}>
-          <AttachMoney />
+          <SyncAltIcon />
         </ListItemIcon>
         <ListItemText primary="Transactions" />
         {opens ? <IconExpandLess style={{marginLeft: "100px", marginRight: "100%"}}/> : <IconExpandMore style={{marginLeft: "100px", marginRight: "100%"}}/>}
@@ -219,12 +229,13 @@ export default function TemporaryDrawer() {
         <List component="div" disablePadding style={{backgroundColor: "aliceblue"}}>
           <ListItem button className={classes.listItem} onClick={() => siderButton("/dashboard", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
+              <IconDashboard />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
           <ListItem button className={classes.listItem} onClick={() => siderButton("/transaction", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
-              <Creditcard />
+              <DoneAllIcon />
             </ListItemIcon>
             <ListItemText primary="All Transactions" />
           </ListItem>
@@ -236,20 +247,23 @@ export default function TemporaryDrawer() {
           </ListItem>
           <ListItem button className={classes.listItem} onClick={() => siderButton("/cashPayments", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
+              {/* <MoneyIcon /> */}
+              <LocalAtmIcon />
             </ListItemIcon>
             <ListItemText primary="Cash" />
           </ListItem>
           <ListItem button className={classes.listItem} onClick={() => siderButton("/memberPayments", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
-              <SvgIcon>
+              {/* <SvgIcon>
                 <path d="M20 10V8h-4V4h-2v4h-4V4H8v4H4v2h4v4H4v2h4v4h2v-4h4v4h2v-4h4v-2h-4v-4h4zm-6 4h-4v-4h4v4z"></path>
-              </SvgIcon>
+              </SvgIcon> */}
+              <GroupsIcon />
             </ListItemIcon>
             <ListItemText primary="Member" />
           </ListItem>
           <ListItem button className={classes.listItem} onClick={() => siderButton("/transactionitems", anchor, false)}>
             <ListItemIcon className={classes.listItemIcon}>
-              <Creditcard />
+              <LayersIcon />
             </ListItemIcon>
             <ListItemText primary="Items" />
           </ListItem>
