@@ -57,7 +57,7 @@ const Dashboard = () => {
 
     return (
         <div className="transHead pMainContainer">
-            <Paper className="searchBox">
+            <Paper className="searchBox dashboard-page">
             <Toolbar className="pMainToolbar">
                 <Typography variant="subtitle1" id="tableTitle">
                     {"Dashboard"}
@@ -69,8 +69,9 @@ const Dashboard = () => {
                     setStartDate={setStartDate}
                 />
             </div>
-            <div className="pProfileStatus pRow">
-                <div className="pCol pCol--col4">
+            <div className="pSelectionPanel">
+                <div className="pRow">
+                <div className="pSelectionPanel__item">
                     <FormControl fullWidth>
                         <InputLabel variant="standard" htmlFor="uncontrolled-native">
                             Peoples
@@ -89,7 +90,7 @@ const Dashboard = () => {
                         </NativeSelect>
                     </FormControl>
                 </div>
-                <div className="pCol pCol--col4">
+                <div className="pSelectionPanel__item">
                     <FormControl fullWidth>
                         <InputLabel variant="standard" htmlFor="uncontrolled-native">
                             Profiles
@@ -108,7 +109,7 @@ const Dashboard = () => {
                         </NativeSelect>
                     </FormControl>
                 </div>
-                <div className="pCol pCol--col4">
+                <div className="pSelectionPanel__item">
                     <FormControl fullWidth>
                         <InputLabel variant="standard" htmlFor="uncontrolled-native">
                             Terminals
@@ -126,146 +127,151 @@ const Dashboard = () => {
                         </NativeSelect>
                     </FormControl>
                 </div>
+                </div>
             </div>
-            <hr className="dashedline" />
-            <div style={{margin: "20px 0px 0px 20px",fontWeight: "bold"}}>
+
+            <div className="pDashboardRow">
+            <div className="pDashboardRow__header">
             <Typography variant="title" id="tableTitle" color="secondary">
                 {"Totals"}
             </Typography>
             </div>
-            <div>
+            <div className="pDashboardRow__body">
                 <Stack
                     direction="row"
-                    justifyContent="space-around"
                     alignItems="baseline"
-                    className="pProfileStatus"
+                    className="pDashboardRow__stack"
                 >
                     {state.dashboardData?.totals !== undefined ? (
                         Object.entries(total_items).map((item) => (
-                         <div>
-                            <Stack direction="row" justifyContent="space-between" alignItems="baseline" className="pProfileStatus__item">
-                                <Typography variant="title" id="tableTitle">
+                         
+                            <Stack direction="row" alignItems="baseline" className="pDashboardRow__stackItem">
+                                <Typography variant="title" id="tableTitle" className="pDashboardRow__stackTitle">
                                     {item[0]}
                                 </Typography>
-                                <Chip label={`$ ${item[1]}`} variant="outlined" />
+                                <Chip label={`$ ${item[1]}`} variant="outlined" className="pDashboardRow__stackPrice" />
                             </Stack>
-                        </div>
+                        
                         ))
                     ) : null }
                 </Stack>
             </div>
-            <hr className="dashedline" />
-            <div style={{margin: "20px 0px 0px 20px",fontWeight: "bold"}}>
+            </div>
+
+            <div className="pDashboardRow">
+            <div className="pDashboardRow__header">
             <Typography variant="title" id="tableTitle" color="secondary">
                 {"Type"}
             </Typography>
             </div>
-            <div>
+            <div className="pDashboardRow__body">
                 <Stack
                     direction="row"
-                    justifyContent="space-between"
                     alignItems="center"
-                    className="pProfileStatus"
+                    className="pDashboardRow__stack"
                 >
                     {state.dashboardData?.type !== undefined ? (
                         Object.entries(type_items).map((item) => (
-                         <div style={{width: '100%'}}>
-                            <Stack direction="row" justifyContent="space-between" alignItems="baseline" className="pProfileStatus__item">
-                                <Typography variant="title" id="tableTitle">
+                         
+                            <Stack direction="row" alignItems="baseline" className="pDashboardRow__stackItem">
+                                <Typography variant="title" id="tableTitle" className="pDashboardRow__stackTitle">
                                     {item[0]}
                                 </Typography>
-                                <Chip label={`$ ${item[1]}`} variant="outlined" />
+                                <Chip label={`$ ${item[1]}`} variant="outlined" className="pDashboardRow__stackPrice" />
                             </Stack>
-                        </div>
+                        
                         ))
                     ) : null }
                 </Stack>
             </div>
-            <hr className="dashedline" />
-            <div style={{margin: "20px 0px 0px 20px",fontWeight: "bold"}}>
+            </div>
+            
+            <div className="pDashboardRow">
+            <div className="pDashboardRow__header">
             <Typography variant="title" id="tableTitle" color="secondary">
                 {"Other"}
             </Typography>
             </div>
-            <div>
+            <div className="pDashboardRow__body">
                 <Stack
                     direction="row"
-                    justifyContent="space-around"
                     alignItems="baseline"
-                    className="pProfileStatus"
+                    className="pDashboardRow__stack"
                 >
                     {state.dashboardData?.other !== undefined ? (
                         Object.entries(other_items).map((item) => (
-                         <div style={{width: '100%'}}>
-                            <Stack direction="row" justifyContent="space-between" alignItems="baseline" className="pProfileStatus__item">
-                                <Typography variant="title" id="tableTitle">
+                         
+                            <Stack direction="row" alignItems="baseline" className="pDashboardRow__stackItem">
+                                <Typography variant="title" id="tableTitle" className="pDashboardRow__stackTitle">
                                     {item[0]}
                                 </Typography>
-                                <Chip label={`$ ${item[1]}`} variant="outlined" />
+                                <Chip label={`$ ${item[1]}`} variant="outlined" className="pDashboardRow__stackPrice" />
                             </Stack>
-                        </div>
+                        
                         ))
                     ) : null }
                 </Stack>
             </div>
-            <hr className="dashedline" />
-
-            <div style={{margin: "20px 0px 0px 20px",fontWeight: "bold"}}>
+            </div>
+            
+            <div className="pDashboardRow">
+            <div className="pDashboardRow__header">
             <Typography variant="title" id="tableTitle" color="secondary">
                 {"Top Items"}
             </Typography>
             </div>
-            <div>
+            <div className="pDashboardRow__body">
                 <Stack
                     direction="row"
-                    justifyContent="space-around"
                     alignItems="baseline"
-                    className="pProfileStatus"
+                    className="pDashboardRow__stack"
                 >
                     {state.dashboardData?.top_items?.map((item) => (
-                        <div style={{width: '100%'}} >
-                            <Stack direction="row" justifyContent="space-between" alignItems="baseline" className="pProfileStatus__item">
-                                <Typography variant="title" id="tableTitle">
+                        
+                            <Stack direction="row" alignItems="baseline" className="pDashboardRow__stackItem">
+                                <Typography variant="title" id="tableTitle" className="pDashboardRow__stackTitle">
                                     {item[0]}
                                 </Typography>
                                 <div>
                                     <Chip label={item[1]} variant="outlined" />
-                                    <Chip label={`$ ${item[2]}`} variant="outlined" />
+                                    <Chip label={`$ ${item[2]}`} variant="outlined" className="pDashboardRow__stackPrice" />
                                 </div>
                             </Stack>
-                        </div>
+                        
                     ))}
                 </Stack>
             </div>
-
-            <hr className="dashedline" />
-            <div style={{margin: "20px 0px 0px 20px",fontWeight: "bold"}}>
+            </div>
+            
+            <div className="pDashboardRow">
+            <div className="pDashboardRow__header">
             <Typography variant="title" id="tableTitle" color="secondary">
                 {"Bottom Items"}
             </Typography>
             </div>
-            <div>
+            <div className="pDashboardRow__body">
                 <Stack
                     direction="row"
-                    justifyContent="space-between"
                     alignItems="baseline"
-                    className="pProfileStatus"
+                    className="pDashboardRow__stack"
                 >
                     {state.dashboardData?.bottom_items?.map((item) => (
-                        <div style={{width: '100%'}} >
-                            <Stack direction="row" justifyContent="space-between" alignItems="baseline" className="pProfileStatus__item">
-                                <Typography variant="title" id="tableTitle">
+                        
+                            <Stack direction="row" alignItems="baseline" className="pDashboardRow__stackItem">
+                                <Typography variant="title" id="tableTitle" className="pDashboardRow__stackTitle">
                                     {item[0]}
                                 </Typography>
                                 <div>
                                     <Chip label={item[1]} variant="outlined" />
-                                    <Chip label={`$ ${item[2]}`} variant="outlined" />
+                                    <Chip label={`$ ${item[2]}`} variant="outlined" className="pDashboardRow__stackPrice" />
                                 </div>
                             </Stack>
-                        </div>
+                        
                     ))}
                 </Stack>
             </div>
+            </div>
+           
             </Paper>
         </div>
     );
