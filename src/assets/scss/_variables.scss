@@ -1,8 +1,15 @@
+$desktop-xl: 1599.98px;
 $desktop-lg: 1399.98px;
 $desktop: 1199.98px;
 $tablet: 991.98px;
 $phone-landscape: 767.98px;
 $phone: 575.98px;
+
+@mixin desktop-xl {
+    @media (max-width: $desktop-xl) {
+        @content;
+    }
+}
 
 @mixin desktop-lg {
     @media (max-width: $desktop-lg) {

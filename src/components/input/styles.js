@@ -27,5 +27,10 @@ export const useStyles = makeStyles((theme) => ({
           width: '95%',
         },
       },
+      modal: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
   }));
   

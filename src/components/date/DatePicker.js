@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "date-fns";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
@@ -8,18 +8,9 @@ import {
 } from "@material-ui/pickers";
 import { Button } from "@material-ui/core";
 
-function DatePicker({ setEndDate, setStartDate }) {
+function DatePicker({ setDateSelect, setButtonFilter }) {
   const [selectedStartDate, setSelecteStartDate] = useState(new Date());
   const [selectedEndDate, setSelecteEndDate] = useState(new Date());
-  const [newDate, setNewDate] = useState(0);
-  const [newEndDate, setNewEndDate] = useState(0);
-  const [clicked, setClicked] = useState({
-    btn1: false,
-    btn2: false,
-    btn3: false,
-    btn4: false,
-    btn5: false,
-  });
 
   const handleStartDateChange = (date) => {
     setSelecteStartDate(date);
@@ -29,46 +20,37 @@ function DatePicker({ setEndDate, setStartDate }) {
     setSelecteEndDate(date);
   };
 
-  useEffect(() => {
-    setEndDate(selectedEndDate);
-  }, [selectedEndDate, setEndDate]);
-
-  useEffect(() => {
-    setStartDate(selectedStartDate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedStartDate]);
-
-  // const handleAddDate = () => {
-  //   setNewDate(newDate + 1)
-  // }
-
-  // const handleAddEndDate = () => {
-  //   setNewEndDate(newEndDate + 1)
-  // }
-
-  const handleSubtractDate = () => {
-    setNewDate(newDate - 1);
+  // Yesterday, Today and WTD
+  const handleDayschange = (d) => {
+    setSelecteEndDate(new Date())
+    let startDate = new Date();
+    startDate.setDate(startDate.getDate() - d);
+    setSelecteStartDate(startDate)
+    setButtonFilter(startDate, new Date());
   }
 
-  // const handleSubEndDate = () => {
-  //   setNewEndDate(newEndDate - 1);
-  // }
+  // MTD
+  const handleMTD = () => {
+    setSelecteEndDate(new Date())
+    let startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 1);
+    setSelecteStartDate(startDate)
+    setButtonFilter(startDate, new Date());
+  }
 
-  useEffect(() => {
-    selectedStartDate.setDate(selectedStartDate.getDate() + newDate);
-    setSelecteStartDate(selectedStartDate);
-    setNewDate(0);
-    setStartDate(selectedStartDate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newDate]);
+  //YTD
+  const handleYTD = () => {
+    setSelecteEndDate(new Date())
+    let startDate = new Date();
+    startDate.setFullYear(startDate.getFullYear() - 1);
+    setSelecteStartDate(startDate)
+    setButtonFilter(startDate, new Date());
+  }
 
-  useEffect(() => {
-    selectedEndDate.setDate(selectedEndDate.getDate() + newEndDate);
-    setSelecteEndDate(selectedEndDate);
-    setNewEndDate(0);
-    setEndDate(selectedEndDate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newEndDate]);
+  // Datepicker
+  const handleDateSubmit = () => {
+    setDateSelect(selectedStartDate,selectedEndDate);
+  }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -78,12 +60,8 @@ function DatePicker({ setEndDate, setStartDate }) {
             variant="text"
             size="medium"
             className="pFontW600"
-            color={clicked.btn1 ? "secondary" : "info"}
-            onClick={(prev) => (
-              // eslint-disable-next-line
-              setClicked({ ...prev, btn1: !clicked.btn1, btn2: false }),
-              handleSubtractDate()
-            )}
+            // color={clicked.btn1 ? "secondary" : "info"}
+            onClick={() => handleDayschange(1)}
           >
             Yesterday
           </Button>
@@ -91,8 +69,8 @@ function DatePicker({ setEndDate, setStartDate }) {
             variant="text"
             size="medium"
             className="pFontW600"
-            color={clicked.btn2 ? "info" : "secondary"}
-            onClick={(prev) => setClicked({ ...prev, btn2: !clicked.btn2 })}
+            // color={clicked.btn2 ? "info" : "secondary"}
+            onClick={() => handleDayschange(0)}
           >
             Today
           </Button>
@@ -100,8 +78,8 @@ function DatePicker({ setEndDate, setStartDate }) {
             variant="text"
             size="medium"
             className="pFontW600"
-            color={clicked.btn3 ? "secondary" : "info"}
-            onClick={(prev) => setClicked({ ...prev, btn3: !clicked.btn3, btn2: false })}
+            // color={clicked.btn3 ? "secondary" : "info"}
+            onClick={() => handleDayschange(7)}
           >
             WTD
           </Button>
@@ -109,8 +87,8 @@ function DatePicker({ setEndDate, setStartDate }) {
             variant="text"
             size="medium"
             className="pFontW600"
-            color={clicked.btn4 ? "secondary" : "info"}
-            onClick={(prev) => setClicked({ ...prev, btn4: !clicked.btn4, btn2: false })}
+            // color={clicked.btn4 ? "secondary" : "info"}
+            onClick={() => handleMTD()}
           >
             MTD
           </Button>
@@ -118,12 +96,11 @@ function DatePicker({ setEndDate, setStartDate }) {
             variant="text"
             size="medium"
             className="pFontW600"
-            color={clicked.btn5 ? "secondary" : "info"}
-            onClick={(prev) => setClicked({ ...prev, btn5: !clicked.btn5, btn2: false })}
+            // color={clicked.btn5 ? "secondary" : "info"}
+            onClick={() => handleYTD()}
           >
             YTD
           </Button>
-          {/* <Button variant="contained" size="large" color="primary"  onClick={handleSubtractDate}>-1 day</Button> */}
           <KeyboardDatePicker
             disableToolbar
             variant="inline"
@@ -137,9 +114,6 @@ function DatePicker({ setEndDate, setStartDate }) {
               "aria-label": "change date",
             }}
           />
-          {/* <Button variant="contained" size="large" color="primary"  onClick={handleAddDate}>+1 day</Button> */}
-
-          {/* <Button variant="contained" size="large" color="primary" onClick={handleSubEndDate}>-1 day</Button> */}
           <KeyboardDatePicker
             disableToolbar
             variant="inline"
@@ -153,7 +127,7 @@ function DatePicker({ setEndDate, setStartDate }) {
               "aria-label": "change date",
             }}
           />
-          {/* <Button variant="contained" size="large" color="primary" onClick={handleAddEndDate}>+1 day</Button> */}
+          <Button variant="contained" size="medium" color="primary" onClick={handleDateSubmit}>Submit</Button>
         </div>
       </Grid>
     </MuiPickersUtilsProvider>

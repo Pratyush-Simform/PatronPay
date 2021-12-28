@@ -579,44 +579,59 @@ class EnhancedTable extends React.Component {
     doc.save("report.pdf");
   };
 
-  setStartDate = (date) => {
-    // let createdDate = this.props.data.map((i) => {
-    //   return {
-    //     date: new Date(i.date_created).getDate(),
-    //     id: i.id,
-    //     url: i.payment_url,
-    //     type: i.trs_type,
-    //   };
-    // });
+  handleSelectDateFilter = (startDate,endDate) => {
+    const sDate = startDate.getFullYear()+"-"+(startDate.getMonth()+1)+"-"+startDate.getDate();
+    const eDate = endDate.getFullYear()+"-"+(endDate.getMonth()+1)+"-"+endDate.getDate();
 
     let filteredDates = this.props.data.filter((fd) => {
-      // return fd.date_created < date.getDate();
-      return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
-    });
-    this.setState({
-      renderer: filteredDates,
-      startDateData: filteredDates,
-    });
-  };
+      let fddate = new Date(fd.date_created)
+      let fdDate_created = (fddate).getFullYear()+"-"+((fddate).getMonth()+1)+"-"+(fddate).getDate();
 
-  setEndDate = (date) => {
-    // let endDate = this.props.data.map((j) => {
-    //   return {
-    //     date: new Date(j.date_modified).getDate(),
-    //     id: j.id,
-    //     url: j.payment_url,
-    //     type: j.trs_type,
-    //   };
-    // });
-
-    let filteredDates = this.state.startDateData.filter((fd) => {
-      // return fd.date_modified > date.getDate();
-      return new Date(fd.date_modified).toISOString() < new Date(date).toISOString();
+      return (fdDate_created >= sDate && fdDate_created <= eDate);
     });
     this.setState({
       renderer: filteredDates,
     });
-  };
+  }
+
+  // setStartDate = (date) => {
+  //   // let createdDate = this.props.data.map((i) => {
+  //   //   return {
+  //   //     date: new Date(i.date_created).getDate(),
+  //   //     id: i.id,
+  //   //     url: i.payment_url,
+  //   //     type: i.trs_type,
+  //   //   };
+  //   // });
+
+  //   let filteredDates = this.props.data.filter((fd) => {
+  //     // return fd.date_created < date.getDate();
+  //     return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
+  //   });
+  //   this.setState({
+  //     renderer: filteredDates,
+  //     startDateData: filteredDates,
+  //   });
+  // };
+
+  // setEndDate = (date) => {
+  //   // let endDate = this.props.data.map((j) => {
+  //   //   return {
+  //   //     date: new Date(j.date_modified).getDate(),
+  //   //     id: j.id,
+  //   //     url: j.payment_url,
+  //   //     type: j.trs_type,
+  //   //   };
+  //   // });
+
+  //   let filteredDates = this.state.startDateData.filter((fd) => {
+  //     // return fd.date_modified > date.getDate();
+  //     return new Date(fd.date_modified).toISOString() < new Date(date).toISOString();
+  //   });
+  //   this.setState({
+  //     renderer: filteredDates,
+  //   });
+  // };
 
   selectedData = (data) => {
     const filLogs = [];
@@ -642,137 +657,137 @@ class EnhancedTable extends React.Component {
     }
   };
 
-  setMemEndDate = (date) => {
-    // const endDate = this.props.data.map((sd) => {
-    //   return {
-    //     date: new Date(sd.date_created).getDate(),
-    //     amount: sd.amount,
-    //     card_number: sd.card_number,
-    //     first_name: sd.first_name,
-    //     last_name: sd.last_name,
-    //     tip: sd.tip,
-    //     tip_tax: sd.tip_tax,
-    //     txn_type: sd.txn_type,
-    //   };
-    // });
-    let filteredDates = this.state.startDateData.filter((fd) => {
-      // return fd.date_created > date.getDate();
-      return new Date(fd.date_created).toISOString() < new Date(date).toISOString();
-    });
-    this.setState({
-      renderer: filteredDates,
-    });
-  };
+  // setMemEndDate = (date) => {
+  //   // const endDate = this.props.data.map((sd) => {
+  //   //   return {
+  //   //     date: new Date(sd.date_created).getDate(),
+  //   //     amount: sd.amount,
+  //   //     card_number: sd.card_number,
+  //   //     first_name: sd.first_name,
+  //   //     last_name: sd.last_name,
+  //   //     tip: sd.tip,
+  //   //     tip_tax: sd.tip_tax,
+  //   //     txn_type: sd.txn_type,
+  //   //   };
+  //   // });
+  //   let filteredDates = this.state.startDateData.filter((fd) => {
+  //     // return fd.date_created > date.getDate();
+  //     return new Date(fd.date_created).toISOString() < new Date(date).toISOString();
+  //   });
+  //   this.setState({
+  //     renderer: filteredDates,
+  //   });
+  // };
 
-  setMemStartDate = (date) => {
-    // const startDate = this.props.data.map((sd) => {
-    //   return {
-    //     date: new Date(sd.date_modified).getDate(),
-    //     amount: sd.amount,
-    //     card_number: sd.card_number,
-    //     first_name: sd.first_name,
-    //     last_name: sd.last_name,
-    //     tip: sd.tip,
-    //     tip_tax: sd.tip_tax,
-    //     txn_type: sd.txn_type,
-    //   };
-    // });
-    let filteredDates = this.props.data.filter((fd) => {
-      // return fd.date_modified > date.getDate();
-      return new Date(fd.date_modified).toISOString() > new Date(date).toISOString();
-    });
-    this.setState({
-      renderer: filteredDates,
-      startDateData: filteredDates,
-    });
-  };
+  // setMemStartDate = (date) => {
+  //   // const startDate = this.props.data.map((sd) => {
+  //   //   return {
+  //   //     date: new Date(sd.date_modified).getDate(),
+  //   //     amount: sd.amount,
+  //   //     card_number: sd.card_number,
+  //   //     first_name: sd.first_name,
+  //   //     last_name: sd.last_name,
+  //   //     tip: sd.tip,
+  //   //     tip_tax: sd.tip_tax,
+  //   //     txn_type: sd.txn_type,
+  //   //   };
+  //   // });
+  //   let filteredDates = this.props.data.filter((fd) => {
+  //     // return fd.date_modified > date.getDate();
+  //     return new Date(fd.date_modified).toISOString() > new Date(date).toISOString();
+  //   });
+  //   this.setState({
+  //     renderer: filteredDates,
+  //     startDateData: filteredDates,
+  //   });
+  // };
 
-  setCashlessStartDate = (date) => {
-    // const startDate = this.props.data.map((sd) => {
-    //   return {
-    //     date: new Date(sd.date_modified).getDate(),
-    //     amount_auth: sd.amount_auth,
-    //     card_type: sd.card_type,
-    //     cc_last4: sd.cc_last4,
-    //     currency: sd.currency,
-    //     tip: sd.tip,
-    //     tip_tax: sd.tip_tax,
-    //     txn_type: sd.txn_type,
-    //   };
-    // });
-    let filteredDates = this.props.data.filter((fd) => {
-      // return fd.date_modified > date.getDate();
-      return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
-    });
-    this.setState({
-      renderer: filteredDates,
-      startDateData: filteredDates,
-    });
-  };
+  // setCashlessStartDate = (date) => {
+  //   // const startDate = this.props.data.map((sd) => {
+  //   //   return {
+  //   //     date: new Date(sd.date_modified).getDate(),
+  //   //     amount_auth: sd.amount_auth,
+  //   //     card_type: sd.card_type,
+  //   //     cc_last4: sd.cc_last4,
+  //   //     currency: sd.currency,
+  //   //     tip: sd.tip,
+  //   //     tip_tax: sd.tip_tax,
+  //   //     txn_type: sd.txn_type,
+  //   //   };
+  //   // });
+  //   let filteredDates = this.props.data.filter((fd) => {
+  //     // return fd.date_modified > date.getDate();
+  //     return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
+  //   });
+  //   this.setState({
+  //     renderer: filteredDates,
+  //     startDateData: filteredDates,
+  //   });
+  // };
 
-  setCashlessEndDate = (date) => {
-    // const startDate = this.props.data.map((sd) => {
-    //   return {
-    //     date: new Date(sd.date_created).getDate(),
-    //     amount_auth: sd.amount_auth,
-    //     card_type: sd.card_type,
-    //     cc_last4: sd.cc_last4,
-    //     currency: sd.currency,
-    //     tip: sd.tip,
-    //     tip_tax: sd.tip_tax,
-    //     txn_type: sd.txn_type,
-    //   };
-    // });
-    let filteredDates = this.state.startDateData.filter((fd) => {
-      // return fd.date_created > date.getDate();
-      return new Date(fd.date_created).toISOString() < new Date(date).toISOString();
-    });
-    this.setState({
-      renderer: filteredDates,
-    });
-  };
+  // setCashlessEndDate = (date) => {
+  //   // const startDate = this.props.data.map((sd) => {
+  //   //   return {
+  //   //     date: new Date(sd.date_created).getDate(),
+  //   //     amount_auth: sd.amount_auth,
+  //   //     card_type: sd.card_type,
+  //   //     cc_last4: sd.cc_last4,
+  //   //     currency: sd.currency,
+  //   //     tip: sd.tip,
+  //   //     tip_tax: sd.tip_tax,
+  //   //     txn_type: sd.txn_type,
+  //   //   };
+  //   // });
+  //   let filteredDates = this.state.startDateData.filter((fd) => {
+  //     // return fd.date_created > date.getDate();
+  //     return new Date(fd.date_created).toISOString() < new Date(date).toISOString();
+  //   });
+  //   this.setState({
+  //     renderer: filteredDates,
+  //   });
+  // };
 
-  setCashStartDate = (date) => {
-    // const startDate = this.props.data.map((sd) => {
-    //   return {
-    //     date: new Date(sd.date_created).getDate(),
-    //     amount: sd.amount,
-    //     currency: sd.currency,
-    //     tip: sd.tip,
-    //     tip_tax: sd.tip_tax,
-    //     txn_type: sd.txn_type,
-    //   };
-    // });
-    let filteredDates = this.props.data.filter((fd) => {
-      // return fd.date_created > date.getDate();
-      return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
-    });
-    this.setState({
-      renderer: filteredDates,
-      startDateData: filteredDates,
-    });
-  };
+  // setCashStartDate = (date) => {
+  //   // const startDate = this.props.data.map((sd) => {
+  //   //   return {
+  //   //     date: new Date(sd.date_created).getDate(),
+  //   //     amount: sd.amount,
+  //   //     currency: sd.currency,
+  //   //     tip: sd.tip,
+  //   //     tip_tax: sd.tip_tax,
+  //   //     txn_type: sd.txn_type,
+  //   //   };
+  //   // });
+  //   let filteredDates = this.props.data.filter((fd) => {
+  //     // return fd.date_created > date.getDate();
+  //     return new Date(fd.date_created).toISOString() > new Date(date).toISOString();
+  //   });
+  //   this.setState({
+  //     renderer: filteredDates,
+  //     startDateData: filteredDates,
+  //   });
+  // };
 
-  setCashEndDate = (date) => {
-    // const startDate = this.props.data.map((sd) => {
-    //   return {
-    //     date: new Date(sd.date_modified).getDate(),
-    //     amount: sd.amount,
-    //     currency: sd.currency,
-    //     tip: sd.tip,
-    //     tip_tax: sd.tip_tax,
-    //     txn_type: sd.txn_type,
-    //   };
-    // });
-    let filteredDates = this.state.startDateData.filter((fd) => {
-      // return fd.date_modified > date.getDate();
-      return new Date(fd.date_modified).toISOString() < new Date(date).toISOString();
+  // setCashEndDate = (date) => {
+  //   // const startDate = this.props.data.map((sd) => {
+  //   //   return {
+  //   //     date: new Date(sd.date_modified).getDate(),
+  //   //     amount: sd.amount,
+  //   //     currency: sd.currency,
+  //   //     tip: sd.tip,
+  //   //     tip_tax: sd.tip_tax,
+  //   //     txn_type: sd.txn_type,
+  //   //   };
+  //   // });
+  //   let filteredDates = this.state.startDateData.filter((fd) => {
+  //     // return fd.date_modified > date.getDate();
+  //     return new Date(fd.date_modified).toISOString() < new Date(date).toISOString();
 
-    });
-    this.setState({
-      renderer: filteredDates,
-    });
-  };
+  //   });
+  //   this.setState({
+  //     renderer: filteredDates,
+  //   });
+  // };
 
   handleDelete = (row) => {
     deleteUsers(row.id).then(() =>
@@ -1250,7 +1265,7 @@ class EnhancedTable extends React.Component {
         </div>
         </EnhancedTableToolbar>
         <div className="pFilterPanel">
-        {name === "Transaction" ? (
+        {/* {name === "Transaction" ? (
           <DatePicker
             setEndDate={this.setEndDate}
             setStartDate={this.setStartDate}
@@ -1270,7 +1285,17 @@ class EnhancedTable extends React.Component {
             setEndDate={this.setCashEndDate}
             setStartDate={this.setCashStartDate}
           />
-        ) : null}
+        ) : null} */}
+        { (name === "Transaction" ||
+            name === "Membership Payments" ||
+            name === "Cashless Payments" ||
+            name === "Cash Payments" ||
+            name === "Transaction Items") 
+        ? <DatePicker
+            setDateSelect={this.handleSelectDateFilter}
+            setButtonFilter={this.handleSelectDateFilter}
+          />
+        : null }
           <div className="drpDwn drpDwn-responsive">
             <Dropdown
               data={this.props.columnData}
