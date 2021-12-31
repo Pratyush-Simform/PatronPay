@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -23,59 +23,65 @@ let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData } =
     props;
   const [search, setSearch] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
+  // const [searchInput, setSearchInput] = useState("");
 
   const handleSearch = (e) => {
-    setSearchInput(e.target.value);
+    if(e.target.value) {
+      const filteredData = items.filter((item) => {
+        return Object.values(item).join('').toLowerCase().includes(e.target.value.toLowerCase())
+    })
+    searchedData(filteredData);
+  }
+    // setSearchInput(e.target.value);
   };
-  let itemCopy = items;
-  useEffect(() => {
-    var input = document.getElementById("myInput");
-    if (input) {
-      input.onkeydown = function (event) {
-        if (!(event.key === "Backspace")) {
-          if (props.title === "Profile Items") {
-            // let fildata = itemCopy.filter((item) => {
-            //   const temp = Object.values(item)
-            //   let temp1
-            //   for(let i = 0; i < temp.length; i++) {
-            //     if(typeof(temp[i]) != "object" && temp[i].toString().includes(searchInput)){
-            //       temp1 = item;
-            //       break
-            //     }
-            //   }
-            //   return temp1
-            // })
-            let filData = itemCopy.filter((j) =>
-              j.description.includes(searchInput)
-            );
-            searchedData(filData);
-          } else if (props.title === "Transaction") {
-            let filData = itemCopy.filter((i) =>
-              i.trs_type.includes(searchInput)
-            );
-            searchedData(filData);
-          } else if (props.title === "Payment Profiles") {
-            let filData = itemCopy.filter((k) => k.name.includes(searchInput));
-            searchedData(filData);
-          } else if (props.title === "Membership Payments") {
-            let filData = itemCopy.filter((k) =>
-              k.first_name.includes(searchInput)
-            );
-            searchedData(filData);
-          } else if (props.title === "Users") {
-            let filData = itemCopy.filter((k) =>
-              k.first_name.includes(searchInput)
-            );
-            searchedData(filData);
-          }
-        } else {
-          searchedData([]);
-        }
-      };
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[searchInput]);
+  // let itemCopy = items;
+  // useEffect(() => {
+  //   var input = document.getElementById("myInput");
+  //   if (input) {
+  //     input.onkeydown = function (event) {
+  //       if (!(event.key === "Backspace")) {
+  //         if (props.title === "Profile Items") {
+  //           // let fildata = itemCopy.filter((item) => {
+  //           //   const temp = Object.values(item)
+  //           //   let temp1
+  //           //   for(let i = 0; i < temp.length; i++) {
+  //           //     if(typeof(temp[i]) != "object" && temp[i].toString().includes(searchInput)){
+  //           //       temp1 = item;
+  //           //       break
+  //           //     }
+  //           //   }
+  //           //   return temp1
+  //           // })
+  //           let filData = itemCopy.filter((j) =>
+  //             j.description.includes(searchInput)
+  //           );
+  //           searchedData(filData);
+  //         } else if (props.title === "Transaction") {
+  //           let filData = itemCopy.filter((i) =>
+  //             i.trs_type.includes(searchInput)
+  //           );
+  //           searchedData(filData);
+  //         } else if (props.title === "Payment Profiles") {
+  //           let filData = itemCopy.filter((k) => k.name.includes(searchInput));
+  //           searchedData(filData);
+  //         } else if (props.title === "Membership Payments") {
+  //           let filData = itemCopy.filter((k) =>
+  //             k.first_name.includes(searchInput)
+  //           );
+  //           searchedData(filData);
+  //         } else if (props.title === "Users") {
+  //           let filData = itemCopy.filter((k) =>
+  //             k.first_name.includes(searchInput)
+  //           );
+  //           searchedData(filData);
+  //         }
+  //       } else {
+  //         searchedData([]);
+  //       }
+  //     };
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[searchInput]);
 
   return (
     <Toolbar

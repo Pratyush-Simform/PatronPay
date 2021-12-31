@@ -67,6 +67,6 @@ export let cols = [
     numeric: false,
     disablePadding: true,
     label: "Payment Profile",
-    width: 300,
+    width: 200,
   },
 ];
