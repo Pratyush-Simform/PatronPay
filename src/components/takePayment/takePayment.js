@@ -34,7 +34,7 @@ const TakePayment = () => {
       setInterval(() => {
         // console.log('Interval triggered',document.getElementById('myFrame'));
         if((document.getElementById('myFrame')?.contentWindow.length === 0) && payment) {
-            var iframes = document.getElementsById("myFrame").contentWindow.document;
+            var iframes = document.getElementById("myFrame").contentWindow.document;
             //     for (var i = 0; i < iframes.length; i++) {
             //         iframes[i].parentNode.removeChild(iframes[i]);
             //     }
