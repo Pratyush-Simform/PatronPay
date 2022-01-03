@@ -88,6 +88,12 @@ export const routes = {
     component: lazy(() => import("../../components/Transaction/Dashboard")),
     type: PrivateRoute,
   },
+  takePayment: {
+    name: "TakePayment",
+    path: "/takepayment",
+    component: lazy(() => import("../../components/takePayment/takePayment")),
+    type: PrivateRoute,
+  },
   emptyRoute: {
     name: "DefautlRoute",
     path: "/",
