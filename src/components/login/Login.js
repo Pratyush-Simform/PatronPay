@@ -35,22 +35,22 @@ function Login() {
     if (loginInterface && password.length > 0) {
       login(email, password)
         .then(() => {
-          history.push("/orders");
-          setSnackMsg("Logged in");
-          setSnackbar(true);
+          history.push("/dashboard");
+          // setSnackMsg("Logged in");
+          // setSnackbar(true);
           privateLogin()
         })
-        .catch(() => setSnackMsg("Login Failed"), setSnackbar(true));
+        .catch(() => {setSnackMsg("Login Failed"); setSnackbar(true);});
       }
       if (email.length > 0 && !forgotPassword && password.length === 0) {
         subdomainUrl(email)
         .then((res) => {
           setDomain(res.data.data.domain);
           localStorage.setItem("subDomain", res.data.data.domain)
-          setSnackMsg("Subdomain Logged in");
-          setSnackbar(true);
+          // setSnackMsg("Subdomain Logged in");
+          // setSnackbar(true);
         })
-        .catch(() => setSnackMsg("Incorrect email"), setSnackbar(true));
+        .catch(() => {setSnackMsg("Incorrect email"); setSnackbar(true);});
     }
     if (email.length > 0 && forgotPassword) {
       passwordReset(email)
@@ -58,7 +58,7 @@ function Login() {
           setSnackMsg(`Mail sent to ${email}`);
           setSnackbar(true);
         })
-        .catch(() => setSnackMsg("Incorrect email"), setSnackbar(true));
+        .catch(() => {setSnackMsg("Incorrect email"); setSnackbar(true);});
     }
   };
 
