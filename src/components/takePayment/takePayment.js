@@ -31,24 +31,24 @@ const TakePayment = () => {
           }
       });
 
-      setInterval(() => {
-        // console.log('Interval triggered',document.getElementById('myFrame'));
-        if((document.getElementById('myFrame')?.contentWindow.length === 0) && payment) {
-            var iframes = document.getElementsById("myFrame").contentWindow.document;
-            //     for (var i = 0; i < iframes.length; i++) {
-            //         iframes[i].parentNode.removeChild(iframes[i]);
-            //     }
-            // if(iframes[0]){
+    //   setInterval(() => {
+    //     // console.log('Interval triggered',document.getElementById('myFrame'));
+    //     if((document.getElementById('myFrame')?.contentWindow.length === 0) && payment) {
+    //         var iframes = document.getElementsById("myFrame").contentWindow.document;
+    //         //     for (var i = 0; i < iframes.length; i++) {
+    //         //         iframes[i].parentNode.removeChild(iframes[i]);
+    //         //     }
+    //         // if(iframes[0]){
             
-            console.log("iframe",iframes);
-                // iframes?.parentNode.removeChild(iframes);
-            // }
+    //         console.log("iframe",iframes);
+    //             // iframes?.parentNode.removeChild(iframes);
+    //         // }
             
-        }
-        // const data = document.getElementById('myFrame')?.contentWindow
-        // console.log("data",data?.location?.href);
-      }, 5000);
-   
+    //     }
+    //     // const data = document.getElementById('myFrame')?.contentWindow
+    //     // console.log("data",data?.location?.href);
+    //   }, 5000);
+     
     return (
         <div className="transHead pMainContainer">
             <Paper className="searchBox dashboard-page">
