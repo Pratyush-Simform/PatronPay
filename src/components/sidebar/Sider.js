@@ -112,6 +112,7 @@ export default function TemporaryDrawer() {
       setSnackMsg(`Cannot redirect to ${text}`);
     } else if (text === "Log Out") {
         localStorage.setItem("token", "");
+        localStorage.setItem("refresh", "")
         privateLogout();
         localStorage.removeItem("subDomain");
         history.push("/");

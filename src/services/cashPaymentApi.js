@@ -1,37 +1,16 @@
-import Axios from "axios"
+import api from "./api";
 
 export const getCashPayments = async () => {
-   let subDom = localStorage.getItem("subDomain");
-    const api = `https://${subDom}/api/cash-payment/`;
-    const token = localStorage.getItem("token");
-    const response = await Axios.get(api, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response
-}
+  const response = await api.get("/cash-payment/");
+  return response;
+};
 
 export const editCashPayments = async (id, payload) => {
-    let subDom = localStorage.getItem("subDomain");
-      const api = `https://${subDom}/api/cash-payment/${id}/`;
-      const token = localStorage.getItem("token");
-      const response = await Axios.put(api, payload, {
-          headers: {
-          Authorization: `Bearer ${token}`,
-          },
-      });
-      return response
-  }
-  
-  export const deleteCashPayments = async (id) => {
-    let subDom = localStorage.getItem("subDomain");
-      const api = `https://${subDom}/api/cash-payment/${id}/`;
-      const token = localStorage.getItem("token");
-      const response = await Axios.delete(api, {
-          headers: {
-          Authorization: `Bearer ${token}`,
-          },
-      });
-      return response
-  }
+  const response = await api.put(`/cash-payment/${id}/`, payload);
+  return response;
+};
+
+export const deleteCashPayments = async (id) => {
+  const response = await api.delete(`/cash-payment/${id}/`);
+  return response;
+};

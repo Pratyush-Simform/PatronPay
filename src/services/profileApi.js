@@ -1,122 +1,52 @@
-import Axios from "axios";
+import api from "./api";
 
 export const getProfileItems = async () => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/patron_configuration_item/`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.get(api, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.get("/patron_configuration_item/");
   return response;
 };
 
 export const getPaymentProfiles = async () => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/patron_configuration/`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.get(api, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.get("/patron_configuration/");
   return response;
 };
 
 export const deletePaymentProfiles = async (id) => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/patron_configuration/${id}`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.delete(api, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.delete(`/patron_configuration/${id}`);
   return response;
 };
 
 export const editPaymentProfiles = async (id, payload) => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/patron_configuration/${id}`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.put(api, payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.put(`/patron_configuration/${id}`, payload);
   return response;
 };
 
 export const addPaymentProfles = async (payload) => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/patron_configuration/`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.post(api, payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response
-}
+  const response = await api.post("/patron_configuration/", payload);
+  return response;
+};
 
 export const duplicatePaymentProfles = async (payload) => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/duplicate_profile/`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.post(api, payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response
-}
+  const response = await api.post("/duplicate_profile/", payload);
+  return response;
+};
 
 export const addProfileItems = async (payload) => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/patron_configuration_item/`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.post(api, payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.post("/patron_configuration_item/", payload);
   return response;
 };
 
 export const editProfileItems = async (id, payload) => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/patron_configuration_item/${id}`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.put(api, payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.put(`/patron_configuration_item/${id}`, payload);
   return response;
 };
 
 export const deleteProfileItems = async (id) => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/patron_configuration_item/${id}`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.delete(api, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.delete(`/patron_configuration_item/${id}`);
   return response;
 };
 
 // /duplicate_profile_item/
 export const duplicatePaymentProfleItem = async (payload) => {
-  let subDom = localStorage.getItem("subDomain");
-  const api = `https://${subDom}/api/duplicate_profile_item/`;
-  const token = localStorage.getItem("token");
-  const response = await Axios.post(api, payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response
-}
+  const response = await api.post("/duplicate_profile_item/", payload);
+  return response;
+};
