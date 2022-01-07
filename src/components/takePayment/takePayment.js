@@ -28,7 +28,7 @@ const TakePayment = () => {
             }
           }
       });
-     
+   
     return (
         <div className="transHead pMainContainer">
             <Paper className="searchBox dashboard-page">
