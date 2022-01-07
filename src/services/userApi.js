@@ -1,49 +1,21 @@
-import Axios from "axios"
+import api from "./api";
 
 export const getUsers = async () => {
-  let subDom = localStorage.getItem("subDomain");
-    const api = `https://${subDom}/api/user/`;
-    const token = localStorage.getItem("token");
-    const response = await Axios.get(api, {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        },
-    });
-    return response
-}
+  const response = await api.get("/user/");
+  return response;
+};
 
 export const addUsers = async (payload) => {
-  let subDom = localStorage.getItem("subDomain");
-    const api = `https://${subDom}/api/user/`;
-    const token = localStorage.getItem("token");
-    const response = await Axios.post(api, payload, {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        },
-    });
-    return response
-}
+  const response = await api.post("/user/", payload);
+  return response;
+};
 
 export const editUsers = async (id, payload) => {
-  let subDom = localStorage.getItem("subDomain");
-    const api = `https://${subDom}/api/user/${id}/`;
-    const token = localStorage.getItem("token");
-    const response = await Axios.put(api, payload, {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        },
-    });
-    return response
-}
+  const response = await api.put(`/user/${id}/`, payload);
+  return response;
+};
 
 export const deleteUsers = async (id) => {
-  let subDom = localStorage.getItem("subDomain");
-    const api = `https://${subDom}/api/user/${id}/`;
-    const token = localStorage.getItem("token");
-    const response = await Axios.delete(api, {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        },
-    });
-    return response
-}
+  const response = await api.delete(`/user/${id}/`);
+  return response;
+};

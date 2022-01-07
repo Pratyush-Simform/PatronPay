@@ -56,7 +56,7 @@ function UserAssignmentModal({ row, names}) {
       txn_receipt_receiver: "",
       password_required_after_timeout: (row?.password_required_after_timeout === "Yes" ? true : false) || false,
       transaction_access: (row?.transaction_access === "Yes" ? true : false) || false,
-      is_deleted: (row?.is_deleted === "Yes" ? true : false) || true,
+      is_deleted: (row?.is_deleted === "Yes" ? true : false) || false,
     },
     onSubmit: (values) => {
       const newPcf = {
@@ -171,7 +171,7 @@ function UserAssignmentModal({ row, names}) {
                   required
                 >
                   {users?.map((con) => (
-                    <MenuItem value={con} key={con} onChange={formik.handleChange}>
+                    <MenuItem value={con} key={con.email} onChange={formik.handleChange}>
                       {con.email}
                     </MenuItem>
                   ))}
@@ -193,7 +193,7 @@ function UserAssignmentModal({ row, names}) {
                   required
                 >
                   {config?.map((con) => (
-                    <MenuItem value={con} key={con} onChange={formik.handleChange}>
+                    <MenuItem value={con} key={con.id} onChange={formik.handleChange}>
                       {con.name}
                     </MenuItem>
                   ))}
