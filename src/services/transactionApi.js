@@ -8,9 +8,7 @@ export const getTransactions = async () => {
 export const addTransactions = async (payload) => {
   const response = await api.post("/transaction/", payload, {
     headers: {
-      "Content-Encoding": "gzip",
-      "Content-Type": "application/gzip",
-      // 'Accept-Encoding': 'gzip'
+      "Content-Type": "application/json"
     },
   });
   return response;
