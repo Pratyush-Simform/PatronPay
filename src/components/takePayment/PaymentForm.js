@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { GlobalPayments } from './globalpayments';
 import { manualCardPayment } from '../../services/takePaymentApi';
+import { addTransactions } from '../../services/transactionApi';
 import Icon from "../../assets/images/card_types.png";
 import "./argon.css"
+import {
+  gzip
+} from 'pako';
 
 const PaymentForm = (props) => {
 
@@ -111,6 +115,7 @@ const PaymentForm = (props) => {
   cardForm?.on("token-success", (resp) => {
     const payload = {"billing-zip": document.getElementById("billing-zip").value, "amount": props.amount, "payment-reference": resp.paymentReference}
     const datas = {"cardLast4": resp.details.cardLast4, "cardType": resp.details.cardType}
+    console.log("resp",resp.details);
 
     let form_data = new FormData();
     for (let key in payload) {
@@ -119,6 +124,7 @@ const PaymentForm = (props) => {
 
     // Manual Card Entry Api call
     manualCardPayment(form_data).then((response) => {
+      console.log("manual response",response.data);
       const data = response.data
       setFinalData({...finalData, ...data, ...datas})
       setPaymentStatus(response.data.status)
@@ -135,12 +141,69 @@ const PaymentForm = (props) => {
     console.log("Registration of Card Number occurred");
   });
 
+  function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & (0x3 | 0x8));
+      return v.toString(16);
+    });
+  }
+
   if(paymentStatus){
-      console.log("finalData",finalData);
-      console.log("utc",(new Date()).toUTCString());
-    // setTimeout(function(){
-    //     window.location.reload();
-    // }, 2000);
+    console.log("final data",finalData);
+    const trs_date = (new Date()).toISOString();
+    if(paymentStatus === "success"){
+      const payload = {
+        "dvc_serial": "000150194008969",
+        "Pcf_id": props?.cardData?.pcf_id?.id,
+        "transactionDateTime": trs_date,
+        "manualEntry": true,
+        "Transactions": [{
+            "cashPayment": [],
+            "cashlessPayment": [{
+                "amountAuth": props?.amount,
+                "authNumber": finalData?.AuthCode,
+                "cardType": finalData?.cardType,
+                "ccLast4": finalData?.cardLast4,
+                "currency": "USD",
+                "firstName": "",
+                "mid": "",
+                "lastName": "",
+                "Ref Id1": finalData?.HostTransactionID,
+                "refId2": finalData?.HostReferenceNumber,
+                "txnDateTime": trs_date,
+                "txnResult": "DECLINE",
+                "txnType": "CC",
+                "payment_url": "https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway/PosGatewayService.asmx",
+                "tid": "6399858",
+                "tip": props?.data?.tip,
+                "tipTax": "0.00"
+            }],
+            "trsDateTime": trs_date,
+            "Trs_id": uuidv4(),
+            "trsItems": [{
+                "Amount": props?.amount,
+                "Amount_Overiden": "N",
+                "Original_Amount": props?.data?.amount,
+                "Other_Amount": 0.0,
+                "TRI_ID": "",
+                "Tax": props?.data?.tax,
+                "short_name": props?.data?.memo,
+                "quantity": 1
+            }],
+            "trsType": props?.cardData?.pcf_id?.name,
+            "vendResult": true,
+            "membershipPayment": []
+        }],
+        "Tru_id": props?.cardData?.tur_id?.id
+      }
+      const payloadData = JSON.stringify(payload)
+
+      // Add Transaction Post request
+      addTransactions(gzip(payloadData, {to: 'string'}))
+    }
+    setTimeout(function(){
+        window.location.reload();
+    }, 3000);
   }
 
     return (
@@ -233,18 +296,10 @@ const PaymentForm = (props) => {
         </div>  
         )}
             { paymentStatus === "success" && (
-                <>
-                <div className="payment-success">
-                    {"Payment Successful"}
-                </div>
-                <div style={{textAlign: 'center'}}>
-                    {Object.keys(finalData).map((value, index) => (
-                        <p key={index}>{value}: {Object.values(finalData)[index]}</p>
-                    ))}
-                </div>
-                </>
+              <div className="payment-success">
+                  {"Payment Successful"}
+              </div>
             )}
-
             { paymentStatus === "failure" && (
                 <div className="payment-failure">
                     {"Payment Failed"}

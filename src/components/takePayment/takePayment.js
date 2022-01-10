@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from "@material-ui/core/Typography";
 import "../../App.css";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -7,16 +7,41 @@ import { useFormik } from "formik";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import PaymentForm from './PaymentForm';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { getUserAssignment } from "../../services/userAssignmentApi";
+
+const MenuProps = {
+    PaperProps: {
+      style: {
+        maxWidth: 250,
+      },
+    },
+  };
 
 const TakePayment = () => {
     const [total, setTotal] = useState()
     const [payment, setPayment] = useState(false)
+    const [profileMode, setProfileMode] = useState("");
+    const [config, setConfig] = useState([])
+    
+    useEffect(() => {
+        getUserAssignment().then(response => {
+            const dataSource = response.data.data.results.filter((temp) => !temp.pcf_id.is_deleted)
+            setConfig(dataSource);
+          })
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, []);
 
     const formik = useFormik({
         initialValues: {
             amount: 0.0,
             tax: 0.0,
             tip: 0.0,
+            memo: "",
+            pmode: "",
         },
         onSubmit: (values) => {
             if(values.amount === 0) {
@@ -26,8 +51,12 @@ const TakePayment = () => {
                 setTotal(parseFloat(x.toFixed(2)))
                 setPayment((payment) => (!payment))
             }
-          }
-      });
+        }
+    });
+
+    const handleChange = (event) => {
+        setProfileMode(event.target.value);
+    };
    
     return (
         <div className="transHead pMainContainer">
@@ -41,6 +70,45 @@ const TakePayment = () => {
                 <div>
                     <div className="pModal__body">
                         <form onSubmit={formik.handleSubmit}>
+                            <div className="pRow profileSubmitBtn">
+                                <div className="pCol pCol--col4 pCol--col-md-12">
+                                <FormControl>
+                                    <InputLabel id="demo-simple-select-helper-label">
+                                    Select Mode
+                                    </InputLabel>
+                                    <Select
+                                    labelId="demo-controlled-open-select-label"
+                                    id="demo-controlled-open-select"
+                                    value={profileMode}
+                                    label="Select Mode"
+                                    onChange={(event) => handleChange(event)}
+                                    MenuProps={MenuProps}
+                                    required
+                                    >
+                                    {config?.map((con) => (
+                                        <MenuItem value={con} key={con.id} onChange={formik.handleChange}>
+                                        {con.pcf_id.name}
+                                        </MenuItem>
+                                    ))}
+                                    </Select>
+                                </FormControl>
+                                </div>
+                            </div>
+                        <div className="pRow profileSubmitBtn">
+                                <div className="pCol pCol--col4 pCol--col-md-12">
+                                    <TextField
+                                        required={true}
+                                        id="outlined-basic"
+                                        label="Memo"
+                                        name="memo"
+                                        type="text"
+                                        variant="outlined"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.memo}
+                                        placeholder=""
+                                    />
+                                </div>
+                            </div>
                             <div className="pRow profileSubmitBtn">
                                 <div className="pCol pCol--col4 pCol--col-md-12">
                                     <TextField
@@ -105,7 +173,7 @@ const TakePayment = () => {
                         // allowtransparency="true"
                         // title="Payment"
                         // />
-                        <PaymentForm amount={total}/>
+                        <PaymentForm amount={total} cardData={profileMode} data={formik.values}/>
                     )}
                 </div>
             </Paper>
