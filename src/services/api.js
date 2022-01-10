@@ -21,7 +21,6 @@ instance.interceptors.response.use((res) => {
   },
   async (error) => {
     const originalConfig = error.config;
-    console.log("error res ",error.response.status);
     if(error.response) {
       if((error.response.status === 403 || error.response.status === 401) && !originalConfig._retry) {
         originalConfig._retry = true;
@@ -30,8 +29,7 @@ instance.interceptors.response.use((res) => {
           const rs = await instance.post("/token/refresh/", {
             refresh: localStorage.getItem("refresh")
           });
-          console.log("response",rs)
-          const token = rs.data.data.access
+          const token = rs?.data?.data?.access
           localStorage.setItem("token",token);
 
           return instance(originalConfig);

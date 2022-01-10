@@ -5,6 +5,17 @@ export const getTransactions = async () => {
   return response;
 };
 
+export const addTransactions = async (payload) => {
+  const response = await api.post("/transaction/", payload, {
+    headers: {
+      "Content-Encoding": "gzip",
+      "Content-Type": "application/gzip",
+      // 'Accept-Encoding': 'gzip'
+    },
+  });
+  return response;
+};
+
 export const generateTransactionReceipt = async (payload) => {
   const response = await api.post("/generate_receipt/", payload);
   return response;
