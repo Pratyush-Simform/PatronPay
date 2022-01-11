@@ -115,7 +115,6 @@ const PaymentForm = (props) => {
   cardForm?.on("token-success", (resp) => {
     const payload = {"billing-zip": document.getElementById("billing-zip").value, "amount": props.amount, "payment-reference": resp.paymentReference}
     const datas = {"cardLast4": resp.details.cardLast4, "cardType": resp.details.cardType}
-    console.log("resp",resp.details);
 
     let form_data = new FormData();
     for (let key in payload) {
@@ -124,7 +123,6 @@ const PaymentForm = (props) => {
 
     // Manual Card Entry Api call
     manualCardPayment(form_data).then((response) => {
-      console.log("manual response",response.data);
       const data = response.data
       setFinalData({...finalData, ...data, ...datas})
       setPaymentStatus(response.data.status)
@@ -149,7 +147,6 @@ const PaymentForm = (props) => {
   }
 
   if(paymentStatus){
-    console.log("final data",finalData);
     const trs_date = (new Date()).toISOString();
     if(paymentStatus === "success"){
       const payload = {

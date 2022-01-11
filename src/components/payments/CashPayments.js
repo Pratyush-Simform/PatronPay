@@ -16,13 +16,6 @@ function CashPayment() {
         dispatch({ type: "CASH_PAYMENTS", payload: newDataSource });
       })
 
-      // getTransactions().then(response => {
-      //   const newDataSource = response.data.data.results.filter(
-      //     obj => !(obj && Object.keys(obj.cash_payment).length === 0)
-      //   ).map(td => td.cash_payment);
-      //   dispatch({ type: "CASH_PAYMENTS", payload: newDataSource });
-      // })
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
