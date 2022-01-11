@@ -16,13 +16,6 @@ function MemberPayment() {
         dispatch({ type: "MEMBER_PAYMENTS", payload: newDataSource });
       })
 
-      // getTransactions().then(response => {
-      //   const newDataSource = response.data.data.results.filter(
-      //     obj => !(obj && Object.keys(obj.membership_payment).length === 0)
-      //   ).map(td => td.membership_payment);
-      //   dispatch({ type: "MEMBER_PAYMENTS", payload: newDataSource });
-      // })
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
