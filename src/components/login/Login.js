@@ -4,13 +4,11 @@ import { login, subdomainUrl, passwordReset } from "../../services/authenticatio
 import { useHistory } from "react-router-dom";
 import "../../App.css";
 import TextField from "@material-ui/core/TextField";
-// import { useStyles } from "./styles";
 import Box from "@material-ui/core/Box";
 import Snackbar from "@material-ui/core/Snackbar";
 import { privateLogin , privateLogout } from "../../utils/Index";
 
 function Login() {
-  // const classes = useStyles();
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -89,7 +87,6 @@ function Login() {
     privateLogout();
     localStorage.removeItem("subDomain");
     history.push("/");
-    // localStorage.removeItem('subDomain');
   }
   return (
     <div className="pMainContainer pMainContainer--login">

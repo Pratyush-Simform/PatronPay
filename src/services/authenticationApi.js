@@ -1,5 +1,4 @@
 import Axios from "axios";
-// import api from "./api";
 
 export const subdomainUrl = async (email) => {
   const api = `https://www.devpatronpay.us/api/tenant_domain/`;
@@ -33,15 +32,3 @@ export const passwordReset = async (email) => {
   });
   return response;
 };
-
-// export const getConfigApi = async () => {
-//   const response = await api.get("/patron_configuration/");
-//   return response;
-// };
-
-// export const getPastOrders = async (pcfId) => {
-//   const response = await api.get(
-//     `/transaction/?pcf_id=${pcfId}&previous_txns_by_time=30`
-//   );
-//   return response;
-// };
