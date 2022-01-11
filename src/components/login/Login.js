@@ -84,6 +84,10 @@ function Login() {
     loginFunction()
   };
 
+  if(localStorage.getItem('subDomain') === "Deny"){
+    alert('You have Not Access for PatronPay\nPlease contact PatronPay Organization for the Access');
+    localStorage.removeItem('subDomain');
+  }
   return (
     <div className="pMainContainer pMainContainer--login">
       <Snackbar

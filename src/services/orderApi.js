@@ -16,9 +16,13 @@ export const login = async (email, password) => {
     email: email,
     password: password,
   });
-  const token = response.data.data.access;
-  localStorage.setItem("token", token);
-  localStorage.setItem("refresh", response.data.data.refresh);
+  if((response.data.data.can_use_portal)) {
+    const token = response.data.data.access;
+    localStorage.setItem("token", token);
+    localStorage.setItem("refresh", response.data.data.refresh);
+    } else {
+      localStorage.setItem("subDomain","Deny");
+    }
 };
 
 export const passwordReset = async (email) => {
