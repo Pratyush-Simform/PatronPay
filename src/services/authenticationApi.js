@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 export const subdomainUrl = async (email) => {
-  const api = `https://www.devpatronpay.us/api/tenant_domain/`;
+  const api = `https://mypatronpay.us/api/tenant_domain/`;
   const response = await Axios.post(api, {
     email: email,
   });
