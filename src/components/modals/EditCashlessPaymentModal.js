@@ -65,23 +65,6 @@ function EditCashlessPaymentModal({ row, name }) {
         setSnackMsg("Successfully Updated")
         setSnackbar(true)
         setOpen(false);
-
-
-    //  if(name === Constants.ADD) {
-    //      addUsers(values).then(() => getUsers()
-    //      .then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
-    //      .catch(() => setSnackMsg("Cannot Create User"), setSnackbar(true))
-    //      setSnackMsg("User Created Succesfully")
-    //      setSnackbar(true)
-    //      setOpen(false);
-    //  }else {
-    //      editUsers(row.id, values)
-    //      .then(() => getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results})))
-    //      .catch(() => setSnackMsg("Cannot Edit User"), setSnackbar(true))
-    //      setSnackMsg("User Edited Succesfully")
-    //      setSnackbar(true)
-    //      setOpen(false);
-    //  }
     },
   });
   return (

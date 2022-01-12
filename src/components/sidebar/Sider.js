@@ -30,7 +30,7 @@ import IconExpandMore from '@material-ui/icons/ExpandMore'
 import Collapse from '@material-ui/core/Collapse'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import SvgIcon from '@mui/material/SvgIcon';
-// import AttachMoney from '@material-ui/icons/AttachMoney';
+import AttachMoney from '@material-ui/icons/AttachMoney';
 // import MoneyIcon from '@material-ui/icons/Money';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
@@ -112,6 +112,7 @@ export default function TemporaryDrawer() {
       setSnackMsg(`Cannot redirect to ${text}`);
     } else if (text === "Log Out") {
         localStorage.setItem("token", "");
+        localStorage.setItem("refresh", "")
         privateLogout();
         localStorage.removeItem("subDomain");
         history.push("/");
@@ -215,6 +216,13 @@ export default function TemporaryDrawer() {
         </ListItemIcon>
         <ListItemText primary="Debug Logs" />
       </ListItem>
+
+      <ListItem button className={classes.listItem} onClick={() => siderButton("/takepayment", anchor, false)}>
+          <ListItemIcon className={classes.listItemIcon}>
+            <AttachMoney />
+          </ListItemIcon>
+          <ListItemText primary="Take Payment" />
+        </ListItem>
 
       <ListItem button onClick={handleClick} className={classes.listItem}>
         <ListItemIcon className={classes.listItemIcon}>

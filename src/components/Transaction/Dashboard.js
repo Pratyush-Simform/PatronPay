@@ -18,7 +18,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         getDashboardData(payload).then((response) => {
-            dispatch({ type: "DASHBOARD_DATA", payload: response.data.data.results });
+            dispatch({ type: "DASHBOARD_DATA", payload: response?.data?.data?.results });
         })
     },[dispatch,payload]);
     

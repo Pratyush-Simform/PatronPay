@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -33,7 +33,7 @@ const MenuProps = {
 function PaymentProfileModal({ row, names}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [config, setConfig] = useState([]);
+  // const [config, setConfig] = useState([]);
   const [tip1, setTip1] = useState(0);
   const [tip2, setTip2] = useState(0);
   const [tip3, setTip3] = useState(0);
@@ -42,7 +42,7 @@ function PaymentProfileModal({ row, names}) {
   const [dbg, setDbg] = useState(0);
   const [dbgupl, setDbgupl] = useState("");
   const handleOpen = () => setOpen(true);
-  const [state, dispatch] = useContext(Context);
+  const [, dispatch] = useContext(Context);
   const handleClose = () => setOpen(false);
 
   const formik = useFormik({
@@ -133,27 +133,13 @@ function PaymentProfileModal({ row, names}) {
   };
 
   // useEffect(() => {
-  //   getPaymentProfiles()
-  //     .then((res) => {
-  //       const newDataSource = res.data.data.results.map((temp) => {
-  //         return temp.config_type
-  //       });
-  //       const uniqarray = [...new Set(newDataSource)];
-  //       const final_result = uniqarray.filter((result) => result !== "");
-  //       setConfig(final_result);
-  //     })
-  //     .catch(() => alert("Cannot load profile configurations"));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  useEffect(() => {
-    const newDataSource = state.paymentProfiles.map((temp) => {
-      return temp.config_type
-    });
-      const uniqarray = [...new Set(newDataSource)];
-      const final_result = uniqarray.filter((result) => result !== "");
-      setConfig(final_result);
-  }, [state.paymentProfiles]);
+  //   const newDataSource = state.paymentProfiles.map((temp) => {
+  //     return temp.config_type
+  //   });
+  //     const uniqarray = [...new Set(newDataSource)];
+  //     const final_result = uniqarray.filter((result) => result !== "");
+  //     setConfig(final_result);
+  // }, [state.paymentProfiles]);
 
   return (
     <div>
@@ -207,11 +193,8 @@ function PaymentProfileModal({ row, names}) {
                   onChange={(event) => handleChange(event, "config_type")}
                   MenuProps={MenuProps}
                 >
-                  {config?.map((con) => (
-                    <MenuItem value={con} onChange={formik.handleChange}>
-                      {con}
-                    </MenuItem>
-                  ))}
+                    <MenuItem value={"ShoppingCart"}>{"ShoppingCart"}</MenuItem>
+                    <MenuItem value={"QuickPay"}>{"QuickPay"}</MenuItem>
                 </Select>
               </FormControl>
               </div>

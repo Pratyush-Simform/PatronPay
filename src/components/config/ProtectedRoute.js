@@ -7,7 +7,7 @@ const ProtectedRoute = (props) => {
   return isLoggedIn ? (
     <Redirect
       to={{
-        pathname: routes?.explorer?.path,
+        pathname: routes?.dashboard?.path,
       }}
     />
   ) : (
