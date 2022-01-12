@@ -3,15 +3,12 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import EditIcon from "@material-ui/icons/Edit";
-// import Input from "../input/input";
-// import Button from "../input/Button";
 import AddIcon from "@material-ui/icons/Add";
 import { useFormik } from "formik";
 import "../../App.css";
 import { useStyles } from "./styles";
 import TextField from "@material-ui/core/TextField";
 import { addUsers, editUsers } from "../../services/userApi"
-// import { Context } from "../../store/Context";
 import {Constants} from "../DndTable/Constants"
 import Snackbar from '@material-ui/core/Snackbar';
 import { Button } from "@mui/material";
@@ -27,7 +24,6 @@ function EditUserModal({ row, name }) {
   const [snackMsg, setSnackMsg] = React.useState("")
   const { vertical, horizontal } = snackState;
   const [open, setOpen] = React.useState(false);
-  // const [, dispatch] = useContext(Context)
   const [snackbar, setSnackbar] = React.useState(false)
 
   const handleOpen = () => {
@@ -48,7 +44,7 @@ function EditUserModal({ row, name }) {
       first_name: row?.first_name || "",
       last_name: row?.last_name || "",
       password: "",
-      is_superuser: row?.admin_user === "No" ? false : true || false,
+      is_superuser: row?.is_superuser === "No" ? false : true || false,
       is_active: row?.active === "No" ? false : true || false,
       can_use_portal: row?.can_use_portal === "No" ? false : true || false,
       can_use_terminal: row?.can_use_terminal === "No" ? false : true || false,
@@ -66,9 +62,7 @@ function EditUserModal({ row, name }) {
          setOpen(false);
      }else {
          editUsers(row.id, values)
-         .then(() => window.location.reload()
-        //  getUsers().then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results}))
-         )
+         .then(() => window.location.reload())
          .catch(() => setSnackMsg("Cannot Edit User"), setSnackbar(true))
          setSnackMsg("User Edited Succesfully")
          setSnackbar(true)
