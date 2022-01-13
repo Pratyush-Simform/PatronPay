@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -14,10 +14,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useFormik } from "formik";
 import { getConfigApi } from "../../services/orderApi";
-import { Context } from "../../store/Context"
+// import { Context } from "../../store/Context"
 import { useStyles } from "./styles";
 import { getUsers } from "../../services/userApi";
-import { addUserAssignment, getUserAssignment, editUserAssignment } from "../../services/userAssignmentApi";
+import { addUserAssignment, editUserAssignment } from "../../services/userAssignmentApi";
 import {Constants} from "../DndTable/Constants";
 
 const MenuProps = {
@@ -41,7 +41,7 @@ function UserAssignmentModal({ row, names}) {
   const [selectedUserid, setSelectedUserId] = useState("");
   const [loginOption, setLoginOption] = useState("");
   const [users, setUsers] = useState([]);
-  const [, dispatch] = useContext(Context);
+  // const [, dispatch] = useContext(Context);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -71,33 +71,18 @@ function UserAssignmentModal({ row, names}) {
       if(names === Constants.ADD) {
         addUserAssignment(newPcf)
         .then(() => {
-          getUserAssignment().then(response => {
-            dispatch({ type: "USER_ASSIGNMENT", payload: response.data.data.results });
-        })
+          window.location.reload()
         setOpen(false)
         })
         .catch((err) => console.error(err));
       } else {
         editUserAssignment(row.id, newPcf)
         .then(() => {
-          getUserAssignment().then(response => {
-            dispatch({ type: "USER_ASSIGNMENT", payload: response.data.data.results });
-        })
+          window.location.reload()
         setOpen(false)
         })
         .catch((err) => console.error(err));
       }
-
-      // addUserAssignment(newPcf)
-      //   .then(() => {
-      //     getUserAssignment().then((res) => dispatch({
-      //      type: "PAYMENT_PROFILES",
-      //      payload: res.data.data.results,
-      //    }))
-      //     alert("Sucessfull addition")
-      //     setOpen(false)
-      //   })
-      //   .catch(() => alert("There is an error"));
     },
   });
 
@@ -113,12 +98,6 @@ function UserAssignmentModal({ row, names}) {
       setLoginOption(event.target.value);
     }
   };
-
-  // const handleTipChange = (e, tipNo) => {
-  //   if (tipNo === "1") setTip1(e.target.value);
-  //   else if (tipNo === "2") setTip2(e.target.value);
-  //   else setTip3(e.target.value);
-  // };
 
   useEffect(() => {
     getConfigApi()

@@ -23,7 +23,7 @@ function MyOrganisation() {
       <EnhancedTable
         data={state.myOrganizations}
         columnData={orgCols}
-        name="My Organisation"
+        name="My Organization"
       />
     </div>
   );
