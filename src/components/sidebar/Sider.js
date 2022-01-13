@@ -186,7 +186,7 @@ export default function TemporaryDrawer() {
           <ListItemIcon className={classes.listItemIcon}>
             <BusinessIcon />
           </ListItemIcon>
-          <ListItemText primary="My Organisation" />
+          <ListItemText primary="My Organization" />
         </ListItem>
 
       <ListItem button className={classes.listItem} onClick={() => siderButton("/users", anchor, false)}>

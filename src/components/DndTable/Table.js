@@ -26,13 +26,11 @@ import Button from "@material-ui/core/Button";
 import { styles } from "./styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { deleteUsers, getUsers } from "../../services/userApi";
+import { deleteUsers } from "../../services/userApi";
 import {
   deletePaymentProfiles,
   duplicatePaymentProfles,
-  getPaymentProfiles,
   deleteProfileItems,
-  getProfileItems
 } from "../../services/profileApi";
 import { withContext } from "../../store/WithContext";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -45,15 +43,15 @@ import DescriptionOutlined from '@material-ui/icons/DescriptionOutlined';
 import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
 import { FormControlLabel } from "@material-ui/core";
 import {Context} from "../../store/Context";
-import { deleteUserAssignment, getUserAssignment } from "../../services/userAssignmentApi";
+import { deleteUserAssignment } from "../../services/userAssignmentApi";
 import UserAssignmentModal from "../modals/UserAssignmentModal";
 // import EditModal from "../modals/EditModal";
 // import EditCashPaymentModal from "../modals/EditCashPaymentModal";
 // import EditMemberPaymentModal from "../modals/EditMemberPaymentModal";
 // import EditCashlessPaymentModal from "../modals/EditCashlessPaymentModal";
-import { deleteMembershipPayments, getMembershipPayments } from "../../services/membershipPaymentApi";
-import { deleteCashPayments, getCashPayments } from "../../services/cashPaymentApi";
-import { deleteCardPayments, getCardPayments } from "../../services/cardPaymentApi";
+import { deleteMembershipPayments } from "../../services/membershipPaymentApi";
+import { deleteCashPayments } from "../../services/cashPaymentApi";
+import { deleteCardPayments } from "../../services/cardPaymentApi";
 import PaymentProfileModal from "../modals/PaymentProfileModal";
 import FileCopy from '@material-ui/icons/FileCopy';
 import { generateTransactionReceipt } from "../../services/transactionApi";
@@ -791,8 +789,6 @@ class EnhancedTable extends React.Component {
 
   handleDelete = (row) => {
     deleteUsers(row.id).then(() =>
-      getUsers()
-        .then((res) =>
           this.setState({
             snackbar: true,
             snackMsg: "User Deleted Succesfully",
@@ -801,13 +797,10 @@ class EnhancedTable extends React.Component {
         .catch(() =>
           this.setState({ snackbar: true, snackMsg: "Could Delete User" })
         )
-    );
   };
 
   handlePaymentProfileDelete = (row) => {
     deletePaymentProfiles(row.id).then(() =>
-      getPaymentProfiles()
-        .then((res) =>
           this.setState({
             snackbar: true,
             snackMsg: "Payment Profile Deleted Succesfully",
@@ -819,13 +812,10 @@ class EnhancedTable extends React.Component {
             snackMsg: "Could not Delete Payment Profile",
           })
         )
-    );
   };
 
   handleUserAssignmentDelete = (row) => {
-    deleteUserAssignment(row.id).then(() => 
-      getUserAssignment()
-      .then((res) => 
+    deleteUserAssignment(row.id).then(() =>  
       this.setState({ 
         snackbar: true,
         snackMsg: "User Assignment Deleted Successfully",
@@ -837,13 +827,10 @@ class EnhancedTable extends React.Component {
         snackMsg: "Could not Delete User Assignment",
       })
       )
-    )
   }
 
   handleMemberPaymentDelete = (row) => {
     deleteMembershipPayments(row.id).then(() => 
-      getMembershipPayments()
-      .then(() =>
       this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
@@ -855,13 +842,10 @@ class EnhancedTable extends React.Component {
           snackMsg: "Could not Delete"
         })
         )
-      )
   }
 
   handleCashPaymentDelete = (row) => {
     deleteCashPayments(row.id).then(() => 
-      getCashPayments()
-      .then(() =>
       this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
@@ -873,13 +857,10 @@ class EnhancedTable extends React.Component {
           snackMsg: "Could not Delete"
         })
         )
-      )
   }
 
   handleCashlessPaymentDelete = (row) => {
     deleteCardPayments(row.id).then(() =>
-      getCardPayments()
-      .then(() =>
       this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
@@ -891,7 +872,6 @@ class EnhancedTable extends React.Component {
           snackMsg: "Could not Delete"
         })
         )
-      )
   }
 
   handleCopyPaymentProfiles = (row) => {
@@ -899,8 +879,6 @@ class EnhancedTable extends React.Component {
     if(name){
       const payload = {"pk": row.id, "profile_name": name}
       duplicatePaymentProfles(payload).then(() =>
-      getPaymentProfiles()
-      .then((res) =>
         this.setState({
           snackbar: true,
           snackMsg: "Duplicate Payment Profile Created Succesfully",
@@ -912,14 +890,11 @@ class EnhancedTable extends React.Component {
           snackMsg: "Payment Profile Not Created",
         })
       )
-      )
     }
   }
 
   handleProfileItemDelete =(row) => {
     deleteProfileItems(row.id).then(() =>
-    getProfileItems()
-      .then(() =>
       {this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
@@ -932,7 +907,6 @@ class EnhancedTable extends React.Component {
           snackMsg: "Could not Delete"
         })
         )
-      )
   }
 
   handleGenerateReceipt = (row) => {
@@ -1311,7 +1285,7 @@ class EnhancedTable extends React.Component {
         name === "Payment Profiles" ||
         name === "User Assignment" ||
         name === "Profile Items" ||
-        name === "My Organisation" ||
+        name === "My Organization" ||
         name === "Debug Logs" ||
         name === "Users" ? null : (
           <>
@@ -1556,7 +1530,7 @@ class EnhancedTable extends React.Component {
                                       </TableCell>
                                     )}
                                     {/* My Organisation */}
-                                    { name === "My Organisation" && (
+                                    { name === "My Organization" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
                                           <AddOrganization row={n} />
@@ -1762,7 +1736,7 @@ class EnhancedTable extends React.Component {
                                       </TableCell>
                                     )}
                                     {/* My Organisation */}
-                                    { name === "My Organisation" && (
+                                    { name === "My Organization" && (
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
                                           <AddOrganization row={n} />

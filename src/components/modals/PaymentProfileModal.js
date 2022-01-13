@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -12,8 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useFormik } from "formik";
-import { addPaymentProfles, getPaymentProfiles, editPaymentProfiles } from "../../services/profileApi";
-import { Context } from "../../store/Context"
+import { addPaymentProfles, editPaymentProfiles } from "../../services/profileApi";
+// import { Context } from "../../store/Context"
 import { useStyles } from "./styles";
 import { Constants } from "../DndTable/Constants";
 import EditIcon from "@material-ui/icons/Edit";
@@ -42,7 +42,7 @@ function PaymentProfileModal({ row, names}) {
   const [dbg, setDbg] = useState(0);
   const [dbgupl, setDbgupl] = useState("");
   const handleOpen = () => setOpen(true);
-  const [, dispatch] = useContext(Context);
+  // const [, dispatch] = useContext(Context);
   const handleClose = () => setOpen(false);
 
   const formik = useFormik({
@@ -87,21 +87,15 @@ function PaymentProfileModal({ row, names}) {
       };
       if(names === Constants.ADD) {
         addPaymentProfles(newPcf).then(() => {
-          getPaymentProfiles().then((res) => dispatch({
-            type: "PAYMENT_PROFILES", 
-            payload:res.data.data.results
-          }))
-          alert("Sucessfull addition")
+          window.location.reload()
+          // alert("Sucessfull addition")
           setOpen(false)
       })
       .catch(() => alert("There is an error"));
     }else {
       editPaymentProfiles(row.id, newPcf).then(() => {
-        getPaymentProfiles().then((res) => dispatch({
-          type: "PAYMENT_PROFILES", 
-          payload:res.data.data.results
-        }))
-        alert("Sucessfull addition")
+        window.location.reload()
+        // alert("Sucessfull addition")
         setOpen(false)
     })
     .catch(() => alert("There is an error"));
