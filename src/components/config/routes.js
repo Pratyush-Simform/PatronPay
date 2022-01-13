@@ -71,7 +71,7 @@ export const routes = {
     type: PrivateRoute,
   },
   myorganisation: {
-    name: "My Organisation",
+    name: "My Organization",
     path: "/myorganisation",
     component: lazy(() => import("../../components/organisation/MyOrganisation")),
     type: PrivateRoute,

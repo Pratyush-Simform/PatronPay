@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -15,7 +15,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import {
   addProfileItems,
   editProfileItems,
-  getProfileItems,
+  // getProfileItems,
 } from "../../services/profileApi";
 import { Constants } from "../DndTable/Constants";
 import { getConfigApi } from "../../services/orderApi";
@@ -25,7 +25,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import Snackbar from "@material-ui/core/Snackbar";
-import { Context } from "../../store/Context";
+// import { Context } from "../../store/Context";
 
 const MenuProps = {
   PaperProps: {
@@ -47,7 +47,7 @@ function AddModal({ row, name }) {
   });
   const [snackMsg, setSnackMsg] = useState("");
   const [snackbar, setSnackbar] = useState(false);
-  const [, dispatch] = useContext(Context);
+  // const [, dispatch] = useContext(Context);
   const { vertical, horizontal } = snackState;
   const [images, setImages] = useState();
   const [icons, setIcons] = useState();
@@ -88,12 +88,7 @@ function AddModal({ row, name }) {
       if (name === Constants.ADD) {
         addProfileItems(form_data)
           .then(() =>
-            getProfileItems().then((res) =>
-              dispatch({
-                type: "PROFILE_ITEMS",
-                payload: res.data.data.results,
-              })
-            )
+          window.location.reload()
           )
           .catch(
             () => setSnackMsg("Cannot create Profile Items"),
@@ -105,12 +100,7 @@ function AddModal({ row, name }) {
       } else {
         editProfileItems(row.id, form_data)
           .then(() =>
-            getProfileItems().then((res) =>
-              dispatch({
-                type: "PROFILE_ITEMS",
-                payload: res.data.data.results,
-              })
-            )
+          window.location.reload()
           )
           .catch(
             () => setSnackMsg("Cannot Edit Profile Items"),

@@ -128,10 +128,14 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[state])
 
-   const handleChangedata = (event) => {
-    setPersonName(event.target.value.pwa_columns_data);
+  const handleChangedata = (event) => {
+    if(event.target.value.name === "standard default view") {
+      setPersonName(event.target.value.values);
+    } else {
+      setPersonName(event.target.value.pwa_columns_data);
+    }
     setDropName(event.target.value.name)
-   }
+  }
 
    const handleDelete = (id) => {
      const payload = { "delete-saved-grid" : id }
@@ -209,7 +213,6 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
         </Fade>
       </Modal>
 
-      { gridview?.length > 0 && (
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-simple-select-outlined-label">GridView</InputLabel>
         <Select
@@ -219,6 +222,7 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
           MenuProps={MenuProps}
           onChange={(e) => handleChangedata(e)}
         >
+          <MenuItem key={"default"} value={{"name": "standard default view" , "values": drpDwnKey}}>{"Standard default view"}</MenuItem>
           { gridview && gridview.map((name, index) => (
             <MenuItem key={index} value={name}>
               <div className="gridview-option">
@@ -236,7 +240,6 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
           </div> */}
         </Select>
       </FormControl>
-      )}
       
       <ButtonGroup size="small" aria-label="small outlined button group">
         <Button onClick={handleOpen} color="primary">Save GridView</Button>

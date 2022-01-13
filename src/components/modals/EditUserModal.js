@@ -108,6 +108,7 @@ function EditUserModal({ row, name }) {
               <div className="pRow">
                 <div className="pCol pCol--col12">
                   <TextField
+                    required={true}
                     id="outlined-basic"
                     name="email"
                     type="text"
@@ -149,6 +150,7 @@ function EditUserModal({ row, name }) {
                   <div className="pRow">
                   <div className="pCol pCol--col12">
                   <TextField
+                    required={true}
                     lid="outlined-basic"
                     name="password"
                     type="text"

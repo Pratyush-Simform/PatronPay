@@ -148,6 +148,7 @@ function AddOrganization({ row, name }) {
                     >
                       Upload Icon
                     </Button>
+                    <img src={row?.logo?.props?.src} alt={row?.logo?.props?.alt}/>
                   </label>
                   </div>
                 </div>
