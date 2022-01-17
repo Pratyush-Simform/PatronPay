@@ -24,7 +24,7 @@ import DatePicker from "../date/DatePicker";
 import Dropdown from "../input/Dropdown";
 import Button from "@material-ui/core/Button";
 import { styles } from "./styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
+// import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteUsers } from "../../services/userApi";
 import {
@@ -991,11 +991,11 @@ class EnhancedTable extends React.Component {
   render() {
     const columnLength = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.length : this.state.columnData.length;
     const { classes, data, name } = this.props;
-    const activeData = data?.filter((temp) => temp?.is_deleted === false)
+    // const activeData = data?.filter((temp) => temp?.is_deleted === false)
     // const inactiveData = data?.filter((temp) => temp?.is_deleted === true)
-    const shoppingCart = data?.filter(temp => temp?.paymentProfile === "Shopping Cart Profile")
-    const quickPay = data?.filter(temp => temp?.paymentProfile === "QuickPay Profile")
-    const wgsmBaseball = data?.filter(temp => temp?.paymentProfile === "WGSM Baseball Profile")
+    // const shoppingCart = data?.filter(temp => temp?.paymentProfile === "Shopping Cart Profile")
+    // const quickPay = data?.filter(temp => temp?.paymentProfile === "QuickPay Profile")
+    // const wgsmBaseball = data?.filter(temp => temp?.paymentProfile === "WGSM Baseball Profile")
     const {
       order,
       orderBy,
@@ -1391,15 +1391,7 @@ class EnhancedTable extends React.Component {
             {data?.length > 0 ? (
               <TableBody>
                 {renderer?.length
-                  ? (name === "Profile Items" 
-                  ? this.context[0].paymentProfileName === "Shopping Cart Profile" 
-                    ? shoppingCart
-                    : this.context[0].paymentProfileName === "QuickPay Profile"
-                      ? quickPay
-                      : this.context[0].paymentProfileName === "WGSM Baseball Profile"
-                        ? wgsmBaseball
-                        : renderer
-                  : renderer)
+                  ? renderer
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
@@ -1598,15 +1590,7 @@ class EnhancedTable extends React.Component {
                           </TableRow>
                         );
                       })
-                  : (name === "Profile Items" 
-                      ? this.context[0].paymentProfileName === "Shopping Cart Profile" 
-                        ? shoppingCart
-                        : this.context[0].paymentProfileName === "QuickPay Profile"
-                          ? quickPay
-                          : this.context[0].paymentProfileName === "WGSM Baseball Profile"
-                            ? wgsmBaseball
-                            : activeData
-                      : data)
+                  : data
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
@@ -1618,7 +1602,7 @@ class EnhancedTable extends React.Component {
                             hover
                             // onClick={(event) => this.handleClick(event, n.id)}
                             // role="checkbox"
-                            aria-checked={isSelected}
+                            // aria-checked={isSelected}
                             tabIndex={-1}
                             key={n.id}
                             selected={isSelected}
@@ -1817,8 +1801,8 @@ class EnhancedTable extends React.Component {
                 >
                   <div className="spinner-inner">
                   <div className="spinner">
-                    <CircularProgress />
-                    {/* <p>Data Not Found</p> */}
+                    {/* <CircularProgress /> */}
+                    <p>No Data Available in Table</p>
                   </div>
                   </div>
                   </TableCell>
