@@ -63,6 +63,13 @@ export let cols = [
     width: 300,
   },
   {
+    id: "is_deleted",
+    numeric: false,
+    disablePadding: true,
+    label: "Active",
+    width: 200,
+  },
+  {
     id: "paymentProfile",
     numeric: false,
     disablePadding: true,

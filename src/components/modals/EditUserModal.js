@@ -14,6 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import InputLabel from "@mui/material/InputLabel";
 
 function EditUserModal({ row, name }) {
   const classes = useStyles();
@@ -44,11 +45,13 @@ function EditUserModal({ row, name }) {
       first_name: row?.first_name || "",
       last_name: row?.last_name || "",
       password: "",
-      is_superuser: row?.is_superuser === "No" ? false : true || false,
-      is_active: row?.active === "No" ? false : true || false,
-      can_use_portal: row?.can_use_portal === "No" ? false : true || false,
-      can_use_terminal: row?.can_use_terminal === "No" ? false : true || false,
-      manual_card_entry: row?.manual_card_entry === "No" ? false : true || false,
+      is_superuser: row?.is_superuser === "Yes" ? true : false || false,
+      is_active: row?.is_active === "Yes" ? true : false || false,
+      can_use_portal: row?.can_use_portal === "Yes" ? true : false || false,
+      can_use_terminal: row?.can_use_terminal === "Yes" ? true : false || false,
+      // manual_card_entry: row?.manual_card_entry === "Yes" ? true : false || false,
+      can_pwa_accept_manual_payment: row?.can_pwa_accept_manual_payment || false,
+      can_device_accept_manual_payment: row?.can_device_accept_manual_payment || false,
     },
     onSubmit: (values) => {
      if(name === Constants.ADD) {
@@ -163,7 +166,7 @@ function EditUserModal({ row, name }) {
                   </div>
                   </div>
                   <div className="pRow">
-                    <div className="pCol pCol--col12">
+                    <div className="pCol pCol--col6 pCol--col-md-12">
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -175,6 +178,8 @@ function EditUserModal({ row, name }) {
                         }
                         label="Admin User"
                       />
+                      </div>
+                      <div className="pCol pCol--col6 pCol--col-md-12">
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -189,7 +194,7 @@ function EditUserModal({ row, name }) {
                     </div>
                   </div>
                   <div className="pRow">
-                    <div className="pCol pCol--col12">
+                    <div className="pCol pCol--col6 pCol--col-md-12">
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -201,17 +206,8 @@ function EditUserModal({ row, name }) {
                         }
                         label="Can Use Terminal"
                       />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            onChange={formik.handleChange}
-                            name="manual_card_entry"
-                            value={formik.values.manual_card_entry}
-                            checked={formik.values.manual_card_entry}
-                          />
-                        }
-                        label="Manual Card Entry"
-                      />
+                      </div>
+                      <div className="pCol pCol--col6 pCol--col-md-12">
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -222,6 +218,35 @@ function EditUserModal({ row, name }) {
                           />
                         }
                         label="Can Use Web"
+                      />
+                    </div>
+                  </div>
+                  <div className="pRow">
+                    <div className="pCol pCol--col12">
+                    <InputLabel>
+                        Manual Card Entry :
+                    </InputLabel>
+                    <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={formik.handleChange}
+                            name="can_pwa_accept_manual_payment"
+                            value={formik.values.can_pwa_accept_manual_payment}
+                            checked={formik.values.can_pwa_accept_manual_payment}
+                          />
+                        }
+                        label="PWA"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={formik.handleChange}
+                            name="can_device_accept_manual_payment"
+                            value={formik.values.can_device_accept_manual_payment}
+                            checked={formik.values.can_device_accept_manual_payment}
+                          />
+                        }
+                        label="Device"
                       />
                     </div>
                   </div>

@@ -11,28 +11,28 @@ function PaymentProfiles() {
     const history = useHistory();
 
     useEffect(() => {
-        const onClickHandler = (name) => {
-            if(name === "shoppingcart profile") {
-                dispatch({ type: "PAYMENT_PROFILE_NAME", payload: "Shopping Cart Profile"})
-            }
-            if(name === "quickpay profile") {
-                dispatch({ type: "PAYMENT_PROFILE_NAME", payload: "QuickPay Profile"})
-            }
-            if(name === "WGSM Baseball Profile") {
-                dispatch({ type: "PAYMENT_PROFILE_NAME", payload: "WGSM Baseball Profile"})
-            }
-            if(name === "") {
-                dispatch({ type: "PAYMENT_PROFILE_NAME", payload: ""})
-            }
-        }
+        // const onClickHandler = (name) => {
+        //     if(name === "shoppingcart profile") {
+        //         dispatch({ type: "PAYMENT_PROFILE_NAME", payload: "Shopping Cart Profile"})
+        //     }
+        //     if(name === "quickpay profile") {
+        //         dispatch({ type: "PAYMENT_PROFILE_NAME", payload: "QuickPay Profile"})
+        //     }
+        //     if(name === "WGSM Baseball Profile") {
+        //         dispatch({ type: "PAYMENT_PROFILE_NAME", payload: "WGSM Baseball Profile"})
+        //     }
+        //     if(name === "") {
+        //         dispatch({ type: "PAYMENT_PROFILE_NAME", payload: ""})
+        //     }
+        // }
 
         getPaymentProfiles().then(response => {
             const newDataSource = response.data.data.results.map((temp) => {
-                temp["customPayments"] = temp.custom_payments ? "Yes" : "No";
-                temp["enableTip"] = temp.enable_tip ? "Yes" : "No";
-                temp["payByAccountNumber"] = temp.pay_by_account_number ? "Yes" : "No";
-                temp["Active"] = temp.is_deleted ? "No" : "Yes"   
-                temp["actions"] = <Button onClick={() => { onClickHandler(temp.name); history.push("/profile"); }} className="pBtn pBtn--item" variant="contained">Items</Button>
+                temp["custom_payments"] = temp.custom_payments ? "Yes" : "No";
+                temp["enable_tip"] = temp.enable_tip ? "Yes" : "No";
+                temp["include_pricing_details"] = temp.include_pricing_details ? "Yes" : "No";
+                temp["is_deleted"] = temp.is_deleted ? "No" : "Yes"   
+                temp["actions"] = <Button onClick={() => { localStorage.setItem("pcf",temp.id); history.push("/profile"); }} className="pBtn pBtn--item" variant="contained">Items</Button>
                 return temp
             }); 
             dispatch({ type: "PAYMENT_PROFILES", payload: newDataSource})

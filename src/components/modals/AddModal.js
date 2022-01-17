@@ -39,7 +39,7 @@ function AddModal({ row, name }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState([]);
-  const [pcfId, setPcfId] = useState("");
+  const [pcfId, setPcfId] = useState(row ? row?.pcf_id : "");
   const [openMode, setOpenMode] = useState(false);
   const [snackState, setsnackState] = useState({
     vertical: "top",
@@ -73,12 +73,12 @@ function AddModal({ row, name }) {
       price: row?.price || 0.0,
       tax: row?.tax || 0.0,
       other_amt: row?.other_amt || 0.0,
-      price_override_allowed: row?.price_override_allowed || false,
-      is_deleted: row?.is_deleted || false,
+      price_override_allowed: (row?.price_override_allowed === "Yes" ? true : false) || false, // Yes
+      is_deleted: (row && (row?.is_deleted === "Yes" ? false : true)) || false, //Yes
       exclude_from_tips: row?.exclude_from_tips || false,
     },
     onSubmit: (values) => {
-      const newpcf = { ...values, pcf_id: pcfId, icon: icons, image: images};
+      const newpcf = { ...values, pcf_id: pcfId, icon: icons, full_image: images};
 
       let form_data = new FormData();
       for (let key in newpcf) {
@@ -391,7 +391,7 @@ function AddModal({ row, name }) {
                         color="primary"
                       />
                     }
-                    label="Active"
+                    label="Inactive"
                   />
                   </div>
                   <div className="pCol pCol--col6 pCol--col-md-12">

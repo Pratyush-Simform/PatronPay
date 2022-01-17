@@ -1,12 +1,5 @@
 export let cols = [
     {
-        id: "config_type",
-        numeric: false,
-        disablePadding: false,
-        label: "Profile Mode",
-        width: 200
-    },
-    {
         id: "name",
         numeric: false,
         disablePadding: false,
@@ -14,28 +7,35 @@ export let cols = [
         width: 200
     },
     {
-        id: "customPayments",
+        id: "config_type",
+        numeric: false,
+        disablePadding: false,
+        label: "Profile Mode",
+        width: 200
+    },
+    {
+        id: "include_pricing_details",
         numeric: false,
         disablePadding: false,
         label: "Enable Amount Details",
         width: 300
     },
     {
-        id: "enableTip",
+        id: "enable_tip",
         numeric: false,
         disablePadding: false,
         label: "Enable Tip",
         width: 200
     },
     {
-        id: "payByAccountNumber",
+        id: "custom_payments",
         numeric: false,
         disablePadding: false,
         label: "Enable Other Amount",
         width: 300
     },
     {
-        id: "Active",
+        id: "is_deleted",
         numeric: false,
         disablePadding: false,
         label: "Active",

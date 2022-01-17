@@ -37,9 +37,9 @@ function PaymentProfileModal({ row, names}) {
   const [tip1, setTip1] = useState(0);
   const [tip2, setTip2] = useState(0);
   const [tip3, setTip3] = useState(0);
-  const [configType, setConfigType] = useState("");
+  const [configType, setConfigType] = useState(row ? row?.config_type : "");
   const [defaulTip, setDefaultTip] = useState("");
-  const [dbg, setDbg] = useState(0);
+  const [dbg, setDbg] = useState(2);
   const [dbgupl, setDbgupl] = useState("");
   const handleOpen = () => setOpen(true);
   // const [, dispatch] = useContext(Context);
@@ -50,9 +50,9 @@ function PaymentProfileModal({ row, names}) {
       // description: row?.description || "",
       name: row?.name || "",
       config_type: row?.config_type || "",
-      custom_payments: row?.custom_payments || false,
-      include_pricing_details: row?.include_pricing_details || false,
-      enable_tip: row?.enable_tip || false,
+      custom_payments: (row?.custom_payments === "Yes" ? true : false) || false,
+      include_pricing_details: (row?.include_pricing_details === "Yes" ? true : false) || false,
+      enable_tip: (row?.enable_tip === "Yes" ? true : false) || false,
       custom_payment_tax: row?.custom_payment_tax || 0,
       tip_tax: row?.tip_tax || 0,
       prompt_for_receipt: row?.prompt_for_receipt || false,
@@ -60,7 +60,7 @@ function PaymentProfileModal({ row, names}) {
       pay_by_account_number: row?.pay_by_account_number || false,
       require_first_name: row?.require_first_name ||false,
       require_last_name: row?.require_last_name ||false,
-      is_deleted: row?.is_deleted || false,
+      is_deleted: (row && (row?.is_deleted === "Yes" ? false : true)) || false,
       dbg_upl_log_lvl: row?.dbg_upl_log_lvl ||"",
       dbg_upl_scheme: row?.dbg_upl_scheme ||"",
     },
@@ -431,9 +431,6 @@ function PaymentProfileModal({ row, names}) {
                   onChange={(event) => handleChange(event, "dbg")}
                   MenuProps={MenuProps}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value={3}>DEBUG</MenuItem>
                   <MenuItem value={6}>ERROR</MenuItem>
                   <MenuItem value={4}>INFO</MenuItem>
