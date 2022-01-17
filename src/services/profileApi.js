@@ -5,6 +5,11 @@ export const getProfileItems = async () => {
   return response;
 };
 
+export const getProfileItemsbyID = async (id) => {
+  const response = await api.get(`/patron_configuration_item/?pcf_id=${id}`);
+  return response;
+};
+
 export const getPaymentProfiles = async () => {
   const response = await api.get("/patron_configuration/");
   return response;
