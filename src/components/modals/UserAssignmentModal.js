@@ -33,13 +33,15 @@ const MenuProps = {
 function UserAssignmentModal({ row, names}) {
   const classes = useStyles();
 
+  const loginvalue = row && (row?.login_persistence === "No Login Required" ? "none" : (row?.login_persistence === "Require Username and Password" ? "full" : "password_only"))
+
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState([]);
-  const [name, setName] = useState("");
-  const [nameid, setNameId] = useState({});
-  const [selectedUser, setSelectedUser] = useState("");
-  const [selectedUserid, setSelectedUserId] = useState("");
-  const [loginOption, setLoginOption] = useState("");
+  // const [name, setName] = useState("");
+  const [nameid, setNameId] = useState(row ? row?.pcf_id?.id : "");
+  // const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserid, setSelectedUserId] = useState(row ? row?.tur_id?.id : "");
+  const [loginOption, setLoginOption] = useState(row ? loginvalue : "");
   const [users, setUsers] = useState([]);
   // const [, dispatch] = useContext(Context);
   const handleOpen = () => setOpen(true);
@@ -56,16 +58,13 @@ function UserAssignmentModal({ row, names}) {
       txn_receipt_receiver: "",
       password_required_after_timeout: (row?.password_required_after_timeout === "Yes" ? true : false) || false,
       transaction_access: (row?.transaction_access === "Yes" ? true : false) || false,
-      is_deleted: (row?.is_deleted === "Yes" ? true : false) || false,
+      is_deleted: (row && (row?.is_deleted === "Yes" ? false : true)) || false,
     },
     onSubmit: (values) => {
       const newPcf = {
         ...values,
         tur_id: selectedUserid,
         pcf_id: nameid,
-        // pcf_id: {"id" :nameid},
-        // dbg_upl_log_lvl: dbg,
-        // dbg_upl_scheme: dbgupl,
         login_persistence: loginOption,
       };
       if(names === Constants.ADD) {
@@ -88,12 +87,11 @@ function UserAssignmentModal({ row, names}) {
 
   const handleChange = (event, identifier) => {
     if (identifier === "name") {
-      // setNameId({pcf_id_id : event.target.value.id, name: event.target.value.name})
-      setNameId(event.target.value.id)
-      setName(event.target.value);
+      setNameId(event.target.value)
+      // setName(event.target.value);
     } else if (identifier === "selected_user") {
-      setSelectedUserId(event.target.value.id)
-      setSelectedUser(event.target.value);
+      setSelectedUserId(event.target.value)
+      // setSelectedUser(event.target.value);
     } else if (identifier === "login_persistence") {
       setLoginOption(event.target.value);
     }
@@ -143,14 +141,14 @@ function UserAssignmentModal({ row, names}) {
                 <Select
                   labelId="demo-controlled-open-select-label"
                   id="demo-controlled-open-select"
-                  value={selectedUser}
+                  value={selectedUserid}
                   label="Select User"
                   onChange={(event) => handleChange(event, "selected_user")}
                   MenuProps={MenuProps}
                   required
                 >
                   {users?.map((con) => (
-                    <MenuItem value={con} key={con.email} onChange={formik.handleChange}>
+                    <MenuItem value={con.id} key={con.email} onChange={formik.handleChange}>
                       {con.email}
                     </MenuItem>
                   ))}
@@ -165,14 +163,14 @@ function UserAssignmentModal({ row, names}) {
                 <Select
                   labelId="demo-controlled-open-select-label"
                   id="demo-controlled-open-select"
-                  value={name}
+                  value={nameid}
                   label="Select Mode"
                   onChange={(event) => handleChange(event, "name")}
                   MenuProps={MenuProps}
                   required
                 >
                   {config?.map((con) => (
-                    <MenuItem value={con} key={con.id} onChange={formik.handleChange}>
+                    <MenuItem value={con.id} key={con.id} onChange={formik.handleChange}>
                       {con.name}
                     </MenuItem>
                   ))}
@@ -255,7 +253,6 @@ function UserAssignmentModal({ row, names}) {
                     helperText="Don't include +1 at the beginning."
                     onChange={formik.handleChange}
                     value={formik.values.txn_receipt_receiver}
-                    required
                 />
                 </div>
                 <div className="pCol pCol--col6 pCol--col-md-12">
@@ -296,7 +293,7 @@ function UserAssignmentModal({ row, names}) {
                     checked={formik.values.is_deleted}
                   />
                 }
-                label="Active"
+                label="Inactive"
               />
             </div>
             </div>

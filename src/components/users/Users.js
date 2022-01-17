@@ -23,7 +23,7 @@ function Users() {
         const newDataSource = res.data.data.results.map((temp) =>{
           temp["can_use_portal"] = temp.can_use_portal ? "Yes" : "No";
           temp["can_use_terminal"] = temp.can_use_terminal ? "Yes" : "No" ;
-          temp["manual_card_entry"] = temp.manual_card_entry ? "Yes" : "No" ;
+          temp["manual_card_entry"] = `${temp.can_pwa_accept_manual_payment ? "PWA  " : ""}${temp.can_device_accept_manual_payment ? "Device" : ""}` ;
           temp["is_superuser"] = temp.is_superuser ? "Yes" : "No" ;
           temp["is_active"] = temp.is_active ? "Yes" : "No"
           return temp;
