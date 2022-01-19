@@ -38,8 +38,8 @@ const MenuProps = {
 function AddModal({ row, name }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [config, setConfig] = useState([]);
-  const [pcfId, setPcfId] = useState(row ? row?.pcf_id : "");
+  const [config, setConfig] = useState();
+  const [pcfId, setPcfId] = useState(row ? row?.pcf_id : localStorage.getItem('pcf'));
   const [openMode, setOpenMode] = useState(false);
   const [snackState, setsnackState] = useState({
     vertical: "top",
@@ -88,26 +88,28 @@ function AddModal({ row, name }) {
       if (name === Constants.ADD) {
         addProfileItems(form_data)
           .then(() =>
-          window.location.reload()
+          {window.location.reload();
+          setSnackMsg("Profile Item Created Succesfully");
+          setSnackbar(true);
+        }
           )
           .catch(
             () => setSnackMsg("Cannot create Profile Items"),
             setSnackbar(true)
           );
-        setSnackMsg("Profile Item Created Succesfully");
-        setSnackbar(true);
         setOpen(false);
       } else {
         editProfileItems(row.id, form_data)
           .then(() =>
-          window.location.reload()
+          {window.location.reload();
+            setSnackMsg("Profile Items Edited Succesfully");
+            setSnackbar(true);
+          }
           )
           .catch(
             () => setSnackMsg("Cannot Edit Profile Items"),
             setSnackbar(true)
           );
-        setSnackMsg("Profile Items Edited Succesfully");
-        setSnackbar(true);
         setOpen(false);
       }
     },
@@ -118,11 +120,14 @@ function AddModal({ row, name }) {
   };
 
   useEffect(() => {
-    getConfigApi()
-      .then((res) => setConfig(res.data.data.results))
-      .catch(() => setSnackMsg("Cannot load profile configurations"));
+    if(open) {
+      getConfigApi()
+        .then((res) => setConfig(res.data.data.results))
+        .catch(() => setSnackMsg("Cannot load profile configurations"));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [open]);
+
 
   const handleSnackClose = () => {
     setsnackState({ ...snackState, open: false });

@@ -97,11 +97,13 @@ function PaymentProfileModal({ row }) {
 //   };
 
   useEffect(() => {
-    getConfigApi()
-      .then((res) => setConfig(res.data.data.results))
-      .catch(() => alert("Cannot load profile configurations"));
+    if(open) {
+      getConfigApi()
+        .then((res) => setConfig(res.data.data.results))
+        .catch(() => alert("Cannot load profile configurations"));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [open]);
 
   return (
     <div>

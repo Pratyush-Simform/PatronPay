@@ -98,15 +98,17 @@ function UserAssignmentModal({ row, names}) {
   };
 
   useEffect(() => {
-    getConfigApi()
-      .then((res) => setConfig(res.data.data.results))
-      .catch(() => alert("Cannot load profile configurations"));
+    if(open) {
+      getConfigApi()
+        .then((res) => setConfig(res.data.data.results))
+        .catch(() => alert("Cannot load profile configurations"));
 
-    getUsers()
-    .then((res) => setUsers(res.data.data.results))
-    .catch((err) => console.error(err));
+      getUsers()
+      .then((res) => setUsers(res.data.data.results))
+      .catch((err) => console.error(err));
+  }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [open]);
 
   return (
     <div>
