@@ -936,10 +936,10 @@ class EnhancedTable extends React.Component {
     this.setState({active: false,inactive: false, shoppingcart: false, quickpay: false});
     let newData = []
     if(name==="active" && event.target.checked){
-      newData = this.props.data.filter((temp) => temp.is_deleted === false)
+      newData = this.props.data.filter((temp) => temp.is_deleted === "Yes")
       this.setState({active: event.target.checked, renderer: newData})
     }else if(name==="inactive" && event.target.checked){
-      newData = this.props.data.filter((temp) => temp.is_deleted === true)
+      newData = this.props.data.filter((temp) => temp.is_deleted === "No")
       this.setState({inactive: event.target.checked, renderer: newData})
     }else if(name==="shopping" && event.target.checked){
       newData = this.props.data.filter((temp) => temp.paymentProfile === "Shopping Cart Profile")
@@ -948,8 +948,8 @@ class EnhancedTable extends React.Component {
       newData = this.props.data.filter((temp) => temp.paymentProfile === "QuickPay Profile")
       this.setState({quickpay: event.target.checked, renderer: newData})
     }else {
-      newData = this.props.data.filter((temp) => temp.is_deleted === false)
-      this.setState({renderer: newData})
+      // newData = this.props.data.filter((temp) => temp.is_deleted === false)
+      this.setState({renderer: this.props.data})
     }
   }
 
