@@ -1390,7 +1390,7 @@ class EnhancedTable extends React.Component {
             />
             {data?.length > 0 ? (
               <TableBody>
-                {renderer?.length
+                {(renderer?.length && name !== "Profile Items")
                   ? renderer
                       .slice(
                         page * rowsPerPage,
