@@ -70,7 +70,7 @@ export let cols = [
     width: 200,
   },
   {
-    id: "paymentProfile",
+    id: "pcf_name",
     numeric: false,
     disablePadding: true,
     label: "Payment Profile",
