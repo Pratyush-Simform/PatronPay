@@ -32,7 +32,7 @@ function PaymentProfiles() {
                 temp["enable_tip"] = temp.enable_tip ? "Yes" : "No";
                 temp["include_pricing_details"] = temp.include_pricing_details ? "Yes" : "No";
                 temp["is_deleted"] = temp.is_deleted ? "No" : "Yes"   
-                temp["actions"] = <Button onClick={() => { localStorage.setItem("pcf",temp.id); history.push("/profile"); }} className="pBtn pBtn--item" variant="contained">Items</Button>
+                temp["actions"] = <Button onClick={() => { localStorage.setItem("pcf",temp.id); dispatch({ type: "PAYMENT_PROFILE_NAME", payload: temp.id}); history.push("/profile"); }} className="pBtn pBtn--item" variant="contained">Items</Button>
                 return temp
             }); 
             dispatch({ type: "PAYMENT_PROFILES", payload: newDataSource})
