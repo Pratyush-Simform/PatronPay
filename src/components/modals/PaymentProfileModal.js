@@ -60,7 +60,7 @@ function PaymentProfileModal({ row, names}) {
       pay_by_account_number: row?.pay_by_account_number || false,
       require_first_name: row?.require_first_name ||false,
       require_last_name: row?.require_last_name ||false,
-      is_deleted: (row && (row?.is_deleted === "Yes" ? false : true)) || false,
+      is_deleted: row ? ((row?.is_deleted === "Yes" ? true : false) && true) : true,
       dbg_upl_log_lvl: row?.dbg_upl_log_lvl ||"",
       dbg_upl_scheme: row?.dbg_upl_scheme ||"",
     },
@@ -70,6 +70,7 @@ function PaymentProfileModal({ row, names}) {
         config_type: configType,
         dbg_upl_log_lvl: dbg,
         dbg_upl_scheme: dbgupl,
+        is_deleted: !(values.is_deleted),
         tip_choices: [
           {
             default: defaulTip === "TP1" ? true : false,
@@ -413,7 +414,7 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.is_deleted}
                   />
                 }
-                label="Inactive"
+                label="Active"
               />
               </div>
             </div>

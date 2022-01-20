@@ -58,7 +58,7 @@ function UserAssignmentModal({ row, names}) {
       txn_receipt_receiver: "",
       password_required_after_timeout: (row?.password_required_after_timeout === "Yes" ? true : false) || false,
       transaction_access: (row?.transaction_access === "Yes" ? true : false) || false,
-      is_deleted: (row && (row?.is_deleted === "Yes" ? false : true)) || false,
+      is_deleted: row ? ((row?.is_deleted === "Yes" ? true : false) && true) : true,
     },
     onSubmit: (values) => {
       const newPcf = {
@@ -66,6 +66,7 @@ function UserAssignmentModal({ row, names}) {
         tur_id: selectedUserid,
         pcf_id: nameid,
         login_persistence: loginOption,
+        is_deleted : !(values.is_deleted),
       };
       if(names === Constants.ADD) {
         addUserAssignment(newPcf)
@@ -295,7 +296,7 @@ function UserAssignmentModal({ row, names}) {
                     checked={formik.values.is_deleted}
                   />
                 }
-                label="Inactive"
+                label="Active"
               />
             </div>
             </div>

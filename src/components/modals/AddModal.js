@@ -74,11 +74,11 @@ function AddModal({ row, name }) {
       tax: row?.tax || 0.0,
       other_amt: row?.other_amt || 0.0,
       price_override_allowed: (row?.price_override_allowed === "Yes" ? true : false) || false, // Yes
-      is_deleted: (row && (row?.is_deleted === "Yes" ? false : true)) || false, //Yes
+      is_deleted: row ? ((row?.is_deleted === "Yes" ? true : false) && true) : true, //Yes
       exclude_from_tips: row?.exclude_from_tips || false,
     },
     onSubmit: (values) => {
-      const newpcf = { ...values, pcf_id: pcfId, icon: icons, full_image: images};
+      const newpcf = { ...values, pcf_id: pcfId, icon: icons, full_image: images, is_deleted: !(values.is_deleted)};
 
       let form_data = new FormData();
       for (let key in newpcf) {
@@ -396,7 +396,7 @@ function AddModal({ row, name }) {
                         color="primary"
                       />
                     }
-                    label="Inactive"
+                    label="Active"
                   />
                   </div>
                   <div className="pCol pCol--col6 pCol--col-md-12">
