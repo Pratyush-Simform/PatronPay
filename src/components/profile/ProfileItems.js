@@ -11,6 +11,10 @@ function ProfileItems() {
 
   const pcf = localStorage.getItem("pcf")
 
+  if(state.paymentProfileName) {
+    window.location.reload();
+  }
+  
   useEffect(() => {
     getProfileItemsbyID(pcf)
       .then((response) => {
