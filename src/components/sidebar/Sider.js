@@ -115,7 +115,8 @@ export default function TemporaryDrawer() {
         localStorage.setItem("refresh", "")
         privateLogout();
         localStorage.removeItem("subDomain");
-        history.push("/");
+        // history.push("/");
+        window.location.reload();
     } else {
       history.push(text);
     }
