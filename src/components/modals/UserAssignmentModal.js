@@ -57,7 +57,7 @@ function UserAssignmentModal({ row, names}) {
       timeout: row?.timeout || "0",
       txn_receipt_receiver: "",
       password_required_after_timeout: (row?.password_required_after_timeout === "Yes" ? true : false) || false,
-      transaction_access: (row?.transaction_access === "Yes" ? true : false) || false,
+      transaction_access: row?.transaction_access || false,
       is_deleted: row ? ((row?.is_deleted === "Yes" ? true : false) && true) : true,
     },
     onSubmit: (values) => {
