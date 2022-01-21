@@ -303,6 +303,10 @@ function AddModal({ row, name }) {
                     >
                       Upload Icon
                     </Button>
+                    { icons 
+                      ? (<p>{icons?.name}</p>)
+                      : row && ( <img src={row?.icon} alt="icon"/>)
+                    }
                   </label>
                   </div>
                   <div className="pCol pCol--col6 pCol--col-md-12">

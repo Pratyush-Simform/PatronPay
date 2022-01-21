@@ -45,7 +45,7 @@ export let cols = [
         id: "actions",
         numeric: false,
         disablePadding: false,
-        label: "",
+        label: "Items",
         width: 200
     }
 ]
