@@ -58,13 +58,17 @@ function Login() {
         .catch(() => {setSnackMsg("Incorrect email"); setSnackbar(true);});
     }
     if (email.length > 0 && forgotPassword) {
-      passwordReset(email)
+      subdomainUrl(email)
+      .then((res) => {
+        passwordReset(email, res.data.data.domain)
         .then(() => {
           setSnackMsg(`Mail sent to ${email}`);
           setSnackbar(true);
+          setForgotPassword(false)
         })
-        .catch(() => {setSnackMsg("Incorrect email"); setSnackbar(true);});
-    }
+      })
+      .catch(() => {setSnackMsg("Incorrect email"); setSnackbar(true);});
+      }
   };
 
   useEffect(() => {
@@ -188,9 +192,9 @@ function Login() {
               Sign in
             </Button>
           </div>
-          <div className="pForgotPassword">
+          { !forgotPassword && (<div className="pForgotPassword">
           <Button size="large" onClick={handleForgotPassword}>Forgot Password?</Button>
-          </div>
+          </div>)}
         </div>
       </>
     )}
