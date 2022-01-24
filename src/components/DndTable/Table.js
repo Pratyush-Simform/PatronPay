@@ -992,7 +992,7 @@ class EnhancedTable extends React.Component {
 
   render() {
     const columnLength = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.length : this.state.columnData.length;
-    const { classes, data, name } = this.props;
+    const { classes, data, name, profile } = this.props;
     // const activeData = data?.filter((temp) => temp?.is_deleted === false)
     // const inactiveData = data?.filter((temp) => temp?.is_deleted === true)
     // const shoppingCart = data?.filter(temp => temp?.paymentProfile === "Shopping Cart Profile")
@@ -1034,6 +1034,7 @@ class EnhancedTable extends React.Component {
           numSelected={selected.length}
           items={data}
           searchedData={this.searchedFunc}
+          profile={profile}
         >
         <div className="pDownloads">
           {name === "Transction" ? <ExportTransactions data={data} /> : null}
