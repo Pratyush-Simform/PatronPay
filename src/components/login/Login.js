@@ -3,10 +3,12 @@ import Button from "@material-ui/core/Button";
 import { login, subdomainUrl, passwordReset } from "../../services/authenticationApi";
 import { useHistory } from "react-router-dom";
 import "../../App.css";
-import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
+import {TextField, InputAdornment, IconButton} from "@material-ui/core";
+// import Box from "@material-ui/core/Box";
 import Snackbar from "@material-ui/core/Snackbar";
 import { privateLogin , privateLogout } from "../../utils/Index";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 function Login() {
   const history = useHistory();
@@ -24,6 +26,11 @@ function Login() {
   const [snackbar, setSnackbar] = useState(false);
 
   const { vertical, horizontal } = snackState;
+
+  // Show and Hide Password
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   const handleSubmit = () => {
     setSubmitted(!submitted);
@@ -88,6 +95,12 @@ function Login() {
     history.push("/");
   }
 
+  const handleEnterEvent = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  }
+
   return (
     <div className="pMainContainer pMainContainer--login">
       <Snackbar
@@ -122,7 +135,7 @@ function Login() {
               we’ll email instructions for setting a new one.
             </p>
           ) : null}
-          <Box
+          {/* <Box
             component="form"
             sx={{
               "& .MuiTextField-root": { m: 1, width: "25ch" },
@@ -131,7 +144,7 @@ function Login() {
             autoComplete="off"
             // onSubmit={handleSubmit}
             // className="loginHead"
-          >
+          > */}
             <div>
               <TextField
                 id="standard-required"
@@ -139,6 +152,7 @@ function Login() {
                 variant="outlined"
                 onChange={(e) => onInputChnage(e.target.value)}
                 value={email}
+                onKeyDown={handleEnterEvent}
               />
             </div>
             {domain && !forgotPassword ? (
@@ -146,15 +160,29 @@ function Login() {
                 <TextField
                   id="standard-password-input"
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   variant="outlined"
                   onChange={(e) => onPasswordChnage(e.target.value)}
                   value={password}
+                  onKeyDown={handleEnterEvent}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
                 />
               </div>
             ) : null} 
-          </Box>
+          {/* </Box> */}
           <div className="loginHead">
             <Button variant="contained" size="large" color="primary" onClick={handleSubmit}>
               Sign in
@@ -171,8 +199,6 @@ function Login() {
     {(localStorage.getItem('subDomain') === 'Deny') && (
       <div className="login">
         <p className="pTextCenter">{"You don't have required permission to use the portal."}</p>
-
-
         <p className="pTextCenter">
           Please see your organization PatronPay administrator to request access.
         </p>
