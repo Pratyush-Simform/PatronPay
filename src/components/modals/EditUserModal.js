@@ -54,21 +54,25 @@ function EditUserModal({ row, name }) {
       can_device_accept_manual_payment: row?.can_device_accept_manual_payment || false,
     },
     onSubmit: (values) => {
+      if(row) {
+        delete values['password']
+      }
      if(name === Constants.ADD) {
-         addUsers(values).then(() => window.location.reload()
-        //  getUsers()
-        //  .then((res) => dispatch({type: "USER_DATA", payload:res.data.data.results}))
-         )
+         addUsers(values).then(() => {
+           window.location.reload();
+           setSnackMsg("User Created Succesfully");
+           setSnackbar(true);
+         })
          .catch(() => setSnackMsg("Cannot Create User"), setSnackbar(true))
-         setSnackMsg("User Created Succesfully")
-         setSnackbar(true)
          setOpen(false);
      }else {
          editUsers(row.id, values)
-         .then(() => window.location.reload())
+         .then(() => {
+           window.location.reload();
+           setSnackMsg("User Edited Succesfully");
+           setSnackbar(true);
+          })
          .catch(() => setSnackMsg("Cannot Edit User"), setSnackbar(true))
-         setSnackMsg("User Edited Succesfully")
-         setSnackbar(true)
          setOpen(false);
      }
     },
@@ -153,7 +157,7 @@ function EditUserModal({ row, name }) {
                   <div className="pRow">
                   <div className="pCol pCol--col12">
                   <TextField
-                    required={true}
+                    required={row ? false : true}
                     lid="outlined-basic"
                     name="password"
                     type="text"

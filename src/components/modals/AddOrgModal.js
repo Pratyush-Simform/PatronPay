@@ -74,15 +74,12 @@ function AddOrganization({ row, name }) {
          setOpen(false);
      }else {
          editTenantInfo(row.id, form_data)
-         .then(() => getTenantInfo().then((res) => {
-          const newDataSource = res.data.data.results.map((temp) =>{ 
-            temp["logo"] = <img alt="img" src={temp.logo} />;
-            return temp;
-          });
-          dispatch({ type: "MY_ORGANIZATIONS", payload: newDataSource })}))
+         .then(() => {
+           window.location.reload();
+           setSnackMsg("Organization Edited Succesfully");
+           setSnackbar(true);
+          })
          .catch(() => setSnackMsg("Cannot Edit Organizations"), setSnackbar(true))
-         setSnackMsg("Organization Edited Succesfully")
-         setSnackbar(true)
          setOpen(false);
      }
     },
@@ -148,7 +145,11 @@ function AddOrganization({ row, name }) {
                     >
                       Upload Icon
                     </Button>
-                    <img src={row?.logo?.props?.src} alt={row?.logo?.props?.alt}/>
+                    { image 
+                      ? (<p>{image?.name}</p>)
+                      : row && (<img src={row?.logo?.props?.src} alt={row?.logo?.props?.alt}/>)
+                    }
+                    {/* <img src={row?.logo?.props?.src} alt={row?.logo?.props?.alt}/> */}
                   </label>
                   </div>
                 </div>

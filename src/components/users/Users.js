@@ -21,6 +21,7 @@ function Users() {
   useEffect(() => {
     getUsers().then((res) => {
         const newDataSource = res.data.data.results.map((temp) =>{
+          temp["name"] = temp.first_name + " " + temp.last_name;
           temp["can_use_portal"] = temp.can_use_portal ? "Yes" : "No";
           temp["can_use_terminal"] = temp.can_use_terminal ? "Yes" : "No" ;
           temp["manual_card_entry"] = `${temp.can_pwa_accept_manual_payment ? "PWA  " : ""}${temp.can_device_accept_manual_payment ? "Device" : ""}` ;

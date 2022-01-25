@@ -941,13 +941,15 @@ class EnhancedTable extends React.Component {
     }else if(name==="inactive" && event.target.checked){
       newData = this.props.data.filter((temp) => temp.is_deleted === "No")
       this.setState({inactive: event.target.checked, renderer: newData})
-    }else if(name==="shopping" && event.target.checked){
-      newData = this.props.data.filter((temp) => temp.paymentProfile === "Shopping Cart Profile")
-      this.setState({shoppingcart: event.target.checked, renderer: newData})
-    }else if(name==="quickpay" && event.target.checked){
-      newData = this.props.data.filter((temp) => temp.paymentProfile === "QuickPay Profile")
-      this.setState({quickpay: event.target.checked, renderer: newData})
-    }else {
+    }
+    // else if(name==="shopping" && event.target.checked){
+    //   newData = this.props.data.filter((temp) => temp.paymentProfile === "Shopping Cart Profile")
+    //   this.setState({shoppingcart: event.target.checked, renderer: newData})
+    // }else if(name==="quickpay" && event.target.checked){
+    //   newData = this.props.data.filter((temp) => temp.paymentProfile === "QuickPay Profile")
+    //   this.setState({quickpay: event.target.checked, renderer: newData})
+    // }
+    else {
       // newData = this.props.data.filter((temp) => temp.is_deleted === false)
       this.setState({renderer: this.props.data})
     }
@@ -990,7 +992,7 @@ class EnhancedTable extends React.Component {
 
   render() {
     const columnLength = this.state.columnDataCopy.length > 0 ? this.state.columnDataCopy.length : this.state.columnData.length;
-    const { classes, data, name } = this.props;
+    const { classes, data, name, profile } = this.props;
     // const activeData = data?.filter((temp) => temp?.is_deleted === false)
     // const inactiveData = data?.filter((temp) => temp?.is_deleted === true)
     // const shoppingCart = data?.filter(temp => temp?.paymentProfile === "Shopping Cart Profile")
@@ -1013,8 +1015,8 @@ class EnhancedTable extends React.Component {
       snackMsg,
       active,
       inactive,
-      shoppingcart,
-      quickpay
+      // shoppingcart,
+      // quickpay
     } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data?.length - page * rowsPerPage);
@@ -1032,6 +1034,7 @@ class EnhancedTable extends React.Component {
           numSelected={selected.length}
           items={data}
           searchedData={this.searchedFunc}
+          profile={profile}
         >
         <div className="pDownloads">
           {name === "Transction" ? <ExportTransactions data={data} /> : null}
@@ -1320,22 +1323,22 @@ class EnhancedTable extends React.Component {
                 label="Inactive"
               />
             </div>
-            <div className="pProfileStatus__item">
+            {/* <div className="pProfileStatus__item">
               <FormControlLabel
                 control={
                   <Checkbox name="shopping_cart" checked={shoppingcart} onChange={(event) => this.handlechecked(event, "shopping")}/>
                 }
                 label="Shopping Cart"
               />
-            </div>
-            <div className="pProfileStatus__item">
+            </div> */}
+            {/* <div className="pProfileStatus__item">
               <FormControlLabel
                 control={
                   <Checkbox name="quick_pay" checked={quickpay} onChange={(event) => this.handlechecked(event, "quickpay")}/>
                 }
                 label="Quick Pay"
               />
-            </div>
+            </div> */}
           </div> 
           <hr className="dashedline" />
           </>
