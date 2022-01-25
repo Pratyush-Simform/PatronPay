@@ -1,6 +1,6 @@
 export let cols = [
     {
-      id: "first_name",
+      id: "name",
       numeric: false,
       disablePadding: false,
       label: "Name",

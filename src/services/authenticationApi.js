@@ -24,8 +24,8 @@ export const login = async (email, password) => {
     }
 };
 
-export const passwordReset = async (email) => {
-  let subDom = localStorage.getItem("subDomain");
+export const passwordReset = async (email, subDom) => {
+  // let subDom = localStorage.getItem("subDomain");
   const api = `https://${subDom}/api/forgot_password/`;
   const response = await Axios.post(api, {
     email: email,
