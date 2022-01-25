@@ -20,7 +20,7 @@ import UserAssignmentModal from "../modals/UserAssignmentModal";
 import AddOrgModal from "../modals/AddOrgModal";
 
 let EnhancedTableToolbar = (props) => {
-  const { numSelected, classes, title, items, searchedData } =
+  const { numSelected, classes, title, items, searchedData, profile } =
     props;
   const [search, setSearch] = useState(false);
   // const [searchInput, setSearchInput] = useState("");
@@ -96,7 +96,7 @@ let EnhancedTableToolbar = (props) => {
           </Typography>
         ) : (
           <Typography variant="subtitle1" id="tableTitle">
-            {title}
+            {title}{profile}
           </Typography>
         )}
       </div>

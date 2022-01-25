@@ -37,6 +37,7 @@ function ProfileItems() {
         data={state.profileItems}
         columnData={cols}
         name="Profile Items"
+        profile={state?.profileItems[0]?.pcf_name ? `${" / "}${state?.profileItems[0]?.pcf_name}` : ""}
       />
     </div>
   );
