@@ -41,7 +41,7 @@ import Stack from '@mui/material/Stack';
 import PictureAsPdfOutlined from '@material-ui/icons/PictureAsPdfOutlined';
 import DescriptionOutlined from '@material-ui/icons/DescriptionOutlined';
 import CloudUploadOutlined from '@material-ui/icons/CloudUploadOutlined';
-import { FormControlLabel } from "@material-ui/core";
+// import { FormControlLabel } from "@material-ui/core";
 import {Context} from "../../store/Context";
 import { deleteUserAssignment } from "../../services/userAssignmentApi";
 import UserAssignmentModal from "../modals/UserAssignmentModal";
@@ -787,39 +787,45 @@ class EnhancedTable extends React.Component {
   //   });
   // };
 
-  handleDelete = (row) => {
-    deleteUsers(row.id).then(() =>
-          this.setState({
-            snackbar: true,
-            snackMsg: "User Deleted Succesfully",
-          })
-        )
-        .catch(() =>
-          this.setState({ snackbar: true, snackMsg: "Could Delete User" })
-        )
+  handleDelete = (id) => {
+    deleteUsers(id).then(() =>
+      {this.setState({
+        snackbar: true,
+        snackMsg: "User Deleted Succesfully",
+      });
+      window.location.reload();
+    }
+    )
+    .catch(() =>
+      this.setState({ snackbar: true, snackMsg: "Could Delete User" })
+    )
   };
 
-  handlePaymentProfileDelete = (row) => {
-    deletePaymentProfiles(row.id).then(() =>
-          this.setState({
-            snackbar: true,
-            snackMsg: "Payment Profile Deleted Succesfully",
-          })
-        )
-        .catch(() =>
-          this.setState({
-            snackbar: true,
-            snackMsg: "Could not Delete Payment Profile",
-          })
-        )
+  handlePaymentProfileDelete = (id) => {
+    deletePaymentProfiles(id).then(() =>
+      {this.setState({
+        snackbar: true,
+        snackMsg: "Payment Profile Deleted Succesfully",
+      });
+      window.location.reload();
+    }
+    )
+    .catch(() =>
+      this.setState({
+        snackbar: true,
+        snackMsg: "Could not Delete Payment Profile",
+      })
+    )
   };
 
-  handleUserAssignmentDelete = (row) => {
-    deleteUserAssignment(row.id).then(() =>  
-      this.setState({ 
+  handleUserAssignmentDelete = (id) => {
+    deleteUserAssignment(id).then(() =>  
+      {this.setState({ 
         snackbar: true,
         snackMsg: "User Assignment Deleted Successfully",
-      })
+      });
+      window.location.reload();
+    }
     )
     .catch(() => 
       this.setState({
@@ -829,12 +835,14 @@ class EnhancedTable extends React.Component {
       )
   }
 
-  handleMemberPaymentDelete = (row) => {
-    deleteMembershipPayments(row.id).then(() => 
-      this.setState({
+  handleMemberPaymentDelete = (id) => {
+    deleteMembershipPayments(id).then(() => 
+      {this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
-      })
+      });
+      window.location.reload();
+    }
       )
       .catch(() =>
         this.setState({
@@ -844,12 +852,14 @@ class EnhancedTable extends React.Component {
         )
   }
 
-  handleCashPaymentDelete = (row) => {
-    deleteCashPayments(row.id).then(() => 
-      this.setState({
+  handleCashPaymentDelete = (id) => {
+    deleteCashPayments(id).then(() => 
+      {this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
-      })
+      });
+      window.location.reload();
+    }
       )
       .catch(() =>
         this.setState({
@@ -859,12 +869,14 @@ class EnhancedTable extends React.Component {
         )
   }
 
-  handleCashlessPaymentDelete = (row) => {
-    deleteCardPayments(row.id).then(() =>
-      this.setState({
+  handleCashlessPaymentDelete = (id) => {
+    deleteCardPayments(id).then(() =>
+      {this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
-      })
+      });
+      window.location.reload();
+    }
       )
       .catch(() =>
         this.setState({
@@ -879,10 +891,12 @@ class EnhancedTable extends React.Component {
     if(name){
       const payload = {"pk": row.id, "profile_name": name}
       duplicatePaymentProfles(payload).then(() =>
-        this.setState({
+        {this.setState({
           snackbar: true,
           snackMsg: "Duplicate Payment Profile Created Succesfully",
-        })
+        });
+        window.location.reload();
+      }
       )
       .catch(() =>
         this.setState({
@@ -893,12 +907,13 @@ class EnhancedTable extends React.Component {
     }
   }
 
-  handleProfileItemDelete =(row) => {
-    deleteProfileItems(row.id).then(() =>
+  handleProfileItemDelete =(id) => {
+    deleteProfileItems(id).then(() =>
       {this.setState({
         snackbar: true,
         snackMsg: "Deleted Succesfully"
       });
+      window.location.reload();
     }
       )
       .catch(() =>
@@ -917,7 +932,7 @@ class EnhancedTable extends React.Component {
       //   snackbar: true,
       //   snackMsg: "Receipt Generate Successfully",
       //   });
-        {window.open(res.data.data, "_blank")}
+        {window.open(res.data.data, "_blank"); window.location.reload();}
       // }
     )
   .catch(() =>
@@ -1013,8 +1028,8 @@ class EnhancedTable extends React.Component {
       horizontal,
       snackbar,
       snackMsg,
-      active,
-      inactive,
+      // active,
+      // inactive,
       // shoppingcart,
       // quickpay
     } = this.state;
@@ -1304,7 +1319,7 @@ class EnhancedTable extends React.Component {
           <hr className="dashedline" />
           </>
         )}
-        {name === "Profile Items" && (
+        {/* {name === "Profile Items" && (
           <>
           <div className="pProfileStatus">
             <div className="pProfileStatus__item" >
@@ -1322,7 +1337,7 @@ class EnhancedTable extends React.Component {
                 }
                 label="Inactive"
               />
-            </div>
+            </div> */}
             {/* <div className="pProfileStatus__item">
               <FormControlLabel
                 control={
@@ -1339,10 +1354,10 @@ class EnhancedTable extends React.Component {
                 label="Quick Pay"
               />
             </div> */}
-          </div> 
+          {/* </div> 
           <hr className="dashedline" />
           </>
-        )}
+        )} */}
           {/* { name === "Transaction" && (
           <div className="totals">
             <div className="totals__item">Active <span>{activeData.length}</span></div>
@@ -1500,7 +1515,7 @@ class EnhancedTable extends React.Component {
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
                                           {/* <EditCashPaymentModal row={n} /> */}
-                                          <DeleteIcon onClick={() => this.handleCashPaymentDelete(n)}/>
+                                          <DeleteIcon onClick={() => this.handleCashPaymentDelete(n.id)}/>
                                         </div>
                                       </TableCell>
                                     )}
@@ -1509,7 +1524,7 @@ class EnhancedTable extends React.Component {
                                       <TableCell padding="none" width={"100px"}>
                                         <div className="toolHead">
                                           {/* <EditCashlessPaymentModal row={n} /> */}
-                                          <DeleteIcon onClick={() => this.handleCashlessPaymentDelete(n)}/>
+                                          <DeleteIcon onClick={() => this.handleCashlessPaymentDelete(n.id)}/>
                                         </div>
                                       </TableCell>
                                     )}
@@ -1519,7 +1534,7 @@ class EnhancedTable extends React.Component {
                                         <div className="toolHead">
                                           {/* <EditMemberPaymentModal row={n} /> */}
                                           <DeleteIcon 
-                                            onClick={() => this.handleMemberPaymentDelete(n)}
+                                            onClick={() => this.handleMemberPaymentDelete(n.id)}
                                           />
                                         </div>
                                       </TableCell>
@@ -1540,7 +1555,7 @@ class EnhancedTable extends React.Component {
                                         <div className="toolHead">
                                           <EditUserModal row={n} />
                                           <DeleteIcon
-                                            onClick={() => this.handleDelete(n)}
+                                            onClick={() => this.handleDelete(n.id)}
                                           />
                                         </div>
                                         </TableCell>
@@ -1552,7 +1567,7 @@ class EnhancedTable extends React.Component {
                                         <div className="toolHead">
                                           <ProfileItemCopyModal row={n}/>
                                           <AddModal row={n} />
-                                          <DeleteIcon onClick={() => this.handleProfileItemDelete(n)}/>
+                                          <DeleteIcon onClick={() => this.handleProfileItemDelete(n.id)}/>
                                         </div>
                                         </TableCell>
                                       ) : name === "Payment Profiles" ? (
@@ -1565,7 +1580,7 @@ class EnhancedTable extends React.Component {
                                           <PaymentProfileModal row={n} />
                                         <DeleteIcon
                                           onClick={() =>
-                                            this.handlePaymentProfileDelete(n)
+                                            this.handlePaymentProfileDelete(n.id)
                                           }
                                         />
                                         </div>
@@ -1578,7 +1593,7 @@ class EnhancedTable extends React.Component {
                                         <div className="toolHead">
                                         <DeleteIcon
                                           onClick={() =>
-                                            this.handleUserAssignmentDelete(n)
+                                            this.handleUserAssignmentDelete(n.id)
                                           }
                                         />
                                         </div>
@@ -1695,7 +1710,7 @@ class EnhancedTable extends React.Component {
                                         <div className="toolHead">
                                           {/* <EditCashPaymentModal row={n} /> */}
                                           <DeleteIcon 
-                                            onClick={() => this.handleCashPaymentDelete(n)}
+                                            onClick={() => this.handleCashPaymentDelete(n.id)}
                                           />
                                         </div>
                                       </TableCell>
@@ -1706,7 +1721,7 @@ class EnhancedTable extends React.Component {
                                         <div className="toolHead">
                                           {/* <EditCashlessPaymentModal row={n} /> */}
                                           <DeleteIcon 
-                                            onClick={() => this.handleCashlessPaymentDelete(n)}
+                                            onClick={() => this.handleCashlessPaymentDelete(n.id)}
                                           />
                                         </div>
                                       </TableCell>
@@ -1717,7 +1732,7 @@ class EnhancedTable extends React.Component {
                                         <div className="toolHead">
                                           {/* <EditMemberPaymentModal row={n} /> */}
                                           <DeleteIcon 
-                                            onClick={() => this.handleMemberPaymentDelete(n)}
+                                            onClick={() => this.handleMemberPaymentDelete(n.id)}
                                           />
                                         </div>
                                       </TableCell>
@@ -1739,7 +1754,7 @@ class EnhancedTable extends React.Component {
                                         {/* <CashlessTrans name="Cashless Transaction" data={data}/> */}
                                         <EditUserModal row={n} />
                                         <DeleteIcon
-                                          onClick={() => this.handleDelete(n)}
+                                          onClick={() => this.handleDelete(n.id)}
                                         />
                                       </div>
                                       </TableCell>
@@ -1751,7 +1766,7 @@ class EnhancedTable extends React.Component {
                                       <div className="toolHead">
                                         <ProfileItemCopyModal row={n}/>
                                         <AddModal row={n} />
-                                        <DeleteIcon onClick={() => this.handleProfileItemDelete(n)}/>
+                                        <DeleteIcon onClick={() => this.handleProfileItemDelete(n.id)}/>
                                       </div>
                                       </TableCell>
                                     ) : name === "Payment Profiles" ? (
@@ -1764,7 +1779,7 @@ class EnhancedTable extends React.Component {
                                       <PaymentProfileModal row={n} />
                                       <DeleteIcon
                                         onClick={() =>
-                                          this.handlePaymentProfileDelete(n)
+                                          this.handlePaymentProfileDelete(n.id)
                                         }
                                       />
                                       </div>
@@ -1778,7 +1793,7 @@ class EnhancedTable extends React.Component {
                                       <UserAssignmentModal row={n}/>
                                       <DeleteIcon
                                         onClick={() =>
-                                          this.handleUserAssignmentDelete(n)
+                                          this.handleUserAssignmentDelete(n.id)
                                         }
                                       />
                                       </div>

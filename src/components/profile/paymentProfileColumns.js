@@ -3,36 +3,36 @@ export let cols = [
         id: "name",
         numeric: false,
         disablePadding: false,
-        label: "Name",
-        width: 200
+        label: "Profile Name",
+        width: 300
     },
     {
         id: "config_type",
         numeric: false,
         disablePadding: false,
         label: "Profile Mode",
-        width: 200
-    },
-    {
-        id: "include_pricing_details",
-        numeric: false,
-        disablePadding: false,
-        label: "Enable Amount Details",
         width: 300
     },
     {
         id: "enable_tip",
         numeric: false,
         disablePadding: false,
-        label: "Enable Tip",
+        label: "Tips",
         width: 200
     },
     {
         id: "custom_payments",
         numeric: false,
         disablePadding: false,
-        label: "Enable Other Amount",
-        width: 300
+        label: "Custom Items",
+        width: 200
+    },
+    {
+        id: "include_pricing_details",
+        numeric: false,
+        disablePadding: false,
+        label: "Item Details",
+        width: 200
     },
     {
         id: "is_deleted",

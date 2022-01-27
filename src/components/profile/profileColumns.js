@@ -76,4 +76,11 @@ export let cols = [
     label: "Payment Profile",
     width: 200,
   },
+  {
+    id: "other_amt",
+    numeric: false,
+    disablePadding: true,
+    label: "Bottle Deposits/Other",
+    width: 300,
+  },
 ];

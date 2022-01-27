@@ -18,12 +18,14 @@ import PaymentProfileModal from "../modals/PaymentProfileModal";
 import TextField from '@mui/material/TextField';
 import UserAssignmentModal from "../modals/UserAssignmentModal";
 import AddOrgModal from "../modals/AddOrgModal";
+import { useHistory } from "react-router-dom";
 
 let EnhancedTableToolbar = (props) => {
   const { numSelected, classes, title, items, searchedData, profile } =
     props;
   const [search, setSearch] = useState(false);
   // const [searchInput, setSearchInput] = useState("");
+  const history = useHistory();
 
   const handleSearch = (e) => {
     if(e.target.value) {
@@ -95,7 +97,7 @@ let EnhancedTableToolbar = (props) => {
             {numSelected} selected
           </Typography>
         ) : (
-          <Typography variant="subtitle1" id="tableTitle">
+          <Typography variant="subtitle1" id="tableTitle" onClick={() => history.goBack(-1)}>
             {title}{profile}
           </Typography>
         )}

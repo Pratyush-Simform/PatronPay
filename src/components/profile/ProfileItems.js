@@ -20,9 +20,12 @@ function ProfileItems() {
       .then((response) => {
         // setId(response.data.data.results[0].pcf_id);
         const newdataSource = response.data.data.results.map((temp) => {
-          temp["newIcon"] = <img alt="img" src={temp.icon} />;
+          temp["newIcon"] = temp?.icon ? <img alt="img" src={temp.icon} /> : null;
           temp["is_deleted"] = temp.is_deleted ? "No" : "Yes";
           temp["price_override_allowed"] = temp.price_override_allowed ? "Yes" : "No" ;
+          temp["price"] = temp?.price?.toFixed(2);
+          temp["tax"] = temp?.tax?.toFixed(2);
+          temp["other_amt"] = temp?.other_amt?.toFixed(2);
           return temp;
         });
         dispatch({ type: "PROFILE_ITEMS", payload: newdataSource });

@@ -205,14 +205,14 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.custom_payments}
                   />
                 }
-                label="Other Amounts"
+                label="Custom Items"
               />
               </div>
               <div className="pCol pCol--col4 pCol--col-md-12">
               <TextField
                 type="number"
                 id="outlined-basic"
-                label="Other Amount Tax"
+                label="Custom Items Tax"
                 variant="outlined"
                 name="custom_payment_tax"
                 onChange={formik.handleChange}
@@ -229,7 +229,7 @@ function PaymentProfileModal({ row, names}) {
                     checked={formik.values.include_pricing_details}
                   />
                 }
-                label="Amount Details "
+                label="Item Details"
               />         
               </div>
             </div>
