@@ -56,6 +56,17 @@ function Dropdown({data, selectedData, pageName, columnDataCopy}) {
   const [dropName, setDropName] = React.useState('');
   const [state, dispatch] = useContext(Context)
 
+  const defaultGridField = columnDataCopy.filter((temp) => temp?.default)
+  const defaultGridFieldValue = defaultGridField?.map(i => Object.values(i))
+  const defaultGridFieldLabel = defaultGridFieldValue.map(i => i[3])
+
+  React.useEffect(() => {
+    if(data === columnDataCopy) {
+      setPersonName(defaultGridFieldLabel)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[columnDataCopy,data])
+
   // When drag any column
   const columnData = columnDataCopy.map(i => Object.values(i))
   const columnDatadrag = columnData.map(i => i[3])

@@ -5,6 +5,7 @@ export let cols = [
     disablePadding: true,
     label: "Icon",
     width: 200,
+    default: true,
   },
   {
     id: "barcode",
@@ -12,6 +13,7 @@ export let cols = [
     disablePadding: false,
     label: "Barcode",
     width: 200,
+    default: false,
   },
   {
     id: "description",
@@ -19,6 +21,7 @@ export let cols = [
     disablePadding: false,
     label: "Description",
     width: 200,
+    default: false,
   },
   {
     id: "short_name",
@@ -26,6 +29,7 @@ export let cols = [
     disablePadding: true,
     label: "Short Name",
     width: 200,
+    default: true,
   },
   {
     id: "price",
@@ -33,6 +37,7 @@ export let cols = [
     disablePadding: true,
     label: "Amount($)",
     width: 200,
+    default: true,
   },
   {
     id: "category",
@@ -40,6 +45,7 @@ export let cols = [
     disablePadding: true,
     label: "Category",
     width: 300,
+    default: false,
   },
   {
     id: "tax",
@@ -47,6 +53,7 @@ export let cols = [
     disablePadding: true,
     label: "Tax(%)",
     width: 200,
+    default: true,
   },
   {
     id: "order",
@@ -54,6 +61,7 @@ export let cols = [
     disablePadding: true,
     label: "Order",
     width: 200,
+    default: true,
   },
   {
     id: "price_override_allowed",
@@ -61,6 +69,7 @@ export let cols = [
     disablePadding: true,
     label: "Allow Amount Override",
     width: 300,
+    default: false,
   },
   {
     id: "is_deleted",
@@ -68,6 +77,7 @@ export let cols = [
     disablePadding: true,
     label: "Active",
     width: 200,
+    default: true,
   },
   {
     id: "pcf_name",
@@ -75,6 +85,7 @@ export let cols = [
     disablePadding: true,
     label: "Payment Profile",
     width: 200,
+    default: false,
   },
   {
     id: "other_amt",
@@ -82,5 +93,6 @@ export let cols = [
     disablePadding: true,
     label: "Bottle Deposits/Other",
     width: 300,
+    default: false,
   },
 ];
